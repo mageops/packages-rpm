@@ -4,6 +4,9 @@
 %define nginx_group nginx
 %define nginx_loggroup adm
 
+%define modsecurity_version 2.9.0
+%define NPS_VERSION 1.9.32.4
+
 # distribution specific definitions
 %define use_systemd (0%{?fedora} && 0%{?fedora} >= 18) || (0%{?rhel} && 0%{?rhel} >= 7) || (0%{?suse_version} == 1315)
 
@@ -59,7 +62,7 @@ Requires: systemd
 Summary: High performance web server
 Name: nginx
 Version: 1.9.2
-Release: 1%{?dist}.ngx
+Release: modsec%{modsecurity_version}.pgspd%{NPS_VERSION}.weepee1%{?dist}
 Vendor: nginx inc.
 URL: http://nginx.org/
 
@@ -73,6 +76,9 @@ Source7: nginx.suse.init
 Source8: nginx.service
 Source9: nginx.upgrade.sh
 Source10: nginx.suse.logrotate
+Source11: https://www.modsecurity.org/tarball/%{modsecurity_version}/modsecurity-%{modsecurity_version}.tar.gz
+Source12: ngx_pagespeed-v%{NPS_VERSION}-beta.tar.gz
+Source13: psol-%{NPS_VERSION}.tar.gz
 
 License: 2-clause BSD-like license
 
@@ -101,6 +107,19 @@ Not stripped version of nginx built with the debugging log support.
 %setup -q
 
 %build
+# Build modsecurity
+tar xvzf %{SOURCE11}
+cd modsecurity-%{modsecurity_version}
+./configure --enable-standalone-module
+make %{?_smp_mflags}
+cd ..
+
+# Build ngx_pagespeed
+tar xvzf %{SOURCE12}
+cd ngx_pagespeed-%{NPS_VERSION}-beta
+tar xvzf %{SOURCE13}
+cd ..
+
 ./configure \
         --prefix=%{_sysconfdir}/nginx \
         --sbin-path=%{_sbindir}/nginx \
@@ -137,6 +156,8 @@ Not stripped version of nginx built with the debugging log support.
         --with-file-aio \
         --with-ipv6 \
         --with-debug \
+        --add-module=%{_builddir}/%{name}-%{version}/modsecurity-%{modsecurity_version}/nginx/modsecurity \
+        --add-module=%{_builddir}/%{name}-%{version}/ngx_pagespeed-%{NPS_VERSION}-beta \
         %{?with_spdy:--with-http_spdy_module} \
         --with-cc-opt="%{optflags} $(pcre-config --cflags)" \
         $*
@@ -178,6 +199,8 @@ make %{?_smp_mflags}
         --with-mail_ssl_module \
         --with-file-aio \
         --with-ipv6 \
+        --add-module=%{_builddir}/%{name}-%{version}/modsecurity-%{modsecurity_version}/nginx/modsecurity \
+        --add-module=%{_builddir}/%{name}-%{version}/ngx_pagespeed-%{NPS_VERSION}-beta \
         %{?with_spdy:--with-http_spdy_module} \
         --with-cc-opt="%{optflags} $(pcre-config --cflags)" \
         $*
