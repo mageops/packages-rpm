@@ -1,0 +1,13 @@
+* text=auto
+
+*.sh text
+*.py text
+
+# Files for Windows
+*.bat text eol=crlf
+
+# Denote all files that are truly binary and should never be modified.
+*.png binary
+*.jpg binary
+*.psd binary
+*.gz binary
