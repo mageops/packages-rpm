@@ -34,8 +34,14 @@ Group: System Environment/Daemons
 Requires(pre): shadow-utils
 Requires: systemd
 Requires: openssl >= 1.0.1
+Requires: libcurl
+Requires: libxml2
 BuildRequires: systemd
 BuildRequires: openssl-devel >= 1.0.1
+BuildRequires: libcurl-devel
+BuildRequires: libxml2-devel
+BuildRequires: httpd
+BuildRequires: httpd-devel
 Epoch: 1
 %define with_http2 1
 %endif
