@@ -1,7 +1,7 @@
-all: ngx_pagespeed-1.9.32.4.tar.gz psol-1.9.32.4.tar.gz
+all: ngx_pagespeed-v1.9.32.6-beta.tar.gz psol-1.9.32.6.tar.gz
 
-ngx_pagespeed-1.9.32.4.tar.gz:
-	wget -O ngx_pagespeed-1.9.32.4.tar.gz https://github.com/pagespeed/ngx_pagespeed/archive/v1.9.32.4-beta.tar.gz
+ngx_pagespeed-v1.9.32.6-beta.tar.gz:
+	wget -O $@ https://github.com/pagespeed/ngx_pagespeed/archive/v1.9.32.6-beta.tar.gz
 
-psol-1.9.32.4.tar.gz:
-	wget -O psol-1.9.32.4.tar.gz https://dl.google.com/dl/page-speed/psol/1.9.32.4.tar.gz
+psol-1.9.32.6.tar.gz:
+	wget -O $@ https://dl.google.com/dl/page-speed/psol/1.9.32.6.tar.gz

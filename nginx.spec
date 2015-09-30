@@ -5,7 +5,7 @@
 %define nginx_loggroup adm
 
 %define modsecurity_version 2.9.0
-%define NPS_VERSION 1.9.32.4
+%define NPS_VERSION 1.9.32.6
 
 # distribution specific definitions
 %define use_systemd (0%{?fedora} && 0%{?fedora} >= 18) || (0%{?rhel} && 0%{?rhel} >= 7) || (0%{?suse_version} == 1315)
@@ -61,7 +61,7 @@ Requires: systemd
 
 Summary: High performance web server
 Name: nginx
-Version: 1.9.2
+Version: 1.9.5
 Release: modsec%{modsecurity_version}.pgspd%{NPS_VERSION}.weepee1%{?dist}
 Vendor: nginx inc.
 URL: http://nginx.org/
