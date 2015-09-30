@@ -26,7 +26,7 @@ Requires: initscripts >= 8.36
 Requires(post): chkconfig
 Requires: openssl >= 1.0.1
 BuildRequires: openssl-devel >= 1.0.1
-%define with_spdy 1
+%define with_http2 1
 %endif
 
 %if 0%{?rhel}  == 7
@@ -37,7 +37,7 @@ Requires: openssl >= 1.0.1
 BuildRequires: systemd
 BuildRequires: openssl-devel >= 1.0.1
 Epoch: 1
-%define with_spdy 1
+%define with_http2 1
 %endif
 
 %if 0%{?suse_version} == 1110
@@ -53,7 +53,7 @@ BuildRequires: libopenssl-devel
 BuildRequires: systemd
 Requires(pre): shadow
 Requires: systemd
-%define with_spdy 1
+%define with_http2 1
 %define nginx_loggroup trusted
 %endif
 
@@ -158,7 +158,7 @@ cd ..
         --with-debug \
         --add-module=%{_builddir}/%{name}-%{version}/modsecurity-%{modsecurity_version}/nginx/modsecurity \
         --add-module=%{_builddir}/%{name}-%{version}/ngx_pagespeed-%{NPS_VERSION}-beta \
-        %{?with_spdy:--with-http_spdy_module} \
+        %{?with_http2:--with-http_v2_module} \
         --with-cc-opt="%{optflags} $(pcre-config --cflags)" \
         $*
 make %{?_smp_mflags}
@@ -201,7 +201,7 @@ make %{?_smp_mflags}
         --with-ipv6 \
         --add-module=%{_builddir}/%{name}-%{version}/modsecurity-%{modsecurity_version}/nginx/modsecurity \
         --add-module=%{_builddir}/%{name}-%{version}/ngx_pagespeed-%{NPS_VERSION}-beta \
-        %{?with_spdy:--with-http_spdy_module} \
+        %{?with_http2:--with-http_v2_module} \
         --with-cc-opt="%{optflags} $(pcre-config --cflags)" \
         $*
 make %{?_smp_mflags}
@@ -375,8 +375,15 @@ if [ $1 -ge 1 ]; then
 fi
 
 %changelog
-* Tue Jun 16 2015 Sergey Budnevitch <sb@nginx.com>
-- 1.9.2
+* Tue Sep 22 2015 Andrei Belov <defan@nginx.com>
+- 1.9.5
+- http_spdy module replaced with http_v2 module
+
+* Tue Aug 18 2015 Konstantin Pavlov <thresh@nginx.com>
+- 1.9.4
+
+* Tue Jul 14 2015 Sergey Budnevitch <sb@nginx.com>
+- 1.9.3
 
 * Tue May 26 2015 Sergey Budnevitch <sb@nginx.com>
 - 1.9.1
