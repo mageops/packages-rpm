@@ -50,8 +50,12 @@ Copy whole content of SOURCE folder from this repository to SOURCE folder on you
 **5. Create nginx.spec file**
 
 Copy nginx.spec file from SPEC folder from this repository to SPEC folder on your machine
+
+**6. Install dependencies**
+
+    yum install yajl
    
-**6. execute rpmbuild**
+**7. execute rpmbuild**
     
     
     rpmbuild -ba rpmbuild/SPEC/nginx.spec
