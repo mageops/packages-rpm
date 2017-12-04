@@ -1,4 +1,4 @@
-#based on https://github.com/jhoblitt/nginx-rpmbuild/
+__based on https://github.com/jhoblitt/nginx-rpmbuild/ http://www.thegeekstuff.com/2015/02/rpm-build-package-example/__
 
 **1.Install rpm-build Package**
 
@@ -53,6 +53,6 @@ Copy nginx.spec file from SPEC folder from this repository to SPEC folder on you
    
 **6. execute rpmbuild**
     
-    ```
+    
     rpmbuild -ba rpmbuild/SPEC/nginx.spec
-    ```
+    
