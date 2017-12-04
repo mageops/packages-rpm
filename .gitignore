@@ -1,12 +1,1 @@
-ngx_pagespeed-*.tar.gz
-psol-*.tar.gz
-nginx-*.el7.ngx.src.rpm
-logrotate
-nginx.init
-nginx.sysconf
-nginx.conf
-nginx.vh.default.conf
-nginx.suse.init
-nginx.service
-nginx.upgrade.sh
-nginx.suse.logrotate
+.idea/

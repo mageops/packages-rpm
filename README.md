@@ -1,3 +1,6 @@
+#based on https://github.com/jhoblitt/nginx-rpmbuild/
+
+
 1. Install rpm-build Package
 
     To build an rpm file based on the spec file that we just created, we need to use rpmbuild command.
