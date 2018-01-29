@@ -1,10 +1,6 @@
 #
-%define nginx_home %{_localstatedir}/cache/nginx
-%define nginx_user nginx
-%define nginx_group nginx
-%define nginx_loggroup adm
 
-%define modsecurity_version 2.9.2
+%define modsecurity_version 3.0
 
 # distribution specific definitions
 %define use_systemd (0%{?fedora} && 0%{?fedora} >= 18) || (0%{?rhel} && 0%{?rhel} >= 7) || (0%{?suse_version} == 1315)
@@ -84,7 +80,7 @@ Source7: nginx-debug.sysconf
 Source8: nginx.service
 Source9: nginx.upgrade.sh
 Source11: nginx-debug.service
-Source12: https://www.modsecurity.org/tarball/%{modsecurity_version}/modsecurity-%{modsecurity_version}.tar.gz
+Source12: ModSecurity-nginx.tar.gz
 
 License: 2-clause BSD-like license
 
@@ -113,11 +109,8 @@ Not stripped version of nginx built with the debugging log support.
 %setup -q
 
 %build
-# Build modsecurity
+#unpack ModSecurity-nginx
 tar xvzf %{SOURCE12}
-cd modsecurity-%{modsecurity_version}
-./configure --with-yajl --enable-standalone-module
-make %{?_smp_mflags}
 cd ..
 
 ./configure \
@@ -156,7 +149,7 @@ cd ..
         --with-file-aio \
         --with-ipv6 \
         --with-pcre \
-        --add-module=%{_builddir}/%{name}-%{version}/modsecurity-%{modsecurity_version}/nginx/modsecurity \
+        --add-dynamic-module=%{_builddir}/%{name}-%{version}/ModSecurity-nginx
         %{?with_http2:--with-http_v2_module} \
         --with-cc-opt="%{optflags} $(pcre-config --cflags)" \
         $*
