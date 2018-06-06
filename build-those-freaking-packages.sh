@@ -12,7 +12,7 @@ function build-yajl() {
     DIST="$1"
     echo "Buildiing yajl for $DIST"
     docker pull docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST}
-    docker run --rm -v "$PWD":/root/rpmbuild docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST} SPEC/yajl.spec
+    docker run -u $(id -u):$(id -g) --rm -v "$PWD":/root/rpmbuild docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST} SPEC/yajl.spec
 }
 
 function build-libmodsecurity() {
@@ -25,7 +25,7 @@ function build-libmodsecurity() {
     cp RPMS/x86_64/yajl-${YAJL}.x86_64.rpm DEPS/yajl.rpm
     cp RPMS/x86_64/yajl-devel-${YAJL}.x86_64.rpm DEPS/yajl-devel.rpm
     docker pull docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST}
-    docker run --rm -v "$PWD":/root/rpmbuild docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST} SPEC/libmodsecurity.spec
+    docker run -u $(id -u):$(id -g) --rm -v "$PWD":/root/rpmbuild docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST} SPEC/libmodsecurity.spec
     rm -rf DEPS
 }
 
@@ -41,7 +41,7 @@ function build-nginx-creativeshop() {
     cp RPMS/x86_64/libmodsecurity-${LIBMODSECURITY}.x86_64.rpm DEPS/libmodsecurity.rpm
     cp RPMS/x86_64/libmodsecurity-devel-${LIBMODSECURITY}.x86_64.rpm DEPS/libmodsecurity-devel.rpm
     docker pull docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST}
-    docker run --rm -v "$PWD":/root/rpmbuild docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST} SPEC/nginx-creativeshop.spec
+    docker run -u $(id -u):$(id -g) --rm -v "$PWD":/root/rpmbuild docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST} SPEC/nginx-creativeshop.spec
     rm -rf DEPS
 
 }
