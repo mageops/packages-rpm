@@ -15,6 +15,7 @@ function build-yajl() {
     echo "Buildiing yajl for $DIST"
     docker pull ${BUILDIMAGE}:${DIST}
     docker run --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} SPEC/yajl.spec
+    docker run --entrypoint '/bin/chown' --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} $(id -u):$(id -g) -R .
 }
 
 function build-libmodsecurity() {
@@ -28,6 +29,7 @@ function build-libmodsecurity() {
     cp RPMS/x86_64/yajl-devel-${YAJL}.x86_64.rpm DEPS/yajl-devel.rpm
     docker pull ${BUILDIMAGE}:${DIST}
     docker run --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} SPEC/libmodsecurity.spec
+    docker run --entrypoint '/bin/chown' --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} $(id -u):$(id -g) -R .
     rm -rf DEPS
 }
 
