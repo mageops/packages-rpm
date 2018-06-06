@@ -1,0 +1,6 @@
+SOURCES/*
+!SOURCES/.gitkeep
+BUILD/
+RPMS/
+SRPMS/
+SPECS/
