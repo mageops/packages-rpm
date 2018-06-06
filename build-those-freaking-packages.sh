@@ -12,7 +12,7 @@ AWS_PROFILE="creativeshop_rpms"
 
 function build-yajl() {
     DIST="$1"
-    rm -rf DEPS 
+    rm -rf DEPS
     echo "Buildiing yajl for $DIST"
     docker pull ${BUILDIMAGE}:${DIST}
     docker run --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} SPEC/yajl.spec
@@ -53,12 +53,15 @@ function build-nginx-creativeshop() {
 }
 
 build-yajl "amilinux-1"
+build-yajl "amilinux-2"
 build-yajl "centos-7"
 
 build-libmodsecurity "amilinux-1" "${YAJLVER}-1.amzn1"
+build-libmodsecurity "amilinux-2" "${YAJLVER}-1.amzn2"
 build-libmodsecurity "centos-7" "${YAJLVER}-1.el7"
 
 build-nginx-creativeshop "amilinux-1" "${LIBMODSECVER}-1.amzn1" "${YAJLVER}-1.amzn1"
+build-nginx-creativeshop "amilinux-2" "${LIBMODSECVER}-1.amzn2" "${YAJLVER}-1.amzn2"
 build-nginx-creativeshop "centos-7" "${LIBMODSECVER}-1.el7" "${YAJLVER}-1.el7"
 
 
