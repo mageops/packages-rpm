@@ -12,6 +12,7 @@ AWS_PROFILE="creativeshop_rpms"
 
 function build-yajl() {
     DIST="$1"
+    rm -rf DEPS 
     echo "Buildiing yajl for $DIST"
     docker pull ${BUILDIMAGE}:${DIST}
     docker run --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} SPEC/yajl.spec
