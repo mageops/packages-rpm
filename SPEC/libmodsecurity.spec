@@ -12,6 +12,9 @@ Requires: yajl
 Requires: curl
 Requires: zlib
 Requires: pcre
+Requires: ssdeep-libs
+Requires: libxml2
+Requires: GeoIP
 BuildRequires: libcurl-devel
 BuildRequires: flex
 BuildRequires: bison
@@ -20,8 +23,10 @@ BuildRequires: GeoIP-devel
 BuildRequires: doxygen
 BuildRequires: zlib-devel
 BuildRequires: pcre-devel
-BuildRequires: yajl
-BuildRequires: yajl-devel
+BuildRequires: ssdeep-libs
+BuildRequires: ssdeep-devel
+BuildRequires: libxml2
+BuildRequires: libxml2-devel
 
 Source0: https://github.com/SpiderLabs/ModSecurity/releases/download/v%{version}/modsecurity-v%{version}.tar.gz
 Source1: https://github.com/SpiderLabs/ModSecurity/releases/download/v%{version}/modsecurity-v%{version}.tar.gz.asc

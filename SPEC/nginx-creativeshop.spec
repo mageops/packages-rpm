@@ -1,54 +1,46 @@
 %define modsec_nginx_version 1.0.0
 %define modsec_nginx_name modsecurity-nginx-v%{modsec_nginx_version}
 
-# distribution specific definitions
-%define use_systemd (0%{?fedora} && 0%{?fedora} >= 18) || (0%{?rhel} && 0%{?rhel} >= 7) || (0%{?suse_version} == 1315)
+%define use_systemd 0%{?rhel} && 0%{?rhel} >= 7
 
 %if 0%{?rhel}  == 6
-Group: System Environment/Daemons
-Requires(pre): shadow-utils
 Requires: initscripts >= 8.36
 Requires(post): chkconfig
-Requires: openssl >= 1.0.1
-BuildRequires: openssl-devel >= 1.0.1
-%define with_http2 1
 %endif
 
 %if 0%{?rhel}  == 7
-Group: System Environment/Daemons
-Requires(pre): shadow-utils
 Requires: systemd
-Requires: openssl >= 1.0.1
-Requires: libcurl
-Requires: libxml2
 BuildRequires: systemd
-BuildRequires: openssl-devel >= 1.0.1
-BuildRequires: libcurl-devel
-BuildRequires: libxml2-devel
-BuildRequires: httpd
-BuildRequires: httpd-devel
-#Epoch: 1
-%define with_http2 1
-%endif
-
-# end of distribution specific definitions
+%endif%
 
 Summary: High performance web server
+Group: System Environment/Daemons
 Name: nginx-creativeshop
 Version: 1.13.5
 Release: 1%{?dist}
 Vendor: nginx inc.
 URL: http://nginx.org/
 Epoch: 1
+
 Obsoletes:          %{name} <= %{version}
 Provides:           %{name}= %{version}
 Conflicts:          nginx
-Requires:           libmodsecurity
-BuildRequires:      yajl
+
+Requires(pre):      shadow-utils
+Requires:           openssl >= 1.0.1
+Requires:           libcurl
+Requires:           libxml2
+
+BuildRequires:      openssl-devel >= 1.0.1
+BuildRequires:      libcurl-devel
+BuildRequires:      libxml2-devel
+BuildRequires:      httpd
+BuildRequires:      httpd-devel
 BuildRequires:      flex
 BuildRequires:      bison
 BuildRequires:      GeoIP
 
+%define with_http2 1
 
 Source0: http://nginx.org/download/nginx-%{version}.tar.gz
 Source1: http://nginx.org/download/nginx-%{version}.tar.gz.asc
@@ -63,8 +55,6 @@ Source9: nginx.upgrade.sh
 Source10: nginx-debug.service
 Source11: https://github.com/SpiderLabs/ModSecurity-nginx/releases/download/v%{modsec_nginx_version}/%{modsec_nginx_name}.tar.gz
 Source12: https://github.com/SpiderLabs/ModSecurity-nginx/releases/download/v%{modsec_nginx_version}/%{modsec_nginx_name}.tar.gz.asc
-Source13: libmodsecurity.rpm
-Source14: libmodsecurity-devel.rpm
 
 License: 2-clause BSD-like license
 
@@ -82,21 +72,23 @@ a mail proxy server.
 Summary: debug version of nginx
 Group: System Environment/Daemons
 Requires: nginx
+
 %description debug
 Not stripped version of nginx built with the debugging log support.
 
-%if 0%{?suse_version} == 1315
-%debug_package
-%endif
+%package modsecurity
+Summary: NINX modsecurity module
+Group: System Environment/Libraries
+Requires: libmodsecurity
+
+%description modsecurity
+Libmodsecurity connector module for NGINX
 
 %prep
 %setup -q -D -n nginx-%{version}
 %setup -q -T -D -a 11 -n nginx-%{version}
 
 %build
-
-rpm -Uvh %{SOURCE13}
-rpm -Uvh %{SOURCE14}
 
 ./configure \
         --prefix=%{_sysconfdir}/nginx \
@@ -134,7 +126,7 @@ rpm -Uvh %{SOURCE14}
         --with-file-aio \
         --with-ipv6 \
         --with-pcre \
-        --add-module=%{_builddir}/nginx-%{version}/%{modsec_nginx_name} \
+        --add-dynamic-module=%{_builddir}/nginx-%{version}/%{modsec_nginx_name} \
         %{?with_http2:--with-http_v2_module} \
         --with-cc-opt="%{optflags} $(pcre-config --cflags)" \
         $*
@@ -180,8 +172,7 @@ make %{?_smp_mflags}
 %else
 # install SYSV init stuff
 %{__mkdir} -p $RPM_BUILD_ROOT%{_initrddir}
-%{__install} -m755 nginx.init $RPM_BUILD_ROOT%{_initrddir}/nginx
-%{__install} -m755 nginx-debug.init $RPM_BUILD_ROOT%{_initrddir}/nginx-debug
+%{__install} -m755 %{SOURCE3} $RPM_BUILD_ROOT%{_initrddir}/nginx
 %endif
 
 # install log rotation stuff
@@ -220,7 +211,6 @@ make %{?_smp_mflags}
 %{_libexecdir}/initscripts/legacy-actions/nginx/*
 %else
 %{_initrddir}/nginx
-%{_initrddir}/nginx-debug
 %endif%endif
 
 %dir %{_datadir}/nginx
@@ -229,6 +219,9 @@ make %{?_smp_mflags}
 
 %attr(0755,root,root) %dir %{_localstatedir}/cache/nginx
 %attr(0755,root,root) %dir %{_localstatedir}/log/nginx
+
+%files modsecurity
+%{_sysconfdir}/nginx/modules/ngx_http_modsecurity_module.so
 
 %pre
 # Add the "nginx" user
