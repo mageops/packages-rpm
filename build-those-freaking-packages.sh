@@ -5,14 +5,16 @@ set -e
 LIBMODSECVER="3.0.2"
 YAJLVER="2.1.0"
 
+BUILDIMAGE="docker.creativestyle.pl:5050/m2c/cs-rpm-build"
+
 S3_BUCKET="cs-creativeshop-rpms"
 AWS_PROFILE="creativeshop_rpms"
 
 function build-yajl() {
     DIST="$1"
     echo "Buildiing yajl for $DIST"
-    docker pull docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST}
-    docker run --rm -v "$PWD":/root/rpmbuild docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST} SPEC/yajl.spec
+    docker pull ${BUILDIMAGE}:${DIST}
+    docker run --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} SPEC/yajl.spec
 }
 
 function build-libmodsecurity() {
@@ -24,8 +26,8 @@ function build-libmodsecurity() {
     rm -rf DEPS && mkdir -p DEPS
     cp RPMS/x86_64/yajl-${YAJL}.x86_64.rpm DEPS/yajl.rpm
     cp RPMS/x86_64/yajl-devel-${YAJL}.x86_64.rpm DEPS/yajl-devel.rpm
-    docker pull docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST}
-    docker run --rm -v "$PWD":/root/rpmbuild docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST} SPEC/libmodsecurity.spec
+    docker pull ${BUILDIMAGE}:${DIST}
+    docker run --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} SPEC/libmodsecurity.spec
     rm -rf DEPS
 }
 
@@ -40,8 +42,9 @@ function build-nginx-creativeshop() {
     cp RPMS/x86_64/yajl-devel-${YAJL}.x86_64.rpm DEPS/yajl-devel.rpm
     cp RPMS/x86_64/libmodsecurity-${LIBMODSECURITY}.x86_64.rpm DEPS/libmodsecurity.rpm
     cp RPMS/x86_64/libmodsecurity-devel-${LIBMODSECURITY}.x86_64.rpm DEPS/libmodsecurity-devel.rpm
-    docker pull docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST}
-    docker run --rm -v "$PWD":/root/rpmbuild docker.creativestyle.pl:5050/m2c/cs-rpm-build:${DIST} SPEC/nginx-creativeshop.spec
+    docker pull ${BUILDIMAGE}:${DIST}
+    docker run --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} SPEC/nginx-creativeshop.spec
+    docker run --entrypoint '/bin/chown' --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} $(id -u):$(id -g) -R .
     rm -rf DEPS
 
 }
