@@ -6,6 +6,10 @@
 
 %define use_systemd 0%{?rhel} && 0%{?rhel} >= 7
 
+%define nginx_group nginx
+%define nginx_user nginx
+
+
 %if 0%{?rhel}  == 6
 Requires: initscripts >= 8.36
 Requires(post): chkconfig
