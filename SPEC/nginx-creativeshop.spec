@@ -85,7 +85,7 @@ Requires: libmodsecurity
 Libmodsecurity connector module for NGINX
 
 %prep
-%setup -q -D -n nginx-%{version}
+%setup -q -n nginx-%{version}
 %setup -q -T -D -a 11 -n nginx-%{version}
 
 %build
