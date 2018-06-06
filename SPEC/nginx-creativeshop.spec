@@ -1,6 +1,9 @@
 %define modsec_nginx_version 1.0.0
 %define modsec_nginx_name modsecurity-nginx-v%{modsec_nginx_version}
 
+%define pagespeed_version 1.13.35.2
+%define pagespeed_name incubator-pagespeed-ngx-%{pagespeed_version}-stable
+
 %define use_systemd 0%{?rhel} && 0%{?rhel} >= 7
 
 %if 0%{?rhel}  == 6
@@ -39,6 +42,7 @@ BuildRequires:      httpd-devel
 BuildRequires:      flex
 BuildRequires:      bison
 BuildRequires:      GeoIP
+BuildRequires:      unzip
 
 %define with_http2 1
 
@@ -55,6 +59,10 @@ Source9: nginx.upgrade.sh
 Source10: nginx-debug.service
 Source11: https://github.com/SpiderLabs/ModSecurity-nginx/releases/download/v%{modsec_nginx_version}/%{modsec_nginx_name}.tar.gz
 Source12: https://github.com/SpiderLabs/ModSecurity-nginx/releases/download/v%{modsec_nginx_version}/%{modsec_nginx_name}.tar.gz.asc
+Source13: https://github.com/apache/incubator-pagespeed-ngx/archive/v%{pagespeed_version}-stable.tar.gz
+Source14: https://dl.google.com/dl/page-speed/psol/%{pagespeed_version}-x64.tar.gz
+Source15: nginx-modsecurity.conf
+Source16: nginx-pagespeed.conf
 
 License: 2-clause BSD-like license
 
@@ -77,18 +85,31 @@ Requires: nginx
 Not stripped version of nginx built with the debugging log support.
 
 %package modsecurity
-Summary: NINX modsecurity module
+Summary: NGINX modsecurity module
 Group: System Environment/Libraries
 Requires: libmodsecurity
 
 %description modsecurity
 Libmodsecurity connector module for NGINX
 
+%package pagespeed
+Summary: NINX modsecurity module
+Group: System Environment/Libraries
+Requires: libuuid
+BuildRequires: libuuid
+BuildRequires: libuuid-devel
+
+%description pagespeed
+Libmodsecurity connector module for NGINX
+
 %prep
 %setup -q -n nginx-%{version}
 %setup -q -T -D -a 11 -n nginx-%{version}
+%setup -q -T -D -a 13 -n nginx-%{version}
 
 %build
+
+tar xzf %{SOURCE14} -C %{pagespeed_name}
 
 ./configure \
         --prefix=%{_sysconfdir}/nginx \
@@ -127,6 +148,7 @@ Libmodsecurity connector module for NGINX
         --with-ipv6 \
         --with-pcre \
         --add-dynamic-module=%{_builddir}/nginx-%{version}/%{modsec_nginx_name} \
+        --add-dynamic-module=%{_builddir}/nginx-%{version}/%{pagespeed_name} \
         %{?with_http2:--with-http_v2_module} \
         --with-cc-opt="%{optflags} $(pcre-config --cflags)" \
         $*
@@ -156,18 +178,18 @@ make %{?_smp_mflags}
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
 %{__install} -m 644 -p %{SOURCE4} \
    $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/nginx
-%{__install} -m 644 -p %{SOURCE8} \
+%{__install} -m 644 -p %{SOURCE7} \
     $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/nginx-debug
 
 %if %{use_systemd}
 # install systemd-specific files
 %{__mkdir} -p $RPM_BUILD_ROOT%{_unitdir}
-%{__install} -m644 %SOURCE9 \
+%{__install} -m644 %SOURCE8 \
     $RPM_BUILD_ROOT%{_unitdir}/nginx.service
-%{__install} -m644 %SOURCE12 \
+%{__install} -m644 %SOURCE10 \
     $RPM_BUILD_ROOT%{_unitdir}/nginx-debug.service
 %{__mkdir} -p $RPM_BUILD_ROOT%{_libexecdir}/initscripts/legacy-actions/nginx
-%{__install} -m755 %SOURCE10 \
+%{__install} -m755 %SOURCE9 \
     $RPM_BUILD_ROOT%{_libexecdir}/initscripts/legacy-actions/nginx/upgrade
 %else
 # install SYSV init stuff
@@ -179,6 +201,15 @@ make %{?_smp_mflags}
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d
 %{__install} -m 644 -p %{SOURCE2} \
     $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/nginx
+
+%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/nginx/modules
+
+# install module configs
+%{__install} -m 644 -p %{SOURCE15} \
+    $RPM_BUILD_ROOT%{_datadir}/nginx/modules/modsecurity.conf
+
+%{__install} -m 644 -p %{SOURCE16} \
+    $RPM_BUILD_ROOT%{_datadir}/nginx/modules/pagespeed.conf
 
 %clean
 %{__rm} -rf $RPM_BUILD_ROOT
@@ -217,11 +248,18 @@ make %{?_smp_mflags}
 %dir %{_datadir}/nginx/html
 %{_datadir}/nginx/html/*
 
+%dir %{_datadir}/nginx/modules
+
 %attr(0755,root,root) %dir %{_localstatedir}/cache/nginx
 %attr(0755,root,root) %dir %{_localstatedir}/log/nginx
 
 %files modsecurity
 %{_sysconfdir}/nginx/modules/ngx_http_modsecurity_module.so
+%{_datadir}/nginx/modules/modsecurity.conf
+
+%files pagespeed
+%{_sysconfdir}/nginx/modules/ngx_pagespeed.so
+%{_datadir}/nginx/modules/pagespeed.conf
 
 %pre
 # Add the "nginx" user

@@ -51,14 +51,14 @@ function build-nginx-creativeshop() {
 
 }
 
-build-yajl "amilinux-1"
-build-yajl "centos-7"
-
-build-libmodsecurity "amilinux-1" "${YAJLVER}-1.amzn1"
-build-libmodsecurity "centos-7" "${YAJLVER}-1.el7"
+#build-yajl "amilinux-1"
+#build-yajl "centos-7"
+#
+#build-libmodsecurity "amilinux-1" "${YAJLVER}-1.amzn1"
+#build-libmodsecurity "centos-7" "${YAJLVER}-1.el7"
 
 build-nginx-creativeshop "amilinux-1" "${LIBMODSECVER}-1.amzn1" "${YAJLVER}-1.amzn1"
-build-nginx-creativeshop "centos-7" "${LIBMODSECVER}-1.el7" "${YAJLVER}-1.el7"
+#build-nginx-creativeshop "centos-7" "${LIBMODSECVER}-1.el7" "${YAJLVER}-1.el7"
 
 
 if [ "$1" == "--upload" ] ; then
