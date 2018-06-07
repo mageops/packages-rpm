@@ -6,8 +6,10 @@
 
 %define use_systemd 0%{?rhel} && 0%{?rhel} >= 7
 
-%define nginx_group nginx
+%define nginx_home %{_localstatedir}/cache/nginx
 %define nginx_user nginx
+%define nginx_group nginx
+%define nginx_loggroup adm
 
 
 %if 0%{?rhel}  == 6
