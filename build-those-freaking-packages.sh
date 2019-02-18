@@ -49,7 +49,16 @@ function build-nginx-creativeshop() {
     docker run --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} SPEC/nginx-creativeshop.spec
     docker run --entrypoint '/bin/chown' --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} $(id -u):$(id -g) -R .
     rm -rf DEPS
+}
 
+function build-libvmod-accept() {
+    DIST="$1"
+    echo "Building libvmod-accept for $DIST"
+
+    rm -rf DEPS
+    docker pull ${BUILDIMAGE}:${DIST}
+    docker run --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} SPEC/libvmod-accept.spec
+    docker run --entrypoint '/bin/chown' --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} $(id -u):$(id -g) -R .   
 }
 
 build-yajl "amilinux-1"
@@ -64,6 +73,9 @@ build-nginx-creativeshop "amilinux-1" "${LIBMODSECVER}-1.amzn1" "${YAJLVER}-1.am
 build-nginx-creativeshop "amilinux-2" "${LIBMODSECVER}-1.amzn2" "${YAJLVER}-1.amzn2"
 build-nginx-creativeshop "centos-7" "${LIBMODSECVER}-1.el7" "${YAJLVER}-1.el7"
 
+build-libvmod-accept "amilinux-1"
+build-libvmod-accept "amilinux-2"
+build-libvmod-accept "centos-7"
 
 if [ "$1" == "--upload" ] ; then
     echo '<html style="background:#fff;color:#212121;font-size:18px;"><style>a { color: #344DCC; } * { font-family: sans-serif !important; }</style><h1 style="text-align: center;"><img src="https://dev.creativeshop.io/static/frontend/Creativestyle/theme-creativeshop/en_US/images/creativeshop-logo.png" alt="creativeshop" style="width:15rem;"><br/>RPMS</h1><ul style="margin: 0 auto; max-width: 35rem;">' > 'index.html'
