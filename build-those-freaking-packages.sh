@@ -61,21 +61,20 @@ function build-libvmod-accept() {
     docker run --entrypoint '/bin/chown' --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} $(id -u):$(id -g) -R .   
 }
 
-build-yajl "amilinux-1"
-build-yajl "amilinux-2"
+
+function build-amazon-efs-utils() {
+    DIST="$1"
+    echo "Building amazon-efs-utils for $DIST"
+    docker pull ${BUILDIMAGE}:${DIST}
+    docker run --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} SPEC/amazon-efs-utils.spec
+    docker run --entrypoint '/bin/chown' --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} $(id -u):$(id -g) -R .
+}
+
 build-yajl "centos-7"
-
-build-libmodsecurity "amilinux-1" "${YAJLVER}-1.amzn1"
-build-libmodsecurity "amilinux-2" "${YAJLVER}-1.amzn2"
 build-libmodsecurity "centos-7" "${YAJLVER}-1.el7"
-
-build-nginx-creativeshop "amilinux-1" "${LIBMODSECVER}-1.amzn1" "${YAJLVER}-1.amzn1"
-build-nginx-creativeshop "amilinux-2" "${LIBMODSECVER}-1.amzn2" "${YAJLVER}-1.amzn2"
 build-nginx-creativeshop "centos-7" "${LIBMODSECVER}-1.el7" "${YAJLVER}-1.el7"
-
-build-libvmod-accept "amilinux-1"
-build-libvmod-accept "amilinux-2"
 build-libvmod-accept "centos-7"
+build-amazon-efs-utils "centos-7"
 
 if [ "$1" == "--upload" ] ; then
     echo '<html style="background:#fff;color:#212121;font-size:18px;"><style>a { color: #344DCC; } * { font-family: sans-serif !important; }</style><h1 style="text-align: center;"><img src="https://dev.creativeshop.io/static/frontend/Creativestyle/theme-creativeshop/en_US/images/creativeshop-logo.png" alt="creativeshop" style="width:15rem;"><br/>RPMS</h1><ul style="margin: 0 auto; max-width: 35rem;">' > 'index.html'
