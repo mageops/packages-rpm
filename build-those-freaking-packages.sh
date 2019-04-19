@@ -61,7 +61,6 @@ function build-libvmod-accept() {
     docker run --entrypoint '/bin/chown' --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} $(id -u):$(id -g) -R .   
 }
 
-
 function build-amazon-efs-utils() {
     DIST="$1"
     echo "Building amazon-efs-utils for $DIST"
@@ -70,10 +69,32 @@ function build-amazon-efs-utils() {
     docker run --entrypoint '/bin/chown' --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} $(id -u):$(id -g) -R .
 }
 
+
+function build-varnish-modules() {
+    DIST="$1"
+    echo "Building varnish-modules for $DIST"
+
+    rm -rf DEPS
+    docker pull ${BUILDIMAGE}:${DIST}
+    docker run --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} SPEC/varnish-modules.spec
+    docker run --entrypoint '/bin/chown' --rm -v "$PWD":/root/rpmbuild ${BUILDIMAGE}:${DIST} $(id -u):$(id -g) -R .   
+}
+
+build-yajl "amilinux-1"
 build-yajl "centos-7"
+
+build-libmodsecurity "amilinux-1" "${YAJLVER}-1.amzn1"
 build-libmodsecurity "centos-7" "${YAJLVER}-1.el7"
+
+build-nginx-creativeshop "amilinux-1" "${LIBMODSECVER}-1.amzn1" "${YAJLVER}-1.amzn1"
 build-nginx-creativeshop "centos-7" "${LIBMODSECVER}-1.el7" "${YAJLVER}-1.el7"
+
+build-libvmod-accept "amilinux-1"
 build-libvmod-accept "centos-7"
+
+build-varnish-modules "amilinux-1"
+build-varnish-modules "centos-7"
+
 build-amazon-efs-utils "centos-7"
 
 if [ "$1" == "--upload" ] ; then
@@ -89,3 +110,6 @@ if [ "$1" == "--upload" ] ; then
     aws s3 cp --acl public-read index.html s3://${S3_BUCKET}/index.html
     rm index.html
 fi
+
+
+

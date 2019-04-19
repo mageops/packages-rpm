@@ -1,15 +1,15 @@
-Summary: Varnish Accept VMOD
-Name: libvmod-accept
-Version: 4.1
+Summary: Official Varnish Modules Collection
+Name: varnish-modules
+Version: 0.15.0
 Release: 1%{?dist}
 Requires: varnish >= 4.1
 Group: System Environment/Libraries
-Vendor: gquintard
-URL: https://github.com/gquintard/libvmod-accept
+Vendor: varnish
+URL: https://github.com/varnish/varnish-modules
 
-Source0: https://github.com/creativestyle/libvmod-accept/archive/4.1.tar.gz
+Source0: https://github.com/varnish/varnish-modules/archive/0.15.0.tar.gz
 
-License: Public Domain
+License: BSD
 
 BuildRoot: %{_tmppath}/%{name}-%{version}%{release}-root
 BuildRequires: varnish-devel >= 4.1
@@ -22,13 +22,13 @@ BuildRequires: python27-docutils
 BuildRequires: python-docutils
 
 %description
-Varnish module for accept header normalization.
+Official collection of varnish modules
 
 %prep
-%setup -q -n libvmod-accept-%{version}
+%setup
 
 %build
-./autogen.sh
+./bootstrap
 ./configure --libdir=%{_libdir} \
             --prefix=%{_prefix} \
             --includedir=%{_includedir} \
@@ -44,8 +44,9 @@ Varnish module for accept header normalization.
 
 %files
 %defattr(-,root,root)
-%_libdir/varnish/vmods/libvmod_accept*
-%_mandir/man3/vmod_accept*
-%_datarootdir/doc/vmod-accept/*
+%_libdir/varnish/vmods/*
+%_mandir/man3/*
+%_datarootdir/doc/v*
+
 
 
