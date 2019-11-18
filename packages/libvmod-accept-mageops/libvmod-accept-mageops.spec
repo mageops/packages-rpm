@@ -1,18 +1,23 @@
 Summary: Varnish Accept VMOD
-Name: libvmod-accept
-Version: 4.1
+Name: libvmod-accept-mageops
+Version: 6.0
 Release: 1%{?dist}
-Requires: varnish >= 4.1
+Requires: varnish >= 6.0
 Group: System Environment/Libraries
 Vendor: gquintard
 URL: https://github.com/gquintard/libvmod-accept
 
-Source0: https://github.com/creativestyle/libvmod-accept/archive/4.1.tar.gz
+Source0: https://github.com/gquintard/libvmod-accept/archive/6.0.tar.gz
 
 License: Public Domain
 
+Obsoletes:          %{name} <= %{version}
+Obsoletes:          libvmod-accept <= %{version}
+Provides:           %{name}= %{version}
+Provides:           libvmod-accept= %{version}
+
 BuildRoot: %{_tmppath}/%{name}-%{version}%{release}-root
-BuildRequires: varnish-devel >= 4.1
+BuildRequires: varnish-devel >= 6.0
 BuildRequires: libtool
 
 %if 0%{?amzn} == 1
@@ -49,3 +54,8 @@ Varnish module for accept header normalization.
 %_datarootdir/doc/vmod-accept/*
 
 
+%changelog
+* Mon Nov 18 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 6.0
+- Compile against varnish 6.0 LTS
+- Switch back to original repository source
+- Suffix package name with `-mageops`

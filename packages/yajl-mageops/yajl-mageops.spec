@@ -1,5 +1,5 @@
 Summary: YAJL JSON Parser
-Name: yajl
+Name: yajl-mageops
 Version: 2.1.0
 Release: 1%{?dist}
 Group: System Environment/Libraries

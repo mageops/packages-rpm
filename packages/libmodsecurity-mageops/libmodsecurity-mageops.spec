@@ -1,5 +1,5 @@
 Summary: WAF security shared library
-Name: libmodsecurity
+Name: libmodsecurity-mageops
 Version: 3.0.2
 Release: 1%{?dist}
 Group: System Environment/Libraries

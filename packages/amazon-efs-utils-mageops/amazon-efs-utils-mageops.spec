@@ -19,7 +19,7 @@
 %global with_systemd 1
 %endif
 
-Name      : amazon-efs-utils
+Name      : amazon-efs-utils-mageops
 Version   : 1.6
 Release   : 1%{?dist}
 Summary   : This package provides utilities for simplifying the use of EFS file systems

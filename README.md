@@ -49,11 +49,23 @@ can use [Docker](https://docs.docker.com/install/).
 
 #### (Optional step) Build the container image locally
 
-_You can skip this step - the image is also present on [Docker Hub](https://hub.docker.com)._
+_You can skip this step - the image is also present at [MageOps Docker Hub Repo](https://hub.docker.com/r/mageops/rpm-build)._
 
 ```
-docker build . --tag cs-rpm-build:centos-7
+docker build . --target centos-7 --tag mageops/rpm-build:centos-7
 ```
+
+You can also use the Docker Hub hooks to build all image variants:
+
+```
+hooks/build
+```
+
+Currently supported OSes with tags:
+  - `centos-6`
+  - `centos-7`
+  - `amazonlinux-1`
+  - `amazonlinux-2`
 
 #### Run the docker image
 
@@ -62,7 +74,7 @@ The entrypoint will automatically handle building the defined packages.
 **Note! Some packages may need to be built in specific order.**
 
 ```
-docker run --volume $(pwd):/root/rpmbuild cs-rpm-build:centos-7 {package1_to_build} {package2_to_build} [...]
+docker run --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 {package1_to_build} {package2_to_build} [...]
 ```
 
 _Tip: If the above command is ran with no arguments it will build default set of packages._
@@ -73,7 +85,7 @@ package every time._
 **You can override the entrypoint by using the following command to get a shell to poke around in case of failure.**
 
 ```
-docker run --interactive --tty --entrypoint /bin/bash -v $(pwd):/root/rpmbuild cs-rpm-build:centos-7
+docker run --interactive --tty --entrypoint /bin/bash -v $(pwd):/root/rpmbuild mageops/rpm-build:centos-7
 ```
 
 ## Package notes

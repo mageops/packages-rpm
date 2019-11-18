@@ -24,7 +24,7 @@ BuildRequires: systemd
 
 Summary: High performance web server
 Group: System Environment/Daemons
-Name: nginx-creativeshop
+Name: nginx-mageops
 Version: 1.13.5
 Release: 1%{?dist}
 Vendor: nginx inc.
@@ -32,7 +32,11 @@ URL: http://nginx.org/
 Epoch: 1
 
 Obsoletes:          %{name} <= %{version}
+Obsoletes:          nginx-creativeshop <= %{version}
+
 Provides:           %{name}= %{version}
+Provides:           nginx= %{version} 
+
 Conflicts:          nginx
 
 Requires(pre):      shadow-utils
@@ -337,3 +341,6 @@ if [ $1 -ge 1 ]; then
 fi
 
 %changelog
+* Mon Nov 18 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 6.0
+- Suffix package name with `-mageops`
+- Mark as upgrade from `nginx-creativeshop`
