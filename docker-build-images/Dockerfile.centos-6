@@ -1,0 +1,19 @@
+FROM centos:6
+
+RUN mkdir /root/rpmbuild
+RUN yum -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build yum-utils \
+    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate
+
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm && \
+    yum-config-manager --enable epel && yum -y install jemalloc pcre
+    
+RUN curl -s https://packagecloud.io/install/repositories/varnishcache/varnish41/script.rpm.sh | bash
+RUN yum -y --disablerepo=epel install varnish varnish-devel
+
+COPY build-rpm.sh /bin/build-rpm
+COPY rpmmacros /root/.rpmmacros
+RUN chmod +x /bin/build-rpm
+
+WORKDIR /root/rpmbuild
+ENTRYPOINT ["/bin/build-rpm"]
+
