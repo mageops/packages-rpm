@@ -52,13 +52,13 @@ RUN yum -y makecache fast \
     && yum -y update \
     && gpg --import /etc/pki/rpm-gpg/* \
     && yum -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build yum-utils \
-    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate nano \
+    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate nano which \
     && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum-config-manager --enable epel && yum -y install jemalloc pcre \
     && curl -s https://packagecloud.io/install/repositories/varnishcache/varnish60lts/script.rpm.sh | bash \
     && yum -y --disablerepo=epel install varnish varnish-devel \
     && yum -y clean all \
-    && ln -s `which yum` /bin/dnf
+    && ln -s `which yum` /usr/bin/dnf
 
 COPY --from=build-rpm /root/ /root/
 
@@ -81,13 +81,13 @@ RUN yum -y makecache fast \
     && yum -y update \
     && gpg --import /etc/pki/rpm-gpg/* \
     && yum -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build yum-utils \
-    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate nano \
+    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate nano which \
     && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm && \
     yum-config-manager --enable epel && yum -y install jemalloc pcre \
     && curl -s https://packagecloud.io/install/repositories/varnishcache/varnish60lts/script.rpm.sh | bash \
     && yum -y --disablerepo=epel install varnish varnish-devel \
     && yum -y clean all \
-    && ln -s `which yum` /bin/dnf
+    && ln -s `which yum` /usr/bin/dnf
 
 WORKDIR ${CS_RPM_BUILD_WORKDIR}
 ENTRYPOINT ["/sbin/cs-build-rpm"]
@@ -108,14 +108,14 @@ RUN yum -y makecache fast \
     && yum -y update \
     && gpg --import /etc/pki/rpm-gpg/* \
     && yum -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build yum-utils \
-    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate nano \
+    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate nano which \
     && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm && \
     yum-config-manager --enable epel && yum -y install jemalloc pcre \
     && yum -y install redhat-rpm-config \
     && curl -s https://packagecloud.io/install/repositories/varnishcache/varnish60lts/script.rpm.sh | bash \
     && yum -y --disablerepo=amzn-updates,amzn-main,epel install varnish varnish-devel \
     && yum -y clean all \
-    && ln -s `which yum` /bin/dnf
+    && ln -s `which yum` /usr/bin/dnf
 
 COPY --from=build-rpm /root/ /root/
 
@@ -138,14 +138,14 @@ RUN yum -y makecache fast \
     && yum -y update \
     && gpg --import /etc/pki/rpm-gpg/* \
     && yum -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build yum-utils \
-    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate nano \
+    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate nano which \
     && install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
     yum-config-manager --enable epel && yum -y install jemalloc pcre \
     && yum -y install redhat-rpm-config \
     && curl -s https://packagecloud.io/install/repositories/varnishcache/varnish60lts/script.rpm.sh | bash \
     && yum -y --disablerepo=amzn-updates,amzn-main,epel install varnish varnish-devel \
     && yum -y clean all \
-    && ln -s `which yum` /bin/dnf
+    && ln -s `which yum` /usr/bin/dnf
 
 COPY --from=build-rpm /root/ /root/
 
