@@ -104,7 +104,7 @@ Built against varnish 6.0 LTS from official RPM repository.
 Built against varnish 6.0 LTS from official RPM repository.
 
 
-Brought to life by<br/>
+<small>Brought to life by</small><br/>
 <a href="https://creativestyle.de">
 	<img src="http://www.creativestyle.pl/wp-content/uploads/2014/04/CS-logo-red-creativestyle-gmbh-sp-z-o-o-interactive-agency-krakow-munchen-logo.png" width="150"/>
 </a>
