@@ -1,7 +1,8 @@
 <p align="center">
-  <img alt="MageSuite" width="211" src="https://avatars2.githubusercontent.com/u/56443641?s=350&v=4">
-  <h1>RPM Packages</h1>
+  <img align="center" alt="MageSuite" width="211" src="https://avatars2.githubusercontent.com/u/56443641?s=350&v=4">
 </p>
+
+<h1 align="center">RPM Packages</h1>
 
 This repository contains **MageOps** RPM package collection sources and any build automation.
 
