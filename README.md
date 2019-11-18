@@ -1,14 +1,5 @@
-Builds customized & nginx and related modules RPMs for CentOS/AmazonLinux
-=========================================================================
-
-## Build
-
-The script `build-thos-freaking-packages.sh` should be self-explanatory.
-
-Packages are built using special docker images from here:
-git@gitlab.creativestyle.pl:m2c/docker-aws-rpm-build-image.git
-
-See the [jenkins jobs](http://m2ci.creativestyle.company:8080/view/automation/).
+MageOps RPM package build
+=========================
 
 ## Modsecurity
 

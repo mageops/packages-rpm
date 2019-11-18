@@ -1,6 +1,10 @@
 Images for building RPM packages for CentOS/Amilinux
 ====================================================
 
+## Deprecation Warning
+
+**This dockerfiles are deprecated and not maintained anymore as now we use Fedora COPR for building the packages.** This files are left here only for reference and may be useful for locally testing the builds later on.
+
 ## Build images
 
 You shall have docker for that:

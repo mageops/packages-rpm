@@ -1,6 +1,0 @@
-SOURCES/*.tar.gz*
-BUILD/
-RPMS/
-SRPMS/
-SPECS/
-BUILDROOT/
