@@ -6,7 +6,7 @@
 
 This repository contains **MageOps** RPM package collection sources and any build automation.
 
-These are the packages that are used in [MageOps.sh](https://github.com/mageops) provisioning.
+These are the packages that are used in [MageOps.sh](https://github.com/mageops) [ansible provisioning](https://github.com/mageops/ansible-workflow).
 
 This means that they are mostly meant for this specific [MageSuite.io](https://github.com/magesuite) 
 hosting needs, however, they are not in any way tied to our specific use-cases so they can be 
