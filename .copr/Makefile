@@ -18,7 +18,7 @@ BUILD_DEPS = \
 
 prepare:
 	# Install build dependencies
-	yum -y install $(BUILD_DEPS)
+	dnf -y install $(BUILD_DEPS)
 	
 	# Download sources
 	spectool -g -R $(spec) -C "$(CURDIR)" -define '_sourcedir $(CURDIR)' --define '_specdir $(CURDIR)' --define '_srcrpmdir $(outdir)'
