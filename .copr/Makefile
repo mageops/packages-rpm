@@ -1,7 +1,5 @@
 basicdeps = \
-	epel-release \
 	dnf-plugins-core \
-	elfutils-libelf \
 	rpm \
 	rpm-libs \
 	rpm-python \
