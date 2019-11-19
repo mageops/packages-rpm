@@ -1,6 +1,5 @@
 basicdeps = \
-	yum-utils \
-	yum-builddep \
+	epel-release \
 	dnf-plugins-core \
 	elfutils-libelf \
 	rpm \
