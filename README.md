@@ -52,13 +52,10 @@ The entrypoint script will automatically handle building the packages residing i
 **Note! Some packages may need to be built in specific order.**
 
 ```
-docker run --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 {package-a-subdirectory} {package-b-subdirectory}  [...]
+docker run --tty --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 {package-a-subdirectory} {package-b-subdirectory}  [...]
 ```
 
 _Tip: If the above command is ran with no arguments it will build default set of packages._
-
-_Tip: It's recommened that you don't use the `--rm` switch to avoid having to recompile every
-package every time._
 
 **You can override the entrypoint by using the following command to get a shell to poke around in case of failure.**
 
