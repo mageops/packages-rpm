@@ -18,16 +18,6 @@ freely reused in any environment.
 Currently the packages are tested and working in CentOS 7 with EPEL.
 
 
-## Package naming / conflicts
-
-To avoid confusion the package names are suffixed with `-mageops`.
-
-They are still marked as providers of the appropriate original software and marked
-as conflicting with any common packages providing it too. This means that you won't 
-be automatically upgraded to our versions upon installing the repo. This also ensures 
-that you have to explicitly install our packages.
-
-
 ## Future plans
 
 We'll be probably packaging more software in the near time also including our internal tools.
@@ -52,20 +42,8 @@ can use [Docker](https://docs.docker.com/install/).
 _You can skip this step - the image is also present at [MageOps Docker Hub Repo](https://hub.docker.com/r/mageops/rpm-build)._
 
 ```
-docker build . --target centos-7 --tag mageops/rpm-build:centos-7
+docker build .docker/context --file .docker/centos-7.Dockerfile --tag mageops/rpm-build:centos-7
 ```
-
-You can also use the Docker Hub hooks to build all image variants:
-
-```
-hooks/build
-```
-
-Currently supported OSes with tags:
-  - `centos-6`
-  - `centos-7`
-  - `amazonlinux-1`
-  - `amazonlinux-2`
 
 #### Run the docker image
 
@@ -74,7 +52,7 @@ The entrypoint script will automatically handle building the packages residing i
 **Note! Some packages may need to be built in specific order.**
 
 ```
-docker run --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 {001-package-a-subdirectory} {001-package-b-subdirectory}  [...]
+docker run --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 {package-a-subdirectory} {package-b-subdirectory}  [...]
 ```
 
 _Tip: If the above command is ran with no arguments it will build default set of packages._
@@ -87,36 +65,3 @@ package every time._
 ```
 docker run --interactive --tty --entrypoint /bin/bash -v $(pwd):/root/rpmbuild mageops/rpm-build:centos-7
 ```
-
-## Package notes
-
-### libmodsecurity
-
-Libmodsecurity is compiled without LUA support as the RHEL version is tooold. No planned support for now.
-
-Includes support for:
-  - ssdeep
-  - libxml2
-  - GeoIP
-
-### nginx
-
-Modules are dynamically linked. You need to load the module manually in your `nginx.conf`, e.g.:
-
-```
-load_module modules/ngx_http_modsecurity_module.so;
-```
-
-### varnish-modules
-
-Built against varnish 6.0 LTS from official RPM repository.
-
-### libvmod-security
-
-Built against varnish 6.0 LTS from official RPM repository.
-
-
-<small>Brought to life by</small><br/>
-<a href="https://creativestyle.de">
-	<img src="http://www.creativestyle.pl/wp-content/uploads/2014/04/CS-logo-red-creativestyle-gmbh-sp-z-o-o-interactive-agency-krakow-munchen-logo.png" width="150"/>
-</a>

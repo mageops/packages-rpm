@@ -1,37 +1,45 @@
-BUILD_DEPS = \
+basicdeps = \
+	epel-rpm-macros \
+	yum-utils \
+	yum-builddep \
+	dnf-plugins-core \
+	elfutils-libelf \
 	rpm \
 	rpm-libs \
 	rpm-python \
 	rpm-build \
 	rpmdevtools \
+	gcc \
+	gcc-c++ \
 	git \
 	m4 \
-	autoconf \
+	cmake \
+	make \
 	automake \
-	elfutils-libelf \
-	logrotate \
-	curl
+	autoconf \
+	curl \
+	sed \
+	nano \
+	which \
+	file
 
-.PHONY: prepare srpm rpm
+sourcesdir ?= $(CURDIR)
 
 basicdeps:
 	# Install basic build dependencies
-	dnf -y install $(BUILD_DEPS)
+	dnf -y install $(basicdeps)
 
 hooks: basicdeps
 	# Run any package-specific setup hooks
 	find . -maxdepth 1 -type f -executable -name '*.copr-hook.*' -exec {} \;
 
 builddep: basicdeps
-	# Make sure builddep is available
-	dnf -y install dnf-plugins-core yum-utils
-
 	# Install build deps
 	dnf builddep $(spec) -y
 
 download:  basicdeps
 	# Download sources
-	spectool -g -R $(spec) -C "$(CURDIR)" -define '_sourcedir $(CURDIR)' --define '_specdir $(CURDIR)' --define '_srcrpmdir $(outdir)'
+	spectool -g -R $(spec) -C '$(sourcesdir)' -define '_sourcedir $(sourcesdir)' --define '_specdir $(CURDIR)' --define '_srcrpmdir $(outdir)'
 
 verify: download
 	# Import source maintainer keys
@@ -43,7 +51,7 @@ verify: download
 prepare: basicdeps hooks builddep download verify
 
 srpm: prepare
-	rpmbuild -bs --define '_sourcedir $(CURDIR)' --define '_specdir $(CURDIR)' --define '_srcrpmdir $(outdir)' $(spec) --target x86_64
+	rpmbuild -bs --define '_sourcedir $(sourcesdir)' --define '_specdir $(CURDIR)' --define '_srcrpmdir $(outdir)' $(spec) --target x86_64
 
 rpm: prepare
-	rpmbuild -bb --define '_sourcedir $(CURDIR)' --define '_specdir $(CURDIR)' --define '_srcrpmdir $(outdir)' $(spec) --target x86_64
+	rpmbuild -bb --define '_sourcedir $(sourcesdir)' --define '_specdir $(CURDIR)' --define '_srcrpmdir $(outdir)' $(spec) --target x86_64
