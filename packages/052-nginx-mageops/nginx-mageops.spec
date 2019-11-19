@@ -34,9 +34,6 @@ Epoch: 1
 Obsoletes:          %{name} <= %{version}
 Obsoletes:          nginx-creativeshop <= %{version}
 
-Provides:           %{name}= %{version}
-Provides:           nginx= %{version} 
-
 Conflicts:          nginx
 
 Requires(pre):      shadow-utils
@@ -97,7 +94,7 @@ Not stripped version of nginx built with the debugging log support.
 %package modsecurity
 Summary: NGINX modsecurity module
 Group: System Environment/Libraries
-Requires: libmodsecurity
+Requires: libmodsecurity-mageops
 
 %description modsecurity
 Libmodsecurity connector module for NGINX

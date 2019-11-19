@@ -37,6 +37,11 @@ Requires  : nfs-utils
 Requires  : stunnel >= 4.56
 Requires  : %{python_requires}
 
+Obsoletes:          %{name} <= %{version}
+Obsoletes:          amazon-efs-utils <= %{version}
+Provides:           %{name}= %{version}
+Provides:           amazon-efs-utils= %{version}
+
 %if %{with_systemd}
 BuildRequires    : systemd
 %{?systemd_requires}

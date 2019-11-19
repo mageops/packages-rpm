@@ -9,6 +9,11 @@ URL: https://lloyd.github.io/yajl/
 BuildRequires: gcc
 BuildRequires: cmake
 
+Obsoletes:          %{name} <= %{version}
+Obsoletes:          yajl <= %{version}
+Provides:           %{name}= %{version}
+Provides:           yajl= %{version}
+
 Source0: https://github.com/lloyd/yajl/archive/%{version}.tar.gz
 
 License: ISC

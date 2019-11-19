@@ -8,7 +8,7 @@ URL: https://github.com/SpiderLabs/ModSecurity
 
 Requires: flex
 Requires: bison
-Requires: yajl
+Requires: yajl-mageops
 Requires: curl
 Requires: zlib
 Requires: pcre
@@ -27,6 +27,12 @@ BuildRequires: ssdeep-libs
 BuildRequires: ssdeep-devel
 BuildRequires: libxml2
 BuildRequires: libxml2-devel
+BuildRequires: yajl-mageops-devel
+
+Obsoletes:          %{name} <= %{version}
+Obsoletes:          libmodsecurity <= %{version}
+Provides:           %{name}= %{version}
+Provides:           libmodsecurity= %{version}
 
 Source0: https://github.com/SpiderLabs/ModSecurity/releases/download/v%{version}/modsecurity-v%{version}.tar.gz
 Source1: https://github.com/SpiderLabs/ModSecurity/releases/download/v%{version}/modsecurity-v%{version}.tar.gz.asc
