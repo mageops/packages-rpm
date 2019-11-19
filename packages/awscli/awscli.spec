@@ -23,8 +23,10 @@ BuildArch:      noarch
 BuildRequires:  python%{python3_pkgversion}
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-virtualenv
+BuildRequires:  python%{python2_pkgversion}-docutils
 
 Requires:       python%{python3_pkgversion} >= 3.6
+Requires:       groff
 
 %description
 This package provides a unified command line interface to Amazon Web Services.

@@ -14,6 +14,7 @@ Source:           https://github.com/aws/efs-utils/archive/v%{version}.tar.gz
 
 BuildArch:        noarch
 BuildRequires:    systemd
+BuildRequires:    python%{python2_pkgversion}-docutils
 
 Requires:         nfs-utils
 Requires:         systemd

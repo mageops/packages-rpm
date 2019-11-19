@@ -7,7 +7,7 @@ export MGS_MAKEFILE="${MGS_PKG_DIR:-$MGS_WORKDIR/.copr/Makefile}"
 export MGS_PACKAGES_DIR="${MGS_PKG_DIR:-$MGS_WORKDIR/packages}"
 export MGS_PACKAGE_DIRLIST="${@:-$(cd $MGS_PACKAGES_DIR; ls -d -- *)}"
 
-export MGS_RPMBUILD_ROOTDIR="${MGS_RPMBUILD_ROOTDIR:-$MGS_WORKDIR/out}"
+export MGS_RPMBUILD_ROOTDIR="${MGS_RPMBUILD_ROOTDIR:-$MGS_WORKDIR/buildtree}"
 export MGS_RPMBUILD_RPMDIR="${MGS_RPMBUILD_RPMDIR:-$MGS_RPMBUILD_ROOTDIR/RPMS}"
 export MGS_RPMBUILD_SRPMDIR="${MGS_RPMBUILD_SRPMDIR:-$MGS_RPMBUILD_ROOTDIR/SRPMS}"
 export MGS_RPMBUILD_SOURCESDIR="${MGS_RPMBUILD_SOURCESDIR:-$MGS_RPMBUILD_ROOTDIR/SOURCES}"
@@ -23,13 +23,19 @@ env | grep MGS_ | sed 's/MGS_/  /g' | sort
 
 for _PACKAGE_DIRNAME in $MGS_PACKAGE_DIRLIST ; do
     _PACKAGE_DIR="$MGS_PACKAGES_DIR/$_PACKAGE_DIRNAME/"
+    _PACKAGE_SOURCESDIR="$MGS_RPMBUILD_SOURCESDIR/$_PACKAGE_DIRNAME/"
     _PACKAGE="$(echo $_PACKAGE_DIRNAME | sed 's/^[-0-9_.]\+//')"
     _SPECFILE="$_PACKAGE.spec"
 
+    echo -e "\n --- Copy $_PACKAGE sources to $_PACKAGE_SOURCESDIR ---\n"
+
+    mkdir -p "$_PACKAGE_SOURCESDIR"
+    rsync -avz "$_PACKAGE_DIR/" "$_PACKAGE_SOURCESDIR/"
+
     echo -e "\n --- Building $_PACKAGE in $_PACKAGE_DIR using $_SPECFILE ---\n"
 
-    make --debug --directory "$_PACKAGE_DIR" --makefile "$MGS_MAKEFILE" "spec=$_SPECFILE" "outdir=$MGS_RPMBUILD_SRPMDIR" "sourcesdir=$MGS_RPMBUILD_SOURCESDIR" srpm
-    make --debug --directory "$_PACKAGE_DIR" --makefile "$MGS_MAKEFILE" "spec=$_SPECFILE" "outdir=$MGS_RPMBUILD_RPMDIR" "sourcesdir=$MGS_RPMBUILD_SOURCESDIR" rpm
+    make --debug --directory "$_PACKAGE_DIR" --makefile "$MGS_MAKEFILE" "spec=$_SPECFILE" "outdir=$MGS_RPMBUILD_SRPMDIR" "sourcesdir=$_PACKAGE_SOURCESDIR" srpm
+    make --debug --directory "$_PACKAGE_DIR" --makefile "$MGS_MAKEFILE" "spec=$_SPECFILE" "outdir=$MGS_RPMBUILD_RPMDIR" "sourcesdir=$_PACKAGE_SOURCESDIR" rpm
 
     echo -e "\n --- Package $_PACKAGE built succesfully ---\n"
 done

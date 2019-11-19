@@ -12,7 +12,41 @@ This means that they are mostly meant for this specific [MageSuite.io](https://g
 hosting needs, however, they are not in any way tied to our specific use-cases so they can be 
 freely reused in any environment.
 
+## Install packages from MageOps repository
 
+### Enable using COPR plugin for yum
+
+```
+yum -y install yum-plugin-copr 
+yum -y copr enable pinkeen/MageOps
+```
+
+### Enable using COPR plugin for dnf
+
+Install dnf if you don't have it yet:
+
+```
+yum -y install epel-release
+yum -y install --enablerepo=epel dnf
+```
+
+And then use dnf to enable this repository:
+
+```
+dnf -y install dnf-plugins-core
+dnf -y copr enable pinkeen/MageOps
+```
+### Manually 
+
+Place [this contents](https://copr.fedorainfracloud.org/coprs/pinkeen/MageOps/repo/epel-7/pinkeen-MageOps-epel-7.repo) 
+into `/etc/yum.repos.d/mageops.repo` file and then generate the cache:
+
+```
+curl -s https://copr.fedorainfracloud.org/coprs/pinkeen/MageOps/repo/epel-7/pinkeen-MageOps-epel-7.repo > /etc/yum.repos.d/mageops.repo
+yum -q makecache -y '--disablerepo=*' "--enablerepo=copr:copr.fedorainfracloud.org:pinkeen:MageOps"
+```
+
+https://copr-be.cloud.fedoraproject.org/results/pinkeen/MageOps/
 ## Distribution Support
 
 Currently the packages are tested and working in CentOS 7 with EPEL.
