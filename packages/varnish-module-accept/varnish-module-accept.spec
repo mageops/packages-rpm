@@ -12,7 +12,7 @@ URL:              https://github.com/gquintard/libvmod-accept
 
 Source0:          https://github.com/gquintard/libvmod-accept/archive/6.0.tar.gz
 
-Conflicts:        ibvmod-accept
+Conflicts:        libvmod-accept
 Requires:         varnish >= 6.0
 
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{release}-root
