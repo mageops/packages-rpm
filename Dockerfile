@@ -5,7 +5,7 @@ FROM alpine:latest AS rpmbuild
 RUN apk add bash make which sed curl
 RUN echo -e '#!/bin/bash \n\
     \n\
-    set -euo pipefail -x \n\
+    set -euo pipefail \n\
     \n\
     export MGS_WORKDIR="${MGS_WORKDIR:-$(pwd)}" \n\
     export MGS_MAKEFILE="${MGS_PKG_DIR:-$MGS_WORKDIR/.copr/Makefile}" \n\
