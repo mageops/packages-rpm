@@ -1,5 +1,4 @@
 basicdeps = \
-	epel-rpm-macros \
 	yum-utils \
 	yum-builddep \
 	dnf-plugins-core \
