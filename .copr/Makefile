@@ -24,7 +24,7 @@ hooks: basicdeps
 
 builddep: basicdeps
 	# Make sure builddep is available
-	(which yum 2>&1 >/dev/null && yum -y install yum-utils) || (which dnf 2>&1 >/dev/null && dnf -y install dnf-plugins-core-builddep)
+	dnf -y install dnf-plugins-core yum-utils
 
 	# Install build deps
 	dnf builddep $(spec) -y
