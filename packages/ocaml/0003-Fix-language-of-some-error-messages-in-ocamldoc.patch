@@ -1,0 +1,40 @@
+From 655519a3653a8e5b90e0fd862f9c5e20465ab7d0 Mon Sep 17 00:00:00 2001
+From: Stephane Glondu <steph@glondu.net>
+Date: Thu, 25 Jul 2019 09:08:03 +0200
+Subject: [PATCH 3/9] Fix language of some error messages in ocamldoc
+
+No change entry needed
+---
+ ocamldoc/odoc_sig.ml | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/ocamldoc/odoc_sig.ml b/ocamldoc/odoc_sig.ml
+index fb2eac671..e413c11a6 100644
+--- a/ocamldoc/odoc_sig.ml
++++ b/ocamldoc/odoc_sig.ml
+@@ -1740,11 +1740,11 @@ module Analyser =
+             )
+           else
+             (
+-             raise (Failure "Parsetree.Pcty_arrow (parse_label, _, pclass_type), labels differents")
++             raise (Failure "Parsetree.Pcty_arrow (parse_label, _, pclass_type), different labels")
+             )
+ 
+       | _ ->
+-          raise (Failure "analyse_class_kind pas de correspondance dans le match")
++          raise (Failure "analyse_class_kind: match failure")
+ 
+     (** Analyse of a Parsetree.class_type and a Types.class_type to return a class_type_kind.*)
+     and analyse_class_type_kind env current_class_name last_pos parse_class_type sig_class_type =
+@@ -1799,7 +1799,7 @@ module Analyser =
+            ([], k)
+ *)
+       | _ ->
+-          raise (Failure "analyse_class_type_kind pas de correspondance dans le match")
++          raise (Failure "analyse_class_type_kind: match failure")
+ 
+     let analyse_signature source_file input_file
+         (ast : Parsetree.signature) (signat : Types.signature) =
+-- 
+2.22.0.rc3
+

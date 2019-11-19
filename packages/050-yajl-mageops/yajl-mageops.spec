@@ -6,6 +6,7 @@ Group: System Environment/Libraries
 Vendor: lloyd
 URL: https://lloyd.github.io/yajl/
 
+BuildRequires: gcc
 BuildRequires: cmake
 
 Source0: https://github.com/lloyd/yajl/archive/%{version}.tar.gz

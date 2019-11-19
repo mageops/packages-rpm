@@ -1,0 +1,172 @@
+From 44306329db8a86a2362b6345bdde69deea4935dc Mon Sep 17 00:00:00 2001
+From: David Allsopp <david.allsopp@metastack.com>
+Date: Wed, 24 Jul 2019 14:45:33 +0100
+Subject: [PATCH 2/9] Fix spelling errors reported by Lintian
+
+No change entry needed
+---
+ asmcomp/cmmgen.ml                                         | 4 ++--
+ manual/manual/library/compilerlibs.etex                   | 2 +-
+ middle_end/inlining_transforms.ml                         | 2 +-
+ otherlibs/systhreads/event.mli                            | 4 ++--
+ parsing/ast_iterator.mli                                  | 2 +-
+ parsing/ast_mapper.mli                                    | 2 +-
+ stdlib/bigarray.mli                                       | 2 +-
+ stdlib/filename.mli                                       | 4 ++--
+ stdlib/format.ml                                          | 2 +-
+ testsuite/tests/parsetree/source.ml                       | 2 +-
+ testsuite/tests/typing-implicit_unpack/implicit_unpack.ml | 2 +-
+ 11 files changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/asmcomp/cmmgen.ml b/asmcomp/cmmgen.ml
+index d0490998c..68e36d0d9 100644
+--- a/asmcomp/cmmgen.ml
++++ b/asmcomp/cmmgen.ml
+@@ -1528,8 +1528,8 @@ end
+    phases, we only share exits *)
+ (* Some specific patterns can lead to switches where several cases
+    point to the same action, but this action is not an exit (see GPR#1370).
+-   The addition of the index in the action array as context allows to
+-   share them correctly without duplication. *)
++   The addition of the index in the action array as context allows
++   sharing them correctly without duplication. *)
+ module StoreExpForSwitch =
+   Switch.CtxStore
+     (struct
+diff --git a/manual/manual/library/compilerlibs.etex b/manual/manual/library/compilerlibs.etex
+index 88abbb823..d49193767 100644
+--- a/manual/manual/library/compilerlibs.etex
++++ b/manual/manual/library/compilerlibs.etex
+@@ -3,7 +3,7 @@
+ 
+ This chapter describes the OCaml front-end, which declares the abstract
+ syntax tree used by the compiler, provides a way to parse, print
+-and pretty-print OCaml code, and ultimately allows to write abstract
++and pretty-print OCaml code, and ultimately allows one to write abstract
+ syntax tree preprocessors invoked via the {\tt -ppx} flag (see chapters~\ref{c:camlc}
+ and~\ref{c:nativecomp}) and plugins invoked via the {\tt -plugin} flag
+ (see chapter~\ref{c:plugins}).
+diff --git a/middle_end/inlining_transforms.ml b/middle_end/inlining_transforms.ml
+index b08e62bb0..c46a6cbe6 100755
+--- a/middle_end/inlining_transforms.ml
++++ b/middle_end/inlining_transforms.ml
+@@ -118,7 +118,7 @@ let inline_by_copying_function_body ~env ~r
+     && ((not default_inline) || (not default_specialise)) then
+       (* When the function inlined function is a stub, the annotation
+          is reported to the function applications inside the stub.
+-         This allows to report the annotation to the application the
++         This allows reporting the annotation to the application the
+          original programmer really intended: the stub is not visible
+          in the source. *)
+       set_inline_attribute_on_all_apply body
+diff --git a/otherlibs/systhreads/event.mli b/otherlibs/systhreads/event.mli
+index 83dbe9a17..fd452652c 100644
+--- a/otherlibs/systhreads/event.mli
++++ b/otherlibs/systhreads/event.mli
+@@ -59,8 +59,8 @@ val wrap_abort : 'a event -> (unit -> unit) -> 'a event
+ 
+ val guard : (unit -> 'a event) -> 'a event
+ (** [guard fn] returns the event that, when synchronized, computes
+-   [fn()] and behaves as the resulting event. This allows to
+-   compute events with side-effects at the time of the synchronization
++   [fn()] and behaves as the resulting event. This enables
++   computing events with side-effects at the time of the synchronization
+    operation. *)
+ 
+ val sync : 'a event -> 'a
+diff --git a/parsing/ast_iterator.mli b/parsing/ast_iterator.mli
+index 5dc1c0ec5..26308d20d 100755
+--- a/parsing/ast_iterator.mli
++++ b/parsing/ast_iterator.mli
+@@ -13,7 +13,7 @@
+ (*                                                                        *)
+ (**************************************************************************)
+ 
+-(** {!iterator} allows to implement AST inspection using open recursion.  A
++(** {!iterator} enables AST inspection using open recursion.  A
+     typical mapper would be based on {!default_iterator}, a trivial iterator,
+     and will fall back on it for handling the syntax it does not modify.
+ 
+diff --git a/parsing/ast_mapper.mli b/parsing/ast_mapper.mli
+index b342ca8a9..80d70fcca 100644
+--- a/parsing/ast_mapper.mli
++++ b/parsing/ast_mapper.mli
+@@ -21,7 +21,7 @@
+   the -ppx rewriters, handling such details as the serialization format,
+   forwarding of command-line flags, and storing state.
+ 
+-  {!mapper} allows to implement AST rewriting using open recursion.
++  {!mapper} enables AST rewriting using open recursion.
+   A typical mapper would be based on {!default_mapper}, a deep
+   identity mapper, and will fall back on it for handling the syntax it
+   does not modify. For example:
+diff --git a/stdlib/bigarray.mli b/stdlib/bigarray.mli
+index 2c1261212..ea26f66f5 100644
+--- a/stdlib/bigarray.mli
++++ b/stdlib/bigarray.mli
+@@ -133,7 +133,7 @@ type ('a, 'b) kind =
+    of OCaml types with element kinds, and are re-exported below for
+    backward-compatibility reasons.
+ 
+-   Using a generalized algebraic datatype (GADT) here allows to write
++   Using a generalized algebraic datatype (GADT) here allows writing
+    well-typed polymorphic functions whose return type depend on the
+    argument type, such as:
+ 
+diff --git a/stdlib/filename.mli b/stdlib/filename.mli
+index b05ad0d2e..9221c9ef5 100644
+--- a/stdlib/filename.mli
++++ b/stdlib/filename.mli
+@@ -52,8 +52,8 @@ val check_suffix : string -> string -> bool
+ val chop_suffix : string -> string -> string
+ (** [chop_suffix name suff] removes the suffix [suff] from
+    the filename [name]. The behavior is undefined if [name] does not
+-   end with the suffix [suff]. It is thus recommmended to use
+-   [chop_suffix_opt] instead.
++   end with the suffix [suff]. [chop_suffix_opt] is thus recommended
++   instead.
+ *)
+ 
+ val chop_suffix_opt: suffix:string -> string -> string option
+diff --git a/stdlib/format.ml b/stdlib/format.ml
+index ae1f3c647..369c50c36 100644
+--- a/stdlib/format.ml
++++ b/stdlib/format.ml
+@@ -687,7 +687,7 @@ let pp_print_if_newline state () =
+       { size = Size.zero; token = Pp_if_newline; length = 0 }
+ 
+ 
+-(* Generalized break hint that allows to print strings before/after
++(* Generalized break hint that allows printing strings before/after
+    same-line offset (width) or new-line offset *)
+ let pp_print_custom_break state ~fits ~breaks =
+   let before, width, after = fits in
+diff --git a/testsuite/tests/parsetree/source.ml b/testsuite/tests/parsetree/source.ml
+index c67012e18..a183f4482 100644
+--- a/testsuite/tests/parsetree/source.ml
++++ b/testsuite/tests/parsetree/source.ml
+@@ -3072,7 +3072,7 @@ Error: Types marked with the immediate attribute must be
+        non-pointer types like int or bool
+ |}];;
+ (*
+-   Implicit unpack allows to omit the signature in (val ...) expressions.
++   Implicit unpack allows the signature in (val ...) expressions to be omitted.
+ 
+    It also adds (module M : S) and (module M) patterns, relying on
+    implicit (val ...) for the implementation. Such patterns can only
+diff --git a/testsuite/tests/typing-implicit_unpack/implicit_unpack.ml b/testsuite/tests/typing-implicit_unpack/implicit_unpack.ml
+index a6b4d697c..e503ee736 100644
+--- a/testsuite/tests/typing-implicit_unpack/implicit_unpack.ml
++++ b/testsuite/tests/typing-implicit_unpack/implicit_unpack.ml
+@@ -3,7 +3,7 @@
+ *)
+ 
+ (*
+-   Implicit unpack allows to omit the signature in (val ...) expressions.
++   Implicit unpack allows the signature in (val ...) expressions to be omitted.
+ 
+    It also adds (module M : S) and (module M) patterns, relying on
+    implicit (val ...) for the implementation. Such patterns can only
+-- 
+2.22.0.rc3
+

@@ -1,0 +1,27 @@
+From 9378a6a792cd1e2f6861483a2a73122b8c5296dd Mon Sep 17 00:00:00 2001
+From: "Richard W.M. Jones" <rjones@redhat.com>
+Date: Tue, 24 Jun 2014 10:00:15 +0100
+Subject: [PATCH 4/9] Don't add rpaths to libraries.
+
+---
+ tools/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tools/Makefile b/tools/Makefile
+index ee0e0be4c..7c96b6405 100644
+--- a/tools/Makefile
++++ b/tools/Makefile
+@@ -153,8 +153,8 @@ $(call byte_and_opt,ocamlmklib,ocamlmklibconfig.cmo config.cmo \
+ ocamlmklibconfig.ml: $(ROOTDIR)/Makefile.config Makefile
+ 	(echo 'let bindir = "$(BINDIR)"'; \
+          echo 'let supports_shared_libraries = $(SUPPORTS_SHARED_LIBRARIES)';\
+-         echo 'let default_rpath = "$(RPATH)"'; \
+-         echo 'let mksharedlibrpath = "$(MKSHAREDLIBRPATH)"'; \
++         echo 'let default_rpath = ""'; \
++         echo 'let mksharedlibrpath = ""'; \
+          echo 'let toolpref = "$(TOOLPREF)"';) \
+         > ocamlmklibconfig.ml
+ 
+-- 
+2.22.0.rc3
+

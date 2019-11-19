@@ -1,0 +1,58 @@
+From 9217fab965cbde2a47dd91acb6e6452844d288ba Mon Sep 17 00:00:00 2001
+From: Stephen Dolan <sdolan@janestreet.com>
+Date: Mon, 29 Jul 2019 14:12:56 +0100
+Subject: [PATCH 9/9] Use the autoconf- or system-provided off_t rather than
+ redetecting.
+
+Hopefully fixes #8841
+---
+ configure         | 2 --
+ configure.ac      | 1 -
+ runtime/caml/io.h | 4 +---
+ 3 files changed, 1 insertion(+), 6 deletions(-)
+
+diff --git a/configure b/configure
+index 33a0aa526..a43846117 100755
+--- a/configure
++++ b/configure
+@@ -12787,8 +12787,6 @@ _ACEOF
+ 
+ fi
+ 
+-$as_echo "#define HAS_OFF_T 1" >>confdefs.h
+-
+ 
+ # Checks for structures
+ 
+diff --git a/configure.ac b/configure.ac
+index 5731e0f98..38ff1235f 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -674,7 +674,6 @@ AC_CHECK_HEADER([sys/select.h], [AC_DEFINE([HAS_SYS_SELECT_H])], [],
+ 
+ ## off_t
+ AC_TYPE_OFF_T
+-AC_DEFINE([HAS_OFF_T])
+ 
+ # Checks for structures
+ 
+diff --git a/runtime/caml/io.h b/runtime/caml/io.h
+index 87de679e5..2d961f956 100644
+--- a/runtime/caml/io.h
++++ b/runtime/caml/io.h
+@@ -29,11 +29,9 @@
+ 
+ #if defined(_WIN32)
+ typedef __int64 file_offset;
+-#elif defined(HAS_OFF_T)
++#else
+ #include <sys/types.h>
+ typedef off_t file_offset;
+-#else
+-typedef long file_offset;
+ #endif
+ 
+ struct channel {
+-- 
+2.22.0.rc3
+
