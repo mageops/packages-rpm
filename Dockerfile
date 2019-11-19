@@ -1,153 +1,131 @@
-ARG CS_RPM_BUILD_WORKDIR=/root/rpmbuild
-ARG CS_RPM_BUILD_ENTRYPOINT=/sbin/cs-build-rpm
+# --- Base package build automation ---
 
-# Base build automation scripts
-# (the image is not important, alpine is used as it's small)
+FROM alpine:latest AS rpmbuild
 
-FROM alpine:latest AS build-rpm
-
-ARG CS_RPM_BUILD_WORKDIR
-ARG CS_RPM_BUILD_ENTRYPOINT
-
-ENV CS_RPM_BUILD_ROOT=${CS_RPM_BUILD_WORKDIR} \
-    CS_RPM_BUILD_SCRIPT=${CS_RPM_BUILD_ENTRYPOINT} \
-    CS_RPM_PACKAGES_DIR=${CS_RPM_BUILD_WORKDIR}/packages \
-    CS_RPM_COPR_MAKEFILE=${CS_RPM_BUILD_WORKDIR}/.copr/Makefile
-
-RUN echo ${CS_RPM_BUILD_ROOT}
-RUN echo '%_topdir /root/rpmbuild' > /root/.rpmmacros
-
-RUN mkdir -p ${CS_RPM_BUILD_ROOT} ${CS_RPM_BUILD_ROOT}/RPMS ${CS_RPM_BUILD_ROOT}/SRPMS \
-    && echo -e '#!'"/bin/bash\n\
-    set -euo pipefail\n\
+RUN apk add bash make which sed curl
+RUN echo -e '#!/bin/bash \n\
     \n\
-    CS_RPM_PACKAGES=\"\${@:-\$(cd \$CS_RPM_PACKAGES_DIR; echo *)}\" \n\n\
-    echo -e \"\n\n --- Starting build for packages: \$CS_RPM_PACKAGES\"\n\
+    set -euo pipefail -x \n\
     \n\
-    for CS_PACKAGE in \$CS_RPM_PACKAGES ; do\n\
-        CS_PACKAGE_DIR=\"\$CS_RPM_PACKAGES_DIR/\$CS_PACKAGE/\"\n\
-        echo -e \"\n\n --- [\$CS_PACKAGE] [BUILD] [SRPM] --- \n\n\"\n\
-        make --debug --directory \$CS_PACKAGE_DIR --makefile \$CS_RPM_COPR_MAKEFILE spec=\$CS_PACKAGE.spec outdir=\$CS_RPM_BUILD_ROOT/SRPMS srpm \n\
-        echo -e \"\n\n --- [\$CS_PACKAGE] [BUILD] [SRPM] [SUCCESS] --- \n\n\"\n\
+    export MGS_WORKDIR="${MGS_WORKDIR:-$(pwd)}" \n\
+    export MGS_MAKEFILE="${MGS_PKG_DIR:-$MGS_WORKDIR/.copr/Makefile}" \n\
+    export MGS_PACKAGES_DIR="${MGS_PKG_DIR:-$MGS_WORKDIR/packages}" \n\
+    export MGS_PACKAGE_DIRLIST="${@:-$(cd $MGS_PACKAGES_DIR; ls -d -- *)}" \n\
+    export MGS_RPM_OUTDIR="${MGS_RPM_OUTDIR:-$MGS_WORKDIR/RPMS}" \n\
+    export MGS_SRPM_OUTDIR="${MGS_SRPM_OUTDIR:-$MGS_WORKDIR/SRPMS}" \n\
+    \n\
+    mkdir -p "$MGS_RPM_OUTDIR" "$MGS_SRPM_OUTDIR" \n\
+    echo "%_topdir $MGS_WORKDIR" >> $HOME/.rpmmacros \n\
+    which dnf 2>&1 >/dev/null || (echo -e "#!/bin/bash\nif [[ \"\$1\" == \"builddep\" ]] ; then shift; yum-builddep \$@ ; else yum \$@; fi;" > /usr/bin/dnf && chmod +x /usr/bin/dnf) \n\
+    \n\
+    echo -e "\\n --- Running $(realpath "$0") in $MGS_WORKDIR ---\\n" \n\
+    \n\
+    \n\
+    for _PACKAGE_DIRNAME in $MGS_PACKAGE_DIRLIST ; do \n\
+        _PACKAGE_DIR="$MGS_PACKAGES_DIR/$_PACKAGE_DIRNAME/" \n\
+        _PACKAGE="$(echo $_PACKAGE_DIRNAME | sed "s/^[-0-9_.]\+//")" \n\
+        _SPECFILE="$_PACKAGE.spec" \n\
+    \n\
+        echo -e "\\n  --- Building $_PACKAGE in $_PACKAGE_DIR using $_SPECFILE ---\\n" \n\
+    \n\
+        make --debug --directory "$_PACKAGE_DIR" --makefile "$MGS_MAKEFILE" "spec=$_SPECFILE" "outdir=$MGS_SRPM_OUTDIR" srpm \n\
+        make --debug --directory "$_PACKAGE_DIR" --makefile "$MGS_MAKEFILE" "spec=$_SPECFILE" "outdir=$MGS_RPM_OUTDIR" rpm \n\
         \n\
-        echo -e \"\n\n --- [\$CS_PACKAGE] [BUILD] [RPM] --- \n\n\"\n\
-        make --debug --directory \$CS_PACKAGE_DIR --makefile \$CS_RPM_COPR_MAKEFILE spec=\$CS_PACKAGE.spec outdir=\$CS_RPM_BUILD_ROOT/RPMS rpm \n\
-        echo -e \"\n\n --- [\$CS_PACKAGE] [BUILD] [RPM] [SUCCESS] --- \n\n\"\n\
-    done\n" > ${CS_RPM_BUILD_SCRIPT} \
-    && chmod +x ${CS_RPM_BUILD_SCRIPT}
+        echo -e "\\n  --- Package $_PACKAGE built succesfully ---\\n" \n\
+    done \n\
+    \n\
+    echo -e "\\n  --- All packages built succesfully at $(date "+%Y-%m-%d %H:%M:%S") ---\\n"' > /usr/bin/mgs-build-rpm \
+    && chmod +x /usr/bin/mgs-build-rpm \
+    && rm -rf /var/cache/apk
 
-# CentOS 7
+WORKDIR /root/rpmbuild
+
+
+
+# --- CentOS 7 ---
 
 FROM centos:7 AS centos-7
 
-ARG CS_RPM_BUILD_WORKDIR
-ARG CS_RPM_BUILD_ENTRYPOINT
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+    && yum -y --enablerepo=epel install elfutils-libelf rpm rpm-libs rpm-python rpm-build gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate jemalloc pcre curl sed nano which yum-utils \
+    && yum -y clean all
 
-ENV CS_RPM_BUILD_ROOT=${CS_RPM_BUILD_WORKDIR} \
-    CS_RPM_BUILD_SCRIPT=${CS_RPM_BUILD_ENTRYPOINT} \
-    CS_RPM_PACKAGES_DIR=${CS_RPM_BUILD_WORKDIR}/packages \
-    CS_RPM_COPR_MAKEFILE=${CS_RPM_BUILD_WORKDIR}/.copr/Makefile
+COPY --from=rpmbuild /usr/bin/mgs-build-rpm /usr/bin/mgs-build-rpm
 
-RUN yum -y makecache fast \
-    && yum -y update \
-    && gpg --import /etc/pki/rpm-gpg/* \
-    && yum -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build yum-utils \
-    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate nano which \
-    && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-    yum-config-manager --enable epel && yum -y install jemalloc pcre \
-    && curl -s https://packagecloud.io/install/repositories/varnishcache/varnish60lts/script.rpm.sh | bash \
-    && yum -y --disablerepo=epel install varnish varnish-devel \
-    && yum -y clean all \
-    && ln -s `which yum` /usr/bin/dnf
+WORKDIR /root/rpmbuild
+ENTRYPOINT [ /usr/bin/mgs-build-rpm ]
 
-COPY --from=build-rpm /root/ /root/
 
-WORKDIR ${CS_RPM_BUILD_WORKDIR}
-ENTRYPOINT ["/sbin/cs-build-rpm"]
 
-# CentOS 6
+# --- CentOS 6 ---
 
 FROM centos:6 AS centos-6
 
-ARG CS_RPM_BUILD_WORKDIR
-ARG CS_RPM_BUILD_ENTRYPOINT
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm \
+    && yum -y --enablerepo=epel --enablerepo=epel install elfutils-libelf rpm rpm-libs rpm-python rpm-build gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate jemalloc pcre curl sed nano which yum-utils \
+    && yum -y clean all
 
-ENV CS_RPM_BUILD_ROOT=${CS_RPM_BUILD_WORKDIR} \
-    CS_RPM_BUILD_SCRIPT=${CS_RPM_BUILD_ENTRYPOINT} \
-    CS_RPM_PACKAGES_DIR=${CS_RPM_BUILD_WORKDIR}/packages \
-    CS_RPM_COPR_MAKEFILE=${CS_RPM_BUILD_WORKDIR}/.copr/Makefile
+COPY --from=rpmbuild /usr/bin/mgs-build-rpm /usr/bin/mgs-build-rpm
 
-RUN yum -y makecache fast \
-    && yum -y update \
-    && gpg --import /etc/pki/rpm-gpg/* \
-    && yum -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build yum-utils \
-    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate nano which \
-    && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm && \
-    yum-config-manager --enable epel && yum -y install jemalloc pcre \
-    && curl -s https://packagecloud.io/install/repositories/varnishcache/varnish60lts/script.rpm.sh | bash \
-    && yum -y --disablerepo=epel install varnish varnish-devel \
-    && yum -y clean all \
-    && ln -s `which yum` /usr/bin/dnf
+WORKDIR /root/rpmbuild
+ENTRYPOINT [ /usr/bin/mgs-build-rpm ]
 
-WORKDIR ${CS_RPM_BUILD_WORKDIR}
-ENTRYPOINT ["/sbin/cs-build-rpm"]
 
-## Amazon linux 1
+
+# --- Amazon linux 1 ---
 
 FROM amazonlinux:1 AS amazonlinux-1
 
-ARG CS_RPM_BUILD_WORKDIR
-ARG CS_RPM_BUILD_ENTRYPOINT
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm \
+    && yum -y --enablerepo=epel install elfutils-libelf rpm rpm-libs rpm-python rpm-build gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate jemalloc pcre curl sed nano which yum-utils redhat-rpm-config \
+    && yum -y clean all
 
-ENV CS_RPM_BUILD_ROOT=${CS_RPM_BUILD_WORKDIR} \
-    CS_RPM_BUILD_SCRIPT=${CS_RPM_BUILD_ENTRYPOINT} \
-    CS_RPM_PACKAGES_DIR=${CS_RPM_BUILD_WORKDIR}/packages \
-    CS_RPM_COPR_MAKEFILE=${CS_RPM_BUILD_WORKDIR}/.copr/Makefile
 
-RUN yum -y makecache fast \
-    && yum -y update \
-    && gpg --import /etc/pki/rpm-gpg/* \
-    && yum -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build yum-utils \
-    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate nano which \
-    && yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm && \
-    yum-config-manager --enable epel && yum -y install jemalloc pcre \
-    && yum -y install redhat-rpm-config \
-    && curl -s https://packagecloud.io/install/repositories/varnishcache/varnish60lts/script.rpm.sh | bash \
-    && yum -y --disablerepo=amzn-updates,amzn-main,epel install varnish varnish-devel \
-    && yum -y clean all \
-    && ln -s `which yum` /usr/bin/dnf
+COPY --from=rpmbuild /usr/bin/mgs-build-rpm /usr/bin/mgs-build-rpm
 
-COPY --from=build-rpm /root/ /root/
+WORKDIR /root/rpmbuild
+ENTRYPOINT [ /usr/bin/mgs-build-rpm ]
 
-WORKDIR ${CS_RPM_BUILD_WORKDIR}
-ENTRYPOINT ["/sbin/cs-build-rpm"]
 
-## Amazon linux 2
+
+# --- Amazon linux 2 ---
 
 FROM amazonlinux:2 AS amazonlinux-2
 
-ARG CS_RPM_BUILD_WORKDIR
-ARG CS_RPM_BUILD_ENTRYPOINT
+RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && yum-config-manager --enable epel \
+    && yum -y --enablerepo=epel elfutils-libelf rpm rpm-libs rpm-python rpm-build gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate jemalloc pcre curl sed nano which yum-utils redhat-rpm-config \
+    && yum -y clean all
 
-ENV CS_RPM_BUILD_ROOT=${CS_RPM_BUILD_WORKDIR} \
-    CS_RPM_BUILD_SCRIPT=${CS_RPM_BUILD_ENTRYPOINT} \
-    CS_RPM_PACKAGES_DIR=${CS_RPM_BUILD_WORKDIR}/packages \
-    CS_RPM_COPR_MAKEFILE=${CS_RPM_BUILD_WORKDIR}/.copr/Makefile
+COPY --from=rpmbuild /usr/bin/mgs-build-rpm /usr/bin/mgs-build-rpm
 
-RUN yum -y makecache fast \
-    && yum -y update \
-    && gpg --import /etc/pki/rpm-gpg/* \
-    && yum -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build yum-utils \
-    gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate nano which \
-    && install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm && \
-    yum-config-manager --enable epel && yum -y install jemalloc pcre \
-    && yum -y install redhat-rpm-config \
-    && curl -s https://packagecloud.io/install/repositories/varnishcache/varnish60lts/script.rpm.sh | bash \
-    && yum -y --disablerepo=amzn-updates,amzn-main,epel install varnish varnish-devel \
-    && yum -y clean all \
-    && ln -s `which yum` /usr/bin/dnf
+WORKDIR /root/rpmbuild
+ENTRYPOINT [ /usr/bin/mgs-build-rpm ]
 
-COPY --from=build-rpm /root/ /root/
 
-WORKDIR ${CS_RPM_BUILD_WORKDIR}
-ENTRYPOINT ["/sbin/cs-build-rpm"]
+
+# --- Fedora 28 ---
+
+FROM fedora:28 AS fedora-28
+
+RUN dnf -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate jemalloc pcre curl sed nano which \
+    && dnf -y clean all
+
+COPY --from=rpmbuild /usr/bin/mgs-build-rpm /usr/bin/mgs-build-rpm
+
+WORKDIR /root/rpmbuild
+ENTRYPOINT [ /usr/bin/mgs-build-rpm ]
+
+
+
+# --- Fedora 31 ---
+
+FROM fedora:31 AS fedora-31
+
+RUN dnf -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build gcc-c++ git make autoconf automake m4 rpmdevtools gcc logrotate jemalloc pcre curl sed nano which \
+    && dnf -y clean all
+
+COPY --from=rpmbuild /usr/bin/mgs-build-rpm /usr/bin/mgs-build-rpm
+
+WORKDIR /root/rpmbuild
+ENTRYPOINT [ /usr/bin/mgs-build-rpm ]
+

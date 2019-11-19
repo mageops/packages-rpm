@@ -69,12 +69,12 @@ Currently supported OSes with tags:
 
 #### Run the docker image
 
-The entrypoint will automatically handle building the defined packages.
+The entrypoint script will automatically handle building the packages residing in the defined `packages/` subdirectories.
 
 **Note! Some packages may need to be built in specific order.**
 
 ```
-docker run --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 {package1_to_build} {package2_to_build} [...]
+docker run --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 {001-package-a-subdirectory} {001-package-b-subdirectory}  [...]
 ```
 
 _Tip: If the above command is ran with no arguments it will build default set of packages._

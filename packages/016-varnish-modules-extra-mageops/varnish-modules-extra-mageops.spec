@@ -1,5 +1,5 @@
-Summary: Official Varnish Modules Collection
-Name: varnish-modules-mageops
+Summary: Varnish Official Module Collection
+Name: varnish-modules-extra-mageops
 Version: 0.15.0
 Release: 1%{?dist}
 Requires: varnish >= 6.0
@@ -30,7 +30,7 @@ BuildRequires: python-docutils
 Official collection of varnish modules
 
 %prep
-%setup
+%setup -q -n varnish-modules-%{version}
 
 %build
 ./bootstrap

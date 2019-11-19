@@ -1,5 +1,5 @@
-Summary: Varnish Accept VMOD
-Name: libvmod-accept-mageops
+Summary: Varnish Accept Header Module
+Name: varnish-module-accept-mageops
 Version: 6.0
 Release: 1%{?dist}
 Requires: varnish >= 6.0
