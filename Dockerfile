@@ -53,7 +53,7 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
 COPY --from=rpmbuild /usr/bin/mgs-build-rpm /usr/bin/mgs-build-rpm
 
 WORKDIR /root/rpmbuild
-ENTRYPOINT [ /usr/bin/mgs-build-rpm ]
+ENTRYPOINT [ "/usr/bin/mgs-build-rpm" ]
 
 
 
@@ -68,7 +68,7 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.n
 COPY --from=rpmbuild /usr/bin/mgs-build-rpm /usr/bin/mgs-build-rpm
 
 WORKDIR /root/rpmbuild
-ENTRYPOINT [ /usr/bin/mgs-build-rpm ]
+ENTRYPOINT [ "/usr/bin/mgs-build-rpm" ]
 
 
 
@@ -84,7 +84,7 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.n
 COPY --from=rpmbuild /usr/bin/mgs-build-rpm /usr/bin/mgs-build-rpm
 
 WORKDIR /root/rpmbuild
-ENTRYPOINT [ /usr/bin/mgs-build-rpm ]
+ENTRYPOINT [ "/usr/bin/mgs-build-rpm" ]
 
 
 
@@ -99,7 +99,7 @@ RUN yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.n
 COPY --from=rpmbuild /usr/bin/mgs-build-rpm /usr/bin/mgs-build-rpm
 
 WORKDIR /root/rpmbuild
-ENTRYPOINT [ /usr/bin/mgs-build-rpm ]
+ENTRYPOINT [ "/usr/bin/mgs-build-rpm" ]
 
 
 
@@ -113,7 +113,7 @@ RUN dnf -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build gcc-c++ git
 COPY --from=rpmbuild /usr/bin/mgs-build-rpm /usr/bin/mgs-build-rpm
 
 WORKDIR /root/rpmbuild
-ENTRYPOINT [ /usr/bin/mgs-build-rpm ]
+ENTRYPOINT [ "/usr/bin/mgs-build-rpm" ]
 
 
 
@@ -127,5 +127,5 @@ RUN dnf -y install elfutils-libelf rpm rpm-libs rpm-python rpm-build gcc-c++ git
 COPY --from=rpmbuild /usr/bin/mgs-build-rpm /usr/bin/mgs-build-rpm
 
 WORKDIR /root/rpmbuild
-ENTRYPOINT [ /usr/bin/mgs-build-rpm ]
+ENTRYPOINT [ "/usr/bin/mgs-build-rpm" ]
 

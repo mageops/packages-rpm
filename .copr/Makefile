@@ -15,6 +15,9 @@ BUILD_DEPS = \
 .PHONY: prepare srpm rpm
 
 prepare:
+	# Run any package-specific setup hooks
+	find . -maxdepth 1 -type f -executable -name '*.copr-hook.*' -exec {} \;
+	
 	# Install build dependencies
 	dnf -y install $(BUILD_DEPS)
 	
@@ -29,9 +32,6 @@ prepare:
 
 	# Verify downloaded signatures against maintainer keys
 	find $(CURDIR) -type f -name '*.asc' -exec gpg --verbose --verify {} \;
-
-	# Run any package-specific setup hooks
-	find . -maxdepth 1 -type f -executable -name '*.copr-hook.*' -exec {} \;
 
 srpm: prepare
 	rpmbuild -bs --define '_sourcedir $(CURDIR)' --define '_specdir $(CURDIR)' --define '_srcrpmdir $(outdir)' $(spec) --target x86_64
