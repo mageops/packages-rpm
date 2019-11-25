@@ -23,7 +23,6 @@ BuildArch:      noarch
 BuildRequires:  python%{python3_pkgversion}
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-virtualenv
-BuildRequires:  python%{python3_pkgversion}-docutils
 
 Requires:       python%{python3_pkgversion} >= 3.6
 Requires:       groff
