@@ -17,12 +17,12 @@ script:
   - mkdir -p github-release 
   - cp -v buildtree/RPMS/**/*.rpm github-release
   - cd github-release; shasum *.rpm > shasum
-
+  
 deploy:
   provider: releases
   token: $GITHUB_OAUTH_TOKEN
   file_glob: true
   file: github-release/*
-  cleanup: false
+  skip_cleanup: true
   on:
     tags: true
