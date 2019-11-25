@@ -1,5 +1,5 @@
-sudo: required
-
+os: linux
+language: minimal
 services:
   - docker
 
@@ -7,23 +7,20 @@ before_install:
   - docker pull mageops/rpm-build:centos-7
 
 script:
-  - >
-    docker run 
-      --tty
-      --volume $(pwd):/root/rpmbuild 
-      mageops/rpm-build:centos-7
-      awscli
-      amazon-efs-utils
-      varnish-modules-extra
-      varnish-module-accept
+  - docker run --tty --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 \
+      awscli \
+      amazon-efs-utils \
+      varnish-modules-extra \
+      varnish-module-accept \
 
 deploy:
   provider: releases
-  api_key: $GITHUB_OAUTH_TOKEN
+  token: $GITHUB_OAUTH_TOKEN
   file_glob: true
   file: 
     - buildtree/RPMS/**/*.rpm
     - buildtree/SRPMS/*.src.rpm
+  cleanup: false
   skip_cleanup: true
   on:
     tags: true
