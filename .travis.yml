@@ -12,6 +12,7 @@ script:
       amazon-efs-utils \
       varnish-modules-extra \
       varnish-module-accept \
+      mageops-release
 
 deploy:
   provider: releases
