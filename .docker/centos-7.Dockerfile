@@ -28,6 +28,9 @@ RUN yum -y install \
         pygpgme \
         yum-utils \
         yum-builddep \
+        python3-devel \
+        python3-docutils \
+        python3-virtualenv \
     && yum -y clean all
 
 COPY / /
