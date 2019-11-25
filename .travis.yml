@@ -13,14 +13,14 @@ script:
       varnish-modules-extra \
       varnish-module-accept \
       mageops-release
-
+  - mkdir -p github-release 
+  - cp -v buildtree/RPMS/**/*.rpm github-release
+  - cd github-release; shasum *.rpm > shasum
 deploy:
   provider: releases
   token: $GITHUB_OAUTH_TOKEN
   file_glob: true
-  file: 
-    - buildtree/RPMS/**/*.rpm
-    - buildtree/SRPMS/*.src.rpm
+  file: github-release/*
   cleanup: false
   skip_cleanup: true
   on:

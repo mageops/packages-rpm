@@ -41,7 +41,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root,-)
-%doc GPL
 %config(noreplace) /etc/yum.repos.d/*
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
 
