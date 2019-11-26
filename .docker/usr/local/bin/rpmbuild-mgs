@@ -192,8 +192,8 @@ function mgs_create_repo() {
 
     find "$MGS_RPMBUILD_RPMDIR/noarch" -type f -iname '*-release-*.rpm' | while read R ; do 
         local N="$(basename "$R" | sed -e 's/\([-_a-z]\+\)-release-[0-9]\+-[0-9]\+\(.*\)\.noarch\.rpm$/\1-release\2.noarch.rpm/g')" 
-        log_msg "Renaming release $(basename "$R") -> $N"
-        log_cmd mv -v "$R" "$MGS_RPMBUILD_REPORELEASEDIR/$N"
+        log_msg "Copyign release $(basename "$R") -> $N"
+        log_cmd cp -v "$R" "$MGS_RPMBUILD_REPORELEASEDIR/$N"
     done
 
     log_msg "Creating repo metadata for $(log_label repository releases)"

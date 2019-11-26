@@ -38,7 +38,7 @@ yum-config-manager --enable epel
 ### Direct RPM release package installation (recommended)
 
 ```shell
-rpm -Uvh https://mageops.github.io/rpm/repo/el/7/x86_64/mageops-release-7-1.noarch.rpm
+rpm -Uvh https://mageops.github.io/rpm/repo/el/7/x86_64/mageops-release.noarch.rpm
 ```
 
 ### Manual configuration by curl download (advanced)
