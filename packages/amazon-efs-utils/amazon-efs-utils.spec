@@ -19,7 +19,7 @@ Requires:         nfs-utils
 Requires:         systemd
 Requires:         openssl >= 1.0.2
 Requires:         stunnel >= 4.56
-Requires:         python%{python2_pkgversion} >= 2.7
+Requires:         python >= 2.7
 
 %description
 This package provides utilities for simplifying the use of EFS file systems

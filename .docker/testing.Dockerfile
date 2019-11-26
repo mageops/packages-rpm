@@ -43,5 +43,4 @@ RUN echo " --- Install packages" >&2 \
     php \
     awscli \
     amazon-efs-utils \
-    elasticsearch \
     MariaDB-server
