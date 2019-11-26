@@ -10,7 +10,7 @@ set -x
 "$_CI_DIR/build-all"
 
 git add . -A
-git commit -m "Full auto rebuild at $(date) by $(whoami)@$(hostname)"
+git commit -m "Full auto rebuild at $(date) by $(whoami)@$(hostname) - bump version by $_VERSION_BUMP"
 
 curl -s https://raw.githubusercontent.com/tomologic/bump-semver/master/bump.sh | bash -s -- "$_VERSION_BUMP"
 
