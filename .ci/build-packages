@@ -11,6 +11,7 @@ _BUILD_PKGS="${_BUILD_PKGS:-\
     rabbitmq-release \
     nodejs-release \
     awscli \
+    aws-excfwd \
     amazon-efs-utils \
     varnish-modules-extra \
     varnish-module-accept
@@ -20,4 +21,4 @@ _DOCKER_TAG="${_DOCKER_TAG:-mageops/rpm-build:centos-7}"
 
 set -x
 
-docker run --name mgs-rpm-builder --tty --volume $(pwd):/root/rpmbuild --env MGS_RPM_GPG_KEY_PASSPHRASE="${MGS_RPM_GPG_KEY_PASSPHRASE}" "$_DOCKER_TAG" --sign --create-repo $_BUILD_PKGS
+docker run --rm --name mgs-rpm-builder --tty --volume $(pwd):/root/rpmbuild --env MGS_RPM_GPG_KEY_PASSPHRASE="${MGS_RPM_GPG_KEY_PASSPHRASE}" "$_DOCKER_TAG" --sign --create-repo $_BUILD_PKGS
