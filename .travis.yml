@@ -23,9 +23,9 @@ deploy:
     cleanup: false
     on:
       tags: true
-  - provider: pages:git
+  - provider: pages
     target_branch: gh-pages
-    keep_history: false
+    keep_history: true
     verbose: true
     token: $GITHUB_OAUTH_TOKEN
     local_dir: public/
@@ -33,4 +33,4 @@ deploy:
     skip_cleanup: true
     cleanup: false
     on:
-      tags: true
+      branch: master
