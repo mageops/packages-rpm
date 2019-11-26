@@ -14,28 +14,6 @@ freely reused in any environment.
 
 ## Install packages from MageOps repository
 
-### Enable using COPR plugin for yum
-
-```
-yum -y install yum-plugin-copr 
-yum -y copr enable pinkeen/MageOps
-```
-
-### Enable using COPR plugin for dnf
-
-Install dnf if you don't have it yet:
-
-```
-yum -y install epel-release
-yum -y install --enablerepo=epel dnf
-```
-
-And then use dnf to enable this repository:
-
-```
-dnf -y install dnf-plugins-core
-dnf -y copr enable pinkeen/MageOps
-```
 ### Manually 
 
 Place [this contents](https://copr.fedorainfracloud.org/coprs/pinkeen/MageOps/repo/epel-7/pinkeen-MageOps-epel-7.repo) 
@@ -47,6 +25,8 @@ yum -q makecache -y '--disablerepo=*' "--enablerepo=copr:copr.fedorainfracloud.o
 ```
 
 https://copr-be.cloud.fedoraproject.org/results/pinkeen/MageOps/
+
+
 ## Distribution Support
 
 Currently the packages are tested and working in CentOS 7 with EPEL.
@@ -60,11 +40,15 @@ At some point we'd also like to package *PHP* ourselves. As this is very complic
 we're relying on the battle-tested [Remi's RPM repository](https://rpms.remirepo.net/).
 
 
-## (Advanced) Building the packages
+## Package build 
 
-The packages are built automatically on [Fedora COPR](https://copr.fedorainfracloud.org/).
+### Transparency
 
-This is also [where the RPM repository is hosted](https://copr.fedorainfracloud.org/coprs/pinkeen/MageOps/).
+The packages are built automatically on [Travis](https://travis-ci.com/mageops/rpm).
+
+The repository is hosted at [GitHub Pages](https://mageops.github.io/rpm/).
+
+You can also find the build artifact in [GitHub Releases](https://github.com/mageops/rpm/releases).
 
 ### Build locally using docker
 
