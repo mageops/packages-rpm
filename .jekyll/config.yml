@@ -20,15 +20,14 @@ exclude:
   - "README.md"
   - "Rakefile"
 
-logo: "/assets/images/just-the-docs.png"
+logo: "assets/images/mageops_logo.svg"
+
 search_enabled: true
 search_tokenizer_separator: /[\s/]+/
-
 heading_anchors: true
-
 aux_links:
-  "MageOps RPM on GitHub":
-    - "//github.com/mageops/rpm"
+  "MageOps on GitHub":
+    - "//github.com/mageops"
 
 footer_content: "Copyright &copy; 2019 <a href=\"https://creativestyle.de\">creativestyle</a>"
 
@@ -46,3 +45,7 @@ compress_html:
   startings: []
   blanklines: false
   profile: false
+
+
+source: ../docs/
+destination: ../public/

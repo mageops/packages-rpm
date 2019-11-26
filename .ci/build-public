@@ -5,8 +5,11 @@ set -euo pipefail
 _PWD="$(pwd)"
 _PUB_DIR="${_PUB_DIR:-public}"
 _REPO_DIR="${_REPO_DIR:-repo}"
+_CI_DIR="$(dirname $0)"
 
 set -x
 
 mkdir -p "$_PUB_DIR/"
 cp -vr "$_REPO_DIR/" "$_PUB_DIR/"
+
+"$_CI_DIR/build-site"

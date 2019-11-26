@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -euo pipefail 
+
+_PWD="$(pwd)"
+_PUB_DIR="${_PUB_DIR:-public}"
+_REPO_DIR="${_REPO_DIR:-repo}"
+_DOCS_DIR="${_DOCS_DIR:-docs}"
+
+echo $_DOCS_DIR
+set -x
+
+mkdir -p "$_PUB_DIR/" "$_DOCS_DIR/"
+#cp -vr "$_REPO_DIR" "$_DOCS_DIR/"
+
+pushd ".jekyll"
+
+pwd
+
+export JEKYLL_ENV=production
+
+bundle
+# Not working on my mac right now /FS
+# bundle exec just-the-docs rake search:init
+bundle exec jekyll build --config config.yml
+
+# bundle exec jekyll serve --config config.yml
+
+popd
