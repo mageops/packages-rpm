@@ -69,7 +69,7 @@ function mgs_usage() {
 }
 
 function mgs_config_show() {
-    log_msg "Configuration: \n$(env | grep MGS_ | grep -v PASS | sed 's/MGS_/  /g' | sort)"
+    log_msg "Configuration: \n$(env | grep MGS_ | sed -e 's/^\([-_A-Z]\+PASS[-_A-Z]*\)=.*$/\1=*****/g' | sort)"
 }
 
 function mgs_setup() {

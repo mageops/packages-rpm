@@ -12,8 +12,9 @@ script:
   - mkdir -p github-release 
   - cp -v buildtree/RPMS/**/*.rpm github-release
   - cd github-release; shasum *.rpm > shasum
-  - mkdir -p github-pages/
-  - mv repo/ github-pages/
+  - find . -type d -maxdepth 2
+  - mkdir -p github-pages
+  - mv -v repo github-pages/
   
 deploy:
   - provider: releases
