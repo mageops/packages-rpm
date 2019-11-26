@@ -27,7 +27,7 @@ Varnish Cache Official RPM repository configuration for CentOS %{version}.
 %setup -q  -c -T
 
 # Script for downloading GPG keys
-# for rel in 6{0lts,0,1,2,3} ; do curl -s "https://packagecloud.io/varnishcache/varnish$rel/gpgkey" -o "RPM-GPG-KEY-VARNISH$(echo $rel | awk '{ print toupper($0) }')"; echo "Downloaded GPG key for $rel"; done
+# for rel in 6{0lts,0,1,2,3} ; do curl -Ls "https://packagecloud.io/varnishcache/varnish$rel/gpgkey" -o "RPM-GPG-KEY-VARNISH$(echo $rel | awk '{ print toupper($0) }')"; echo "Downloaded GPG key for $rel"; done
 
 %build
 
