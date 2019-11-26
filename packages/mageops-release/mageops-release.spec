@@ -10,7 +10,7 @@ Vendor:         creativestyle GmbH <https://creativestyle.de>
 Packager:       creativestyle GmbH <https://creativestyle.de>
 URL:            https://github.com/mageops/rpm
 
-Source0:        https://raw.githubusercontent.com/mageops/rpm/master/rpm-gpg-key.asc
+Source0:        https://raw.githubusercontent.com/mageops/rpm/master/rpm-gpg-key.pub.asc
 Source1:        mageops.repo
 
 BuildArch:      noarch

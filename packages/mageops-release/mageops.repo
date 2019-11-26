@@ -1,6 +1,6 @@
 [mageops]
 name=MageOps packages - $basearch
-baseurl=http://rpm.mageops.sh/repository/$releasever/$basearch
+baseurl=https://mageops.github.io/rpm/repo/el/$releasever/$basearch
 failovermethod=priority
 enabled=1
 gpgcheck=1

@@ -76,7 +76,7 @@ can use [Docker](https://docs.docker.com/install/).
 _You can skip this step - the image is also present at [MageOps Docker Hub Repo](https://hub.docker.com/r/mageops/rpm-build)._
 
 ```
- docker build .docker --file .docker/Dockerfile --tag mageops/rpm-build:centos-7
+docker build .docker --file .docker/Dockerfile --tag mageops/rpm-build:centos-7
 ```
 
 #### Run the docker image

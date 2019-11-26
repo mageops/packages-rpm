@@ -1,2 +1,6 @@
+/rpm-gpg-key.priv.asc
 /buildtree/
 /github-release/
+/repo/
+/.logs/
+/rpm-build.log

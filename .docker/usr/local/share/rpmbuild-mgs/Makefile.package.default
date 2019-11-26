@@ -4,6 +4,8 @@ basicdeps = \
 	rpm-libs \
 	rpm-python \
 	rpm-build \
+	rpm-sign \
+	createrepo \
 	rpmdevtools \
 	gcc \
 	gcc-c++ \

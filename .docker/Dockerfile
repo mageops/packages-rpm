@@ -9,7 +9,9 @@ RUN yum -y install \
         rpm-libs \
         rpm-python \
         rpm-build \
+        rpm-sign \
         rpmdevtools \
+        createrepo \
         elfutils-libelf \
         gcc \
         gcc-c++ \
@@ -24,6 +26,7 @@ RUN yum -y install \
         nano \
         which \
         file \
+        gnupg \
         epel-rpm-macros \
         pygpgme \
         yum-utils \
@@ -36,6 +39,18 @@ COPY / /
 
 RUN rpmbuild-mgs-repo-preinstall --enable \
     varnish60lts
+
+ENV MGS_OS_RELEASE="el" \
+    MGS_OS_RELEASEVER="7" \
+    MGS_WORKDIR="/root/rpmbuild" \
+    MGS_PACKAGES_DIR="/root/rpmbuild/packages" \
+    MGS_RPMBUILD_ROOTDIR="/root/rpmbuild/buildtree" \
+    MGS_RPMBUILD_REPODIR="/root/rpmbuild/repo" \
+    MGS_RPM_GPG_KEY_SEC="/root/rpmbuild/rpm-gpg-key.sec.asc" \
+    MGS_RPM_GPG_KEY_PUB="/root/rpmbuild/rpm-gpg-key.pub.asc" \
+    MGS_RPM_GPG_KEY_PASSPHRASE="" \
+    MGS_RPMBUILD_SIGN="no" \
+    MGS_RPMBUILD_CREATE_REPO="no"
 
 WORKDIR /root/rpmbuild
 ENTRYPOINT [ "/usr/local/bin/rpmbuild-mgs" ]

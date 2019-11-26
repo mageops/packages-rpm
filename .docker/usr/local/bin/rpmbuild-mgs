@@ -2,42 +2,230 @@
 
 set -euo pipefail
 
-export MGS_WORKDIR="${MGS_WORKDIR:-$(pwd)}"
-export MGS_MAKEFILE="${MGS_PKG_DIR:-$MGS_WORKDIR/.copr/Makefile}"
-export MGS_PACKAGES_DIR="${MGS_PKG_DIR:-$MGS_WORKDIR/packages}"
-export MGS_PACKAGE_DIRLIST="${@:-$(cd $MGS_PACKAGES_DIR; ls -d -- *)}"
+# --- parse basic switches ---
 
+if [ "$1" == "--debug" ] ; then
+    set -x
+    shift 1
+fi
+
+if [ "$1" == "--sign" ] ; then
+    export MGS_RPMBUILD_SIGN="yes"
+    shift 1
+fi
+
+if [ "$1" == "--create-repo" ] ; then
+    export MGS_RPMBUILD_CREATE_REPO="yes"
+    echo "will create repo"
+    shift 1
+fi
+
+export MGS_RPMBUILD_SELF="$0"
+
+# --- function library ---
+
+function log_label() { echo "\e[35m$@\e[0m"; }
+function log_timestamp() { echo -e "\e[33m[$(date '+%Y-%m-%d %H:%M:%S')]\e[0m" ; } 
+function log_text() { echo -e "$(log_timestamp) $@" | tee -a "$MGS_RPMBUILD_LOGFILE" ; } 
+
+function log_msg() { log_text "\e[34m*\e[0m $@"; } 
+function log_stage() { echo; log_text "\e[1;34m- \e[0m$@\e[1;34m -\e[0m" ; } 
+function log_cmd() { log_text "\e[34m$\e[0m \e[35m$@\e[0m "; command $@ 2>&1 | sed 's/^/ '$(echo -ne '\e[35m>\e[0m' )' /g' | tee -a "$MGS_RPMBUILD_LOGFILE" ; } 
+function log_success() { log_text "\e[34m!\e[0m \e[1;32m$@\e[0m"; } 
+
+function gpg_key_show() { gpg --with-colons "$1" 2>&1 ; } 
+function gpg_key_user() { gpg_key_show "$1" | awk -F: '/^(sec|pub):/{ print $10 }' ; } 
+function gpg_key_id() { gpg_key_show "$1" | awk -F: '/^(sec|pub):/ { print $5 }' ; } 
+
+function gpg_key_type() { 
+    (     
+        gpg_key_show "$1" 2>&1 | grep '^sec:' >/dev/null && echo "secret"
+        gpg_key_show "$1" | grep '^pub:' >/dev/null && echo "public"
+    )
+}
+
+function gpg_key_import() {
+    local _KEY="$1"
+
+    log_stage "Import GPG signing key $(log_label $_KEY)"
+
+    local _TYP="$(gpg_key_type "$_KEY")"
+    local _UID="$(gpg_key_user "$_KEY")"
+    local _KID="$(gpg_key_id "$_KEY")"
+
+    log_cmd gpg --import "$_KEY"
+
+    if [[ "$_TYP" == 'secret' ]] ; then
+        echo "%_gpg_name $_KID" >> $HOME/.rpmmacros
+    fi
+    
+    if [[ "$_TYP" == 'public' ]] ; then
+        log_cmd rpm --import "$_KEY"
+    fi
+}
+
+function mgs_usage() {
+    echo -e "\nUsage: \t$MGS_RPMBUILD_SELF [--sign] [--create-repo] <package-directory-name-1> <package-directory-name-2> <...>" >&2
+}
+
+function mgs_config_show() {
+    log_msg "Configuration: \n$(env | grep MGS_ | grep -v PASS | sed 's/MGS_/  /g' | sort)"
+}
+
+function mgs_setup() {
+    log_cmd rpmbuild-mgs-dnf-shim-setup
+
+    log_msg "Configure $(log_label '%_topdir') rpm macro"
+    echo "%_topdir $MGS_RPMBUILD_ROOTDIR" >> $HOME/.rpmmacros
+
+    log_stage "Starting $(log_label `realpath "$0"`) in $(log_label $MGS_WORKDIR)"
+
+    mgs_config_show
+}
+
+function mgs_import_signing_keys() {
+    gpg_key_import "$MGS_RPM_GPG_KEY_SEC"
+    gpg_key_import "$MGS_RPM_GPG_KEY_PUB"
+}
+
+function mgs_build_package_dir() {
+    _PACKAGE_DIRNAME="$1"
+    _PACKAGE_DIR="$MGS_PACKAGES_DIR/$_PACKAGE_DIRNAME"
+
+    log_stage "Process package dir $(log_label $_PACKAGE_DIR)"
+
+    _PACKAGE_SOURCESDIR="$MGS_RPMBUILD_SOURCESDIR/$_PACKAGE_DIRNAME"
+    _PACKAGE="$(echo $_PACKAGE_DIRNAME | sed 's/^[-0-9_.]\+//')"
+    _SPECFILE="$_PACKAGE.spec"
+
+    log_msg "Syncing sources $(log_label $_PACKAGE) -> $(log_label $_PACKAGE_SOURCESDIR)"
+
+    log_cmd mkdir -p "$_PACKAGE_SOURCESDIR"
+    log_cmd rsync -avz "$_PACKAGE_DIR/" "$_PACKAGE_SOURCESDIR/"
+
+    log_stage "Build $(log_label $_PACKAGE) in $(log_label $_PACKAGE_DIR) using $(log_label $_SPECFILE)"
+
+    log_cmd make --debug --directory "$_PACKAGE_DIR" --makefile "$MGS_MAKEFILE" "spec=$_SPECFILE" "outdir=$MGS_RPMBUILD_SRPMDIR" "sourcesdir=$_PACKAGE_SOURCESDIR" srpm
+    log_cmd make --debug --directory "$_PACKAGE_DIR" --makefile "$MGS_MAKEFILE" "spec=$_SPECFILE" "outdir=$MGS_RPMBUILD_RPMDIR" "sourcesdir=$_PACKAGE_SOURCESDIR" rpm
+
+    log_success "Package $_PACKAGE built succesfully"
+}
+
+function mgs_build_package_dirs() {
+    for _PACKAGE_DIRNAME in $MGS_PACKAGE_DIRLIST ; do
+        mgs_build_package_dir "$_PACKAGE_DIRNAME"
+    done
+
+    log_success "All packages built succesfully"
+}
+
+function mgs_sign_package() {
+    local _PKG="$1"
+
+    log_msg "Signing $(log_label $_PKG)"
+    echo "$MGS_RPM_GPG_KEY_PASSPHRASE" | setsid rpm --addsign -v "$_PKG"
+}
+
+function mgs_sign_packages() {
+    log_stage "Sign source RPMs"
+
+    find "$MGS_RPMBUILD_SRPMDIR" -type f -iname '*.src.rpm' | while read _PKG ; do
+        mgs_sign_package "$_PKG"
+    done
+
+    log_stage "Sign RPMs"
+
+    find "$MGS_RPMBUILD_RPMDIR" -type f -iname '*.rpm' | while read _PKG ; do
+        mgs_sign_package "$_PKG"
+    done
+
+    log_success "All packages signed successfully"
+}
+
+function mgs_create_repo() {
+    log_stage "Create repository in $(log_label $MGS_RPMBUILD_REPODIR)"
+
+    mkdir -p "$MGS_RPMBUILD_REPODIR/SRPMS"
+
+    cp -v "$MGS_RPM_GPG_KEY_PUB" "$MGS_RPMBUILD_REPODIR/REPO-GPG-KEY"
+
+    log_msg "Syncing SRPMS to repo -> $(log_label $MGS_RPMBUILD_REPODIR/SRPMS/)"
+    log_cmd rsync -avz "$MGS_RPMBUILD_SRPMDIR/" "$MGS_RPMBUILD_REPODIR/SRPMS/"
+
+    log_msg "Syncing RPMS to repo -> $(log_label $MGS_RPMBUILD_REPODIR)"
+    log_cmd rsync -avz "$MGS_RPMBUILD_RPMDIR/" "$MGS_RPMBUILD_REPODIR/"
+
+    ls -d "$MGS_RPMBUILD_REPODIR/"*/ | while read _ARCHDIR ; do
+        log_msg "Creating repo for $(log_label `dirname $_ARCHDIR`)"
+
+        pushd "$_ARCHDIR"
+
+        log_cmd createrepo .
+        log_success "Created repository metadata in $(pwd)"
+
+        popd 
+    done
+
+    log_success "Repository generated successfully"
+}
+
+# --- init config ---
+
+export MGS_WORKDIR="${MGS_WORKDIR:-$(pwd)}"
+export MGS_MAKEFILE="${MGS_MAKEFILE:-/usr/local/share/rpmbuild-mgs/Makefile.package.default}"
+export MGS_RPM_GPG_KEY_SEC="${MGS_RPM_GPG_KEY_SEC:-$MGS_WORKDIR/rpm-gpg-key.sec.asc}"
+export MGS_RPM_GPG_KEY_PUB="${MGS_RPM_GPG_KEY_PUB:-$MGS_WORKDIR/rpm-gpg-key.pub.asc}"
+export MGS_RPM_GPG_KEY_PASSPHRASE="${MGS_RPM_GPG_KEY_PASSPHRASE:-}"
+export MGS_PACKAGES_DIR="${MGS_PKG_DIR:-$MGS_WORKDIR/packages}"
+export MGS_PACKAGE_DIRLIST="${@:-$(cd $MGS_PACKAGES_DIR; ls -d */)}"
+
+export MGS_OS_RELEASE="${MGS_OS_RELEASE:-el}"
+export MGS_OS_RELEASEVER="${MGS_OS_RELEASEVER:-7}"
+
+export MGS_RPMBUILD_SIGN="${MGS_RPMBUILD_SIGN:-no}"
+export MGS_RPMBUILD_CREATE_REPO="${MGS_RPMBUILD_CREATE_REPO:-no}"
 export MGS_RPMBUILD_ROOTDIR="${MGS_RPMBUILD_ROOTDIR:-$MGS_WORKDIR/buildtree}"
+export MGS_RPMBUILD_REPODIR="${MGS_RPMBUILD_REPODIR:-$MGS_WORKDIR/repo}"
+export MGS_RPMBUILD_REPORELEASEDIR="${MGS_RPMBUILD_REPORELEASEDIR:-$MGS_RPMBUILD_REPODIR/$MGS_OS_RELEASE/$MGS_OS_RELEASEVER}"
+export MGS_RPMBUILD_LOGFILE="${MGS_RPMBUILD_LOGFILE:-$MGS_WORKDIR/.logs/rpm-build-$(date '+%Y-%m-%d-%H-%M-%S').log}"
 export MGS_RPMBUILD_RPMDIR="${MGS_RPMBUILD_RPMDIR:-$MGS_RPMBUILD_ROOTDIR/RPMS}"
 export MGS_RPMBUILD_SRPMDIR="${MGS_RPMBUILD_SRPMDIR:-$MGS_RPMBUILD_ROOTDIR/SRPMS}"
 export MGS_RPMBUILD_SOURCESDIR="${MGS_RPMBUILD_SOURCESDIR:-$MGS_RPMBUILD_ROOTDIR/SOURCES}"
 
-rpmbuild-mgs-dnf-shim-setup
-echo "%_topdir $MGS_RPMBUILD_ROOTDIR" >> $HOME/.rpmmacros
+# --- main ---
 
-mkdir -p "$MGS_RPMBUILD_RPMDIR" "$MGS_RPMBUILD_SRPMDIR" "$MGS_RPMBUILD_SOURCESDIR"
+if [ "$1" == "--help" ] ; then
+    mgs_usage
+    exit 0
+fi
 
-echo -e "\n --- Running $(realpath "$0") in $MGS_WORKDIR ---\n"
+if [ "$1" == "--shell" ] ; then
+    shift 1
 
-env | grep MGS_ | sed 's/MGS_/  /g' | sort
+    mgs_config_show
+    export PS1="[rpmbuild-mgs] $PS1"
 
-for _PACKAGE_DIRNAME in $MGS_PACKAGE_DIRLIST ; do
-    _PACKAGE_DIR="$MGS_PACKAGES_DIR/$_PACKAGE_DIRNAME/"
-    _PACKAGE_SOURCESDIR="$MGS_RPMBUILD_SOURCESDIR/$_PACKAGE_DIRNAME/"
-    _PACKAGE="$(echo $_PACKAGE_DIRNAME | sed 's/^[-0-9_.]\+//')"
-    _SPECFILE="$_PACKAGE.spec"
+    /usr/bin/env bash $@
+    exit 0
+fi
 
-    echo -e "\n --- Copy $_PACKAGE sources to $_PACKAGE_SOURCESDIR ---\n"
+if [[ -z "MGS_PACKAGE_DIRLIST" ]] ; then
+    echo "No packages to build" >&2
+    mgs_usage
+    exit 1
+fi
 
-    mkdir -p "$_PACKAGE_SOURCESDIR"
-    rsync -avz "$_PACKAGE_DIR/" "$_PACKAGE_SOURCESDIR/"
+mkdir -p "$MGS_RPMBUILD_RPMDIR" "$MGS_RPMBUILD_SRPMDIR" "$MGS_RPMBUILD_SOURCESDIR" "$(dirname "$MGS_RPMBUILD_LOGFILE")"
+touch "$MGS_RPMBUILD_LOGFILE"
 
-    echo -e "\n --- Building $_PACKAGE in $_PACKAGE_DIR using $_SPECFILE ---\n"
+mgs_setup
 
-    make --debug --directory "$_PACKAGE_DIR" --makefile "$MGS_MAKEFILE" "spec=$_SPECFILE" "outdir=$MGS_RPMBUILD_SRPMDIR" "sourcesdir=$_PACKAGE_SOURCESDIR" srpm
-    make --debug --directory "$_PACKAGE_DIR" --makefile "$MGS_MAKEFILE" "spec=$_SPECFILE" "outdir=$MGS_RPMBUILD_RPMDIR" "sourcesdir=$_PACKAGE_SOURCESDIR" rpm
+if [ "$MGS_RPMBUILD_SIGN" == "yes" ] ; then mgs_import_signing_keys; fi
 
-    echo -e "\n --- Package $_PACKAGE built succesfully ---\n"
-done
+log_cmd cat $HOME/.rpmmacros
 
-echo -e "\n --- All packages built succesfully at $(date '+%Y-%m-%d %H:%M:%S') ---\n"
+mgs_build_package_dirs
+
+if [ "$MGS_RPMBUILD_SIGN" == "yes" ] ; then mgs_sign_packages; fi
+if [ "$MGS_RPMBUILD_CREATE_REPO" == "yes" ] ; then mgs_create_repo; fi
+

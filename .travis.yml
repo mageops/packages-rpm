@@ -9,6 +9,8 @@ before_install:
 
 script:
   - docker run --tty --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 \
+      --sign \
+      --create-repo \
       awscli \
       amazon-efs-utils \
       varnish-modules-extra \
@@ -17,12 +19,26 @@ script:
   - mkdir -p github-release 
   - cp -v buildtree/RPMS/**/*.rpm github-release
   - cd github-release; shasum *.rpm > shasum
+  - mkdir -p github-pages/
+  - mv repo/ github-pages/
   
 deploy:
-  provider: releases
-  token: $GITHUB_OAUTH_TOKEN
-  file_glob: true
-  file: github-release/*
-  skip_cleanup: true
-  on:
-    tags: true
+  - provider: releases
+    token: $GITHUB_OAUTH_TOKEN
+    file_glob: true
+    file: github-release/*
+    skip_cleanup: true
+    cleanup: false
+    on:
+      tags: true
+  - provider: pages:git
+    target_branch: gh-pages
+    keep_history: false
+    verbose: true
+    token: $GITHUB_OAUTH_TOKEN
+    local_dir: github-pages/
+    edge: true
+    skip_cleanup: true
+    cleanup: false
+    on:
+      tags: true
