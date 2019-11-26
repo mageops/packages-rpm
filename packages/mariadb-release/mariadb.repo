@@ -1,0 +1,31 @@
+[mariadb104]
+name=MariaDB 10.4 Official Repository
+baseurl=http://yum.mariadb.org/10.4/centos7-amd64
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MARIADB
+gpgcheck=1
+repo_gpgcheck=1
+enabled=1
+
+[mariadb103]
+name=MariaDB 10.3 Official Repository
+baseurl=http://yum.mariadb.org/10.3/centos7-amd64
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MARIADB
+gpgcheck=1
+repo_gpgcheck=1
+enabled=0
+
+[mariadb102]
+name=MariaDB 10.2 Official Repository
+baseurl=http://yum.mariadb.org/10.2/centos7-amd64
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MARIADB
+gpgcheck=1
+repo_gpgcheck=1
+enabled=0
+
+[mariadb101]
+name=MariaDB 10.1 Official Repository
+baseurl=http://yum.mariadb.org/10.1/centos7-amd64
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MARIADB
+gpgcheck=1
+repo_gpgcheck=1
+enabled=0

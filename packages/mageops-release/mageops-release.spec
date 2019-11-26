@@ -44,8 +44,5 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
 
 %changelog
-* Tue Nov 26 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-2
-- Update GPG key
-
 * Mon Nov 25 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-1
 - Initial version 
