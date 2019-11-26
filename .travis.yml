@@ -5,18 +5,24 @@ services:
   - docker
 
 before_install:
-  - docker pull mageops/rpm-build:centos-7
+  - .ci/pull-docker
+
+env:
+  - _DOCKER_TAG=mageops/rpm-build:centos-7
+  - _PUB_DIR=public
+  - _RELEASE_DIR=release
+  - _REPO_DIR=repo
 
 script:
-  - docker run --tty --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 --sign --create-repo awscli amazon-efs-utils varnish-modules-extra varnish-module-accept mageops-release
-  - mkdir -p github-release; cp -v buildtree/RPMS/**/*.rpm github-release/; shasum github-release/*.rpm > github-release/shasum
-  - mkdir -p github-pages; cp -vr repo/ github-pages/
+  - .ci/build-packages
+  - .ci/build-release
+  - .ci/build-public
   
 deploy:
   - provider: releases
     token: $GITHUB_OAUTH_TOKEN
     file_glob: true
-    file: github-release/*
+    file: $_RELEASE_DIR/*
     skip_cleanup: true
     cleanup: false
     on:
@@ -26,7 +32,7 @@ deploy:
     keep_history: false
     verbose: true
     token: $GITHUB_OAUTH_TOKEN
-    local_dir: github-pages/
+    local_dir: $_PUB_DIR
     edge: true
     skip_cleanup: true
     cleanup: false

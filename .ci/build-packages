@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -euo pipefail 
+
+_BUILD_PKGS="${_BUILD_PKGS:-\
+    awscli \
+    amazon-efs-utils \
+    varnish-modules-extra \
+    varnish-module-accept \
+    mageops-release \
+}"
+
+_DOCKER_TAG="${_DOCKER_TAG:-mageops/rpm-build:centos-7}"
+
+set -x
+
+docker run --tty --volume $(pwd):/root/rpmbuild "$_DOCKER_TAG" --sign --create-repo $_BUILD_PKGS

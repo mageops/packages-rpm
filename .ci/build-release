@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -euo pipefail 
+
+_PWD="$(pwd)"
+_RELEASE_DIR="${_RELEASE_DIR:-release}"
+_BUILDTREE_DIR="${_BUILDTREE_DIR:-buildtree}"
+
+set -x
+
+mkdir -p "$_RELEASE_DIR"
+cp -v "$_BUILDTREE_DIR"/RPMS/**/*.rpm "$_RELEASE_DIR"
+cp -v "$_BUILDTREE_DIR"/SRPMS/*.src.rpm "$_RELEASE_DIR"
+
+cd "$_RELEASE_DIR"
+shasum *.rpm > "$(basename "$_RELEASE_DIR").shasum"
+cd "$_PWD"

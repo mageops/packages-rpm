@@ -77,6 +77,8 @@ docker run --interactive --tty --entrypoint /bin/bash -v $(pwd):/root/rpmbuild m
 
 ## Notes
 
+**I know I have commited secret GPG key, will generate new pair and rebuild from scratch :P**
+
 ```
 docker build .docker --file .docker/Dockerfile --tag mageops/rpm-build:centos-7 && docker run --tty --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 --sign --create-repo && docker push mageops/rpm-build:centos-7
 ```

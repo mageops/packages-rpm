@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -euo pipefail 
+
+_CI_DIR="$(dirname $0)"
+
+set -x
+
+"$_CI_DIR/build-docker"
+"$_CI_DIR/build-packages"
+"$_CI_DIR/build-release"
+"$_CI_DIR/build-public"
+"$_CI_DIR/push-docker"
+

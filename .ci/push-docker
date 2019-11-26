@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -euo pipefail 
+
+_DOCKER_TAG="${_DOCKER_TAG:-mageops/rpm-build:centos-7}"
+
+set -x
+
+docker push "$_DOCKER_TAG"

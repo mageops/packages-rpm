@@ -2,5 +2,6 @@
 /rpm-build.log
 /buildtree/
 /repo/
-/github-release/
+/release/
+/public/
 /.logs/

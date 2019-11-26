@@ -145,7 +145,8 @@ function mgs_sign_packages() {
 function mgs_create_repo() {
     log_stage "Create repository in $(log_label $MGS_RPMBUILD_REPORELEASEDIR)"
 
-    cp -v "$MGS_RPM_GPG_KEY_PUB" "$MGS_RPMBUILD_REPORELEASEDIR/REPO-GPG-KEY"
+    log_cmd mkdir -p "$MGS_RPMBUILD_REPORELEASEDIR"
+    log_cmd cp -v "$MGS_RPM_GPG_KEY_PUB" "$MGS_RPMBUILD_REPORELEASEDIR/REPO-GPG-KEY"
 
     local _ARCHS="$MGS_OS_ARCHS"
     local _NOARCHPKGDIR="$MGS_RPMBUILD_RPMDIR/noarch"
@@ -155,6 +156,8 @@ function mgs_create_repo() {
         local _ARCH_DST_DIR="$MGS_RPMBUILD_REPORELEASEDIR/$_ARCH"
 
         log_msg "Syncing $(log_label $_ARCH) RPMS -> $(log_label $_ARCH_DST_DIR)"
+
+        log_cmd mkdir -p "$_ARCH_SRC_DIR" "$_ARCH_DST_DIR"
         log_cmd rsync -avz "$_ARCH_SRC_DIR/" "$_ARCH_DST_DIR/"
         
         if [[ -d "$_NOARCHPKGDIR" ]] ; then

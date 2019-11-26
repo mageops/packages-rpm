@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -euo pipefail 
+
+_CI_DIR="$(dirname $0)"
+_VERSION_BUMP="${1:-patch}"
+
+set -x
+
+"$_CI_DIR/build-all"
+
+git add . -A
+git commit -m "Full auto rebuild at $(date) by $(whoami)@$(hostname)"
+
+curl -s https://raw.githubusercontent.com/tomologic/bump-semver/master/bump.sh | bash -s -- "$_VERSION_BUMP"
+
+git push --tags
+git push
+
