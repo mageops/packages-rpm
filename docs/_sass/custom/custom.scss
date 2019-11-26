@@ -1,6 +1,7 @@
-$body-font-family: "Ubuntu", -apple-system, BlinkMacSystemFont, "helvetica neue", helvetica, roboto, noto, "segoe ui", arial, sans-serif;
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,500,500i,700,700i&display=swap');
 
-//$mono-font-family: "SFMono-Regular", Menlo, Consolas, Monospace;
+$body-font-family: "Ubuntu", -apple-system, BlinkMacSystemFont, "helvetica neue", helvetica, roboto, noto, "segoe ui", arial, sans-serif;
+$mono-font-family: "SFMono-Regular", Menlo, Consolas, Monospace;
 //$root-font-size: 16px;         // Base font-size for rems
 //$body-line-height: 1.4;
 //$content-line-height: 1.5;
@@ -49,25 +50,51 @@ $red-200: #e94c4c;
 $red-300: #dd2e2e;
 
 $mageops-blue: #4169FA;
-$mageops-cyan-100: #47DFC3;
-$mageops-cyan-200: #1fc1a4;
-$mageops-cyan-300: #26bfa3;
+$mageops-blue-000: $mageops-blue;
+$mageops-blue-100: darken(desaturate($mageops-blue-000, 3%), 3%);
+$mageops-blue-200: darken(desaturate($mageops-blue-100, 3%), 3%);
+$mageops-blue-300: darken(desaturate($mageops-blue-200, 3%), 3%);
+$mageops-blue-400: darken(desaturate($mageops-blue-300, 3%), 3%);
+$mageops-blue-500: darken(desaturate($mageops-blue-400, 3%), 3%);
+$mageops-blue-600: darken(desaturate($mageops-blue-500, 3%), 3%);
+$mageops-blue-700: darken(desaturate($mageops-blue-600, 3%), 3%);
+$mageops-blue-800: darken(desaturate($mageops-blue-700, 3%), 3%);
+
+$mageops-cyan: #47DFC3;
+$mageops-cyan-000: $mageops-cyan;
+$mageops-cyan-100: darken(desaturate($mageops-cyan-000, 3%), 1%);
+$mageops-cyan-200: darken(desaturate($mageops-cyan-100, 2%), 3%);
+$mageops-cyan-300: darken(desaturate($mageops-cyan-200, 4%), 4%);
+
 $magesuite-orange: #ED6633;
+
 $magesuite-blue: #114399;
-$magesuite-blue-600: #eff3fa;
-$magesuite-blue-800: #f5f7fc;
+
+$magesuite-lt-blue-000: #f5f7fc;
+$magesuite-lt-blue-100: #eff3fa;
 
 $body-background-color: $white;
 $search-background-color: $white;
 $table-background-color: $white;
 
-$sidebar-color: $magesuite-blue-800;
-$code-background-color: $magesuite-blue-800;
+$sidebar-color: $magesuite-lt-blue-000;
+$code-background-color: $magesuite-lt-blue-000;
 
 $body-text-color: $grey-dk-100;
 $body-heading-color: $grey-dk-300;
 $search-result-preview-color: $grey-dk-000;
 $nav-child-link-color: $grey-dk-100;
-$link-color: $mageops-cyan-200;
+$link-color: $mageops-cyan-300;
 $btn-primary-color: $mageops-cyan-300;
 $base-button-color: #f7f7f7;
+
+.text-mageops-blue { color: $mageops-blue-300; }
+.text-mageops-cyan { color: $mageops-cyan-300; }
+
+.navigation-list-link.active {
+    color: $mageops-blue-400 !important;
+}
+
+code.highlighter-rouge {
+    color: $mageops-blue-800;
+}

@@ -13,7 +13,7 @@ and build automation.
 
 {: .fs-6 .fw-300 }
 
-[Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View it on GitHub](https://github.com/mageops/rpm){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Use it now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View project on GitHub](https://github.com/mageops/rpm){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
@@ -21,9 +21,11 @@ and build automation.
 
 ### Compatibility
 
-This repository works in **CentOS/RHEL 7** withe **EPEL** installed.
+This repository works in **CentOS/RHEL 7** and requires **EPEL** to be installed and enabled.
 
-Certain packages may require other repositories.
+{: .text-grey-dk-000 }
+Certain packages may require other repositories, the extra dependecies will be listed in
+their description on this site.
 
 ### Install EPEL (required)
 
@@ -65,29 +67,5 @@ rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
 yum makecache --disablerepo="*" --enablerepo="mageops"
 ```
 
-### Install Varnish Official Repository (optional)
-
-If you intend to use any varnish-related packages from MageOps repository
-you should have Varnish 6.0 LTS - the most convenient way to make it avaialble
-is to install the [Official Varnish Cache Repositories](https://packagecloud.io/varnishcache) 
-we have [packaged](https://mageops.github.io/rpm/repo/el/7/varnish-release.noarch.rpm).
-
-This will automatically enable the correct repository for the currently supported latest LTS version.
-
-```bash
-yum -y install varnish-release
-yum -y install varnish
-```
 
 
-<!-- ### Manual configuration by pasting contents (advanced)
-
-1. Place into `/etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS` file
-```
-{% include src/rpm-gpg-key.pub.asc %}
-```
-
-2. Paste into `/etc/yum.repos.d/mageops.repo` file
-```ini
-{% include src/packages/mageops-release/mageops.repo %}
-``` -->

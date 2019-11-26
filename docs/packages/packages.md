@@ -6,12 +6,14 @@ nav_order: 2
 has_children: true
 ---
 
-# Packages available in the repository
+# Available packages grouped by theme
 
-The package descriptions are grouped together for
-software that is connected together.
+The package descriptions are grouped together so you 
+can easily find anything that you're interested in.
 {: .fs-6 .fw-300 }
 
-## View all of the repository files
+### Browse the raw repository (alternatively)
 
-You can browse the whole repository file structure at [github `gh-pages` branch](https://github.com/mageops/rpm/tree/gh-pages/repo/el/7) via its web UI.
+Some packages are not documented so it might be useful
+to discover new ones by browsing the whole repository file structure at 
+[GitHub Pages branch](https://github.com/mageops/rpm/tree/gh-pages/repo/el/7).

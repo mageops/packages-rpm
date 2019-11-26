@@ -1,7 +1,9 @@
 ---
 layout: default
-title: AWS Packages
+title: AWS Tools
 permalink: /packages/aws
 parent: Packages
-nav_order: 1
+nav_order: 2
 ---
+
+# Various tools for Amazon AWS
