@@ -13,7 +13,14 @@ _BUILD_PKGS="${_BUILD_PKGS:-\
 }"
 
 _DOCKER_TAG="${_DOCKER_TAG:-mageops/rpm-build:centos-7}"
+_BUILDTREE_DIR="${_BUILDTREE_DIR:-buildtree}"
+_NOARCH_RPM_DIR="$_BUILDTREE_DIR/RPMS/noarch"
 
 set -x
+
+# Fetch external packages that we will just rebundle
+
+mkdir -p "$_NOARCH_RPM_DIR"
+curl -Ls "https://rpms.remirepo.net/enterprise/remi-release-7.rpm" -o "$_NOARCH_RPM_DIR/remi-release-7.noarch.rpm"
 
 docker run --tty --volume $(pwd):/root/rpmbuild --env MGS_RPM_GPG_KEY_PASSPHRASE="${MGS_RPM_GPG_KEY_PASSPHRASE}" "$_DOCKER_TAG" --sign --create-repo $_BUILD_PKGS
