@@ -13,7 +13,17 @@ configuration files manually all you have to do is to install
 a single package.
 {: .fs-6 .fw-300 }
 
-## Available repository release packages
+### Install all repositories at once
+
+```bash
+yum -y install mariadb-release nginx-release nodejs-release rabbitmq-release varnish-release elasticsearch-release remi-release
+rpm --import /etc/pki/rpm-gpg/* 
+yum -y makecache fast
+```
+
+
+
+### Available repository release packages
 
 - `mageops-release` - _this repository_
 - `mariadb-release` - _official MariaDB Repository_

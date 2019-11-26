@@ -13,7 +13,9 @@ RUN yum -y update \
         epel-release
 
 RUN echo " --- Install mageops release directly from remote RPM URL" >&2 \
-    && rpm -Uvh https://mageops.github.io/rpm/repo/el/7/mageops-release.noarch.rpm
+    && rpm -Uvh https://mageops.github.io/rpm/repo/el/7/mageops-release.noarch.rpm \
+    && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS \
+    && yum -t makecache --disablerepo="*" --enablerepo="mageops"
 
 RUN echo " --- Install mariadb-release" >&2 \
     && yum -y install mariadb-release
@@ -33,6 +35,10 @@ RUN echo " --- Install remi-release" >&2 \
 RUN echo " --- Install varnish-release" >&2 \
     && yum -y install varnish-release
 
+RUN echo " --- Import GPG keys and make repo cache" >&2 \
+    && rpm --import /etc/pki/rpm-gpg/* \
+    && yum -y makecache
+
 RUN echo " --- Install packages" >&2 \
     && yum -y install \
     varnish-modules-extra \
@@ -42,5 +48,4 @@ RUN echo " --- Install packages" >&2 \
     nginx \
     php \
     awscli \
-    amazon-efs-utils \
     MariaDB-server
