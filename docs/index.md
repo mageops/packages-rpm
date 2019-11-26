@@ -38,7 +38,7 @@ yum-config-manager --enable epel
 ### Direct RPM release package installation (recommended)
 
 ```shell
-rpm -Uvh https://mageops.github.io/rpm/repo/el/7/x86_64/mageops-release.noarch.rpm
+rpm -Uvh https://mageops.github.io/rpm/repo/el/7/mageops-release.noarch.rpm
 ```
 
 ### Manual configuration by curl download (advanced)
@@ -64,6 +64,21 @@ rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
 ```bash
 yum makecache --disablerepo="*" --enablerepo="mageops"
 ```
+
+### Install Varnish Official Repository (optional)
+
+If you intend to use any varnish-related packages from MageOps repository
+you should have Varnish 6.0 LTS - the most convenient way to make it avaialble
+is to install the [Official Varnish Cache Repositories](https://packagecloud.io/varnishcache) 
+we have [packaged](https://mageops.github.io/rpm/repo/el/7/varnish-release.noarch.rpm).
+
+This will automatically enable the correct repository for the currently supported latest LTS version.
+
+```bash
+yum -y install varnish-release
+yum -y install varnish
+```
+
 
 <!-- ### Manual configuration by pasting contents (advanced)
 
