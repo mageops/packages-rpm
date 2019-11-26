@@ -8,14 +8,7 @@ before_install:
   - docker pull mageops/rpm-build:centos-7
 
 script:
-  - docker run --tty --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 \
-      --sign \
-      --create-repo \
-      awscli \
-      amazon-efs-utils \
-      varnish-modules-extra \
-      varnish-module-accept \
-      mageops-release
+  - docker run --tty --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 --sign --create-repo awscli amazon-efs-utils varnish-modules-extra varnish-module-accept mageops-release
   - mkdir -p github-release 
   - cp -v buildtree/RPMS/**/*.rpm github-release
   - cd github-release; shasum *.rpm > shasum
