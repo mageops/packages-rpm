@@ -21,6 +21,13 @@ freely reused in any environment.
 </p>
 
 
+## TODO
+
+- Separate travis build stages for docker, packages, repository and jekyll site
+- Build dockerfile in travis?
+- Also push docker image to GitHub docker repo?
+- Add other packages...
+
 ## Notes
 
 **I know I have commited secret GPG key, will generate new pair and rebuild from scratch :P**
