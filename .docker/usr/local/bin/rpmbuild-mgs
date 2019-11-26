@@ -89,14 +89,14 @@ function mgs_import_signing_keys() {
 }
 
 function mgs_build_package_dir() {
-    _PACKAGE_DIRNAME="$1"
-    _PACKAGE_DIR="$MGS_PACKAGES_DIR/$_PACKAGE_DIRNAME"
+    local _PACKAGE_DIRNAME="$1"
+    local _PACKAGE_DIR="$MGS_PACKAGES_DIR/$_PACKAGE_DIRNAME"
 
-    log_stage "Process package dir $(log_label $_PACKAGE_DIR)"
+    log_stage "Process package dir $(log_label $_PACKAGE_DIRNAME)"
 
-    _PACKAGE_SOURCESDIR="$MGS_RPMBUILD_SOURCESDIR/$_PACKAGE_DIRNAME"
-    _PACKAGE="$(echo $_PACKAGE_DIRNAME | sed 's/^[-0-9_.]\+//')"
-    _SPECFILE="$_PACKAGE.spec"
+    local _PACKAGE_SOURCESDIR="$MGS_RPMBUILD_SOURCESDIR/$_PACKAGE_DIRNAME"
+    local _PACKAGE="$(echo $_PACKAGE_DIRNAME | sed -e 's/^[-0-9_.]\+//')"
+    local _SPECFILE="$_PACKAGE.spec"
 
     log_msg "Syncing sources $(log_label $_PACKAGE) -> $(log_label $_PACKAGE_SOURCESDIR)"
 
@@ -113,7 +113,7 @@ function mgs_build_package_dir() {
 
 function mgs_build_package_dirs() {
     for _PACKAGE_DIRNAME in $MGS_PACKAGE_DIRLIST ; do
-        mgs_build_package_dir "$_PACKAGE_DIRNAME"
+        mgs_build_package_dir "$(dirname "$_PACKAGE_DIRNAME")"
     done
 
     log_success "All packages built succesfully"
@@ -177,7 +177,7 @@ export MGS_RPM_GPG_KEY_SEC="${MGS_RPM_GPG_KEY_SEC:-$MGS_WORKDIR/rpm-gpg-key.sec.
 export MGS_RPM_GPG_KEY_PUB="${MGS_RPM_GPG_KEY_PUB:-$MGS_WORKDIR/rpm-gpg-key.pub.asc}"
 export MGS_RPM_GPG_KEY_PASSPHRASE="${MGS_RPM_GPG_KEY_PASSPHRASE:-}"
 export MGS_PACKAGES_DIR="${MGS_PKG_DIR:-$MGS_WORKDIR/packages}"
-export MGS_PACKAGE_DIRLIST="${@:-$(cd $MGS_PACKAGES_DIR; ls -d */)}"
+export MGS_PACKAGE_DIRLIST="${@:-$(ls -d "$MGS_PACKAGES_DIR/"*/)}"
 
 export MGS_OS_RELEASE="${MGS_OS_RELEASE:-el}"
 export MGS_OS_RELEASEVER="${MGS_OS_RELEASEVER:-7}"
