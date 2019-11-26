@@ -50,7 +50,7 @@
   }
   ,"8": {
     "title": "Yum Repositories",
-    "content": "Various official Yum repositories conveniently packaged . Instead of worrying about importing GPG keys and creating repo configuration files manually all you have to do is to install a single package. . Available repository release packages . mageops-release - this repository | mariadb-release - official MariaDB Repository | nginx-release - official nginx Repository | nodejs-release - official nodesource repositories | rabbitmq-release - official RabbitMQ Repository | varnish-release - official Varnish Cache Repository | elasticsearch-release - official Varnish Cache Repository | remi-release - unmodified RPM from Remi’s site | .",
+    "content": "Various official Yum repositories conveniently packaged . Instead of worrying about importing GPG keys and creating repo configuration files manually all you have to do is to install a single package. . Install all repositories at once . yum -y install mariadb-release nginx-release nodejs-release rabbitmq-release varnish-release elasticsearch-release remi-release rpm --import /etc/pki/rpm-gpg/* yum -y makecache fast . Available repository release packages . mageops-release - this repository | mariadb-release - official MariaDB Repository | nginx-release - official nginx Repository | nodejs-release - official nodesource repositories | rabbitmq-release - official RabbitMQ Repository | varnish-release - official Varnish Cache Repository | elasticsearch-release - official Varnish Cache Repository | remi-release - unmodified RPM from Remi’s site | .",
     "url": "https://mageops.github.io/rpm/packages/repositories",
     "relUrl": "/packages/repositories"
   }
