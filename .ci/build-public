@@ -9,7 +9,7 @@ _CI_DIR="$(dirname $0)"
 
 set -x
 
+"$_CI_DIR/build-site"
+
 mkdir -p "$_PUB_DIR/"
 cp -vr "$_REPO_DIR/" "$_PUB_DIR/"
-
-"$_CI_DIR/build-site"
