@@ -46,6 +46,5 @@ compress_html:
   blanklines: false
   profile: false
 
-
 source: ../docs/
 destination: ../public/

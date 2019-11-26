@@ -41,7 +41,7 @@ yum-config-manager --enable epel
 rpm -Uvh https://mageops.github.io/rpm/repo/el/7/x86_64/mageops-release-7-1.noarch.rpm
 ```
 
-### Manual configuration
+### Manual configuration by curl download (advanced)
 
 1. Install the GPG signing key
 ```bash
@@ -53,13 +53,26 @@ curl -s https://raw.githubusercontent.com/mageops/rpm/master/rpm-gpg-key.pub.asc
 curl -s https://raw.githubusercontent.com/mageops/rpm/master/packages/mageops-release/mageops.repo > /etc/yum.repos.d/mageops.repo
 ```
 
-3. Import the GPG signing key (optional)
+### Finishing steps (optional)
+
+1. Import the GPG signing key 
 ```bash
 rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
 ```
 
-4. Compute cache for the new repository (optional)
-
+2. Compute cache for the new repository
 ```bash
 yum makecache --disablerepo="*" --enablerepo="mageops"
 ```
+
+<!-- ### Manual configuration by pasting contents (advanced)
+
+1. Place into `/etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS` file
+```
+{% include src/rpm-gpg-key.pub.asc %}
+```
+
+2. Paste into `/etc/yum.repos.d/mageops.repo` file
+```ini
+{% include src/packages/mageops-release/mageops.repo %}
+``` -->

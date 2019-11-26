@@ -19,6 +19,7 @@ pwd
 
 export JEKYLL_ENV=production
 
+gem install bundler jekyll
 bundle
 # Not working on my mac right now /FS
 # bundle exec just-the-docs rake search:init
