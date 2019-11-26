@@ -2,12 +2,12 @@ os: linux
 language: shell
 
 env:
-  - _BUILD_PKGS="ocaml"
+  - _BUILD_PKGS="ocaml awscli amazon-efs-utils varnish-modules-extra varnish-module-accept mageops-release"
   - _BUILD_PKGS="awscli amazon-efs-utils varnish-modules-extra varnish-module-accept mageops-release"
 
 jobs:
   allow_failures:
-    - env: _BUILD_PKGS="ocaml"
+    - env: _BUILD_PKGS="ocaml awscli amazon-efs-utils varnish-modules-extra varnish-module-accept mageops-release"
 
 services:
   - docker
