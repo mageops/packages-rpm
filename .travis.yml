@@ -7,12 +7,6 @@ services:
 before_install:
   - .ci/pull-docker
 
-env:
-  - _DOCKER_TAG=mageops/rpm-build:centos-7
-  - _PUB_DIR=public
-  - _RELEASE_DIR=release
-  - _REPO_DIR=repo
-
 script:
   - .ci/build-packages
   - .ci/build-release
@@ -22,7 +16,7 @@ deploy:
   - provider: releases
     token: $GITHUB_OAUTH_TOKEN
     file_glob: true
-    file: $_RELEASE_DIR/*
+    file: release/*
     skip_cleanup: true
     cleanup: false
     on:
@@ -32,7 +26,7 @@ deploy:
     keep_history: false
     verbose: true
     token: $GITHUB_OAUTH_TOKEN
-    local_dir: $_PUB_DIR
+    local_dir: public/
     edge: true
     skip_cleanup: true
     cleanup: false
