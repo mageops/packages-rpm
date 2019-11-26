@@ -96,3 +96,10 @@ _Tip: If the above command is ran with no arguments it will build default set of
 ```
 docker run --interactive --tty --entrypoint /bin/bash -v $(pwd):/root/rpmbuild mageops/rpm-build:centos-7
 ```
+
+
+## Notes
+
+```
+docker build .docker --file .docker/Dockerfile --tag mageops/rpm-build:centos-7 && docker run --tty --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 --sign --create-repo && docker push mageops/rpm-build:centos-7
+```

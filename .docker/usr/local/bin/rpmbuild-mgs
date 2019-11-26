@@ -4,17 +4,17 @@ set -euo pipefail
 
 # --- parse basic switches ---
 
-if [ "$1" == "--debug" ] ; then
+if [ "${1:-}" == "--debug" ] ; then
     set -x
     shift 1
 fi
 
-if [ "$1" == "--sign" ] ; then
+if [ "${1:-}" == "--sign" ] ; then
     export MGS_RPMBUILD_SIGN="yes"
     shift 1
 fi
 
-if [ "$1" == "--create-repo" ] ; then
+if [ "${1:-}" == "--create-repo" ] ; then
     export MGS_RPMBUILD_CREATE_REPO="yes"
     echo "will create repo"
     shift 1
@@ -194,12 +194,12 @@ export MGS_RPMBUILD_SOURCESDIR="${MGS_RPMBUILD_SOURCESDIR:-$MGS_RPMBUILD_ROOTDIR
 
 # --- main ---
 
-if [ "$1" == "--help" ] ; then
+if [ "${1:-}" == "--help" ] ; then
     mgs_usage
     exit 0
 fi
 
-if [ "$1" == "--shell" ] ; then
+if [ "${1:-}" == "--shell" ] ; then
     shift 1
 
     mgs_config_show
