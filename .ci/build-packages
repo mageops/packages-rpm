@@ -8,6 +8,8 @@ _BUILD_PKGS="${_BUILD_PKGS:-\
     varnish-modules-extra \
     varnish-module-accept \
     mageops-release \
+    varnish-release \
+    ocaml
 }"
 
 _DOCKER_TAG="${_DOCKER_TAG:-mageops/rpm-build:centos-7}"

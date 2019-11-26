@@ -1,0 +1,56 @@
+[varnish60lts]
+name=Varnish 6.0 LTS Official Repository
+baseurl=https://packagecloud.io/varnishcache/varnish60lts/el/$releasever/$basearch
+repo_gpgcheck=1
+gpgcheck=1
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-VARNISH60LTS
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+[varnish60]
+name=Varnish 6.0 Official Repository
+baseurl=https://packagecloud.io/varnishcache/varnish60/el/$releasever/$basearch
+repo_gpgcheck=1
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-VARNISH60
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+[varnish61]
+name=Varnish 6.1 Official Repository
+baseurl=https://packagecloud.io/varnishcache/varnish61/el/$releasever/$basearch
+repo_gpgcheck=1
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-VARNISH61
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+[varnish62]
+name=Varnish 6.2 Official Repository
+baseurl=https://packagecloud.io/varnishcache/varnish62/el/$releasever/$basearch
+repo_gpgcheck=1
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-VARNISH62
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+[varnish63]
+name=Varnish 6.3 Official Repository
+baseurl=https://packagecloud.io/varnishcache/varnish63/el/$releasever/$basearch
+repo_gpgcheck=1
+gpgcheck=1
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-VARNISH63
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
+metadata_expire=300
+
+
