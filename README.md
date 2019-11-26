@@ -14,17 +14,15 @@ This means that they are mostly meant for this specific [MageSuite.io](https://g
 hosting needs, however, they are not in any way tied to our specific use-cases so they can be 
 freely reused in any environment.
 
-<p align="center">
 
-**Get started by visiting the [Documentation](https://mageops.github.io/rpm) site!**
-
-</p>
+**Get started by visiting the [Documentation site](https://mageops.github.io/rpm)!**
 
 
 ## TODO
 
 - Separate travis build stages for docker, packages, repository and jekyll site
-- Build dockerfile in travis?
+- Build jekyll static site using docker to be ci-system-agnostic
+- Build docker image in travis?
 - Also push docker image to GitHub docker repo?
 - Add other packages...
 
