@@ -24,3 +24,9 @@ gpg --export-secret-keys -a 'MageOps Package Manager' > rpm-gpg-key.sec.asc
 travis login --pro
 travis encrypt-file --com rpm-gpg-key.sec.asc
 ```
+
+```
+git tag | grep -v legacy | xargs -I{} git push origin :{}
+git tag | grep -v legacy | xargs -I{} git tag -d {}
+github-remove-all-releases mageops rpm -t $GITHUB_TOKEN
+```

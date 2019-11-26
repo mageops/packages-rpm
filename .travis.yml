@@ -9,7 +9,8 @@ before_install:
   - .ci/pull-docker
 
 script:
-  - .ci/fetch-external-pacakges
+  - set -e
+  - .ci/fetch-external-packages
   - .ci/build-packages
   - .ci/build-release
   - .ci/build-public
