@@ -9,10 +9,8 @@ before_install:
 
 script:
   - docker run --tty --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 --sign --create-repo awscli amazon-efs-utils varnish-modules-extra varnish-module-accept mageops-release
-  - mkdir -p github-release 
-  - cp -v buildtree/RPMS/**/*.rpm github-release
-  - cd github-release; shasum *.rpm > shasum; cd ..
-  - mkdir -p github-pages; mv -v repo github-pages/
+  - mkdir -p github-release; cp -v buildtree/RPMS/**/*.rpm github-release/; shasum github-release/*.rpm > github-release/shasum
+  - mkdir -p github-pages; cp -vr buildtree/repo/ github-pages/
   
 deploy:
   - provider: releases

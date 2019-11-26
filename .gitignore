@@ -1,6 +1,6 @@
-/rpm-gpg-key.priv.asc
-/buildtree/
-/github-release/
-/repo/
-/.logs/
+/rpm-gpg-key.sec.asc
 /rpm-build.log
+/buildtree/
+/repo/
+/github-release/
+/.logs/
