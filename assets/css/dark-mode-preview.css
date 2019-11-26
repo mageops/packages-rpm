@@ -5,6 +5,7 @@
  * 2. Prevent iOS text size adjust after orientation change, without disabling
  *    user zoom.
  */
+@import url("https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,500,500i,700,700i&display=swap");
 html {
   font-family: sans-serif;
   /* 1 */
@@ -5934,3 +5935,14 @@ figure.highlight {
   .py-xl-10 {
     padding-top: 4rem !important;
     padding-bottom: 4rem !important; } }
+.text-mageops-blue {
+  color: #1f4cee; }
+
+.text-mageops-cyan {
+  color: #31ccb0; }
+
+.navigation-list-link.active {
+  color: #1643e8 !important; }
+
+code.highlighter-rouge {
+  color: #1c3aa5; }

@@ -5,6 +5,7 @@
  * 2. Prevent iOS text size adjust after orientation change, without disabling
  *    user zoom.
  */
+@import url("https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,500,500i,700,700i&display=swap");
 html {
   font-family: sans-serif;
   /* 1 */
@@ -357,12 +358,24 @@ td,
 th {
   padding: 0; }
 
+.text-mageops-blue {
+  color: #1f4cee; }
+
+.text-mageops-cyan {
+  color: #31ccb0; }
+
+.navigation-list-link.active {
+  color: #1643e8 !important; }
+
+code.highlighter-rouge {
+  color: #1c3aa5; }
+
 * {
   box-sizing: border-box; }
 
 ::selection {
   color: #fff;
-  background: #1fc1a4; }
+  background: #31ccb0; }
 
 html {
   font-size: 14px !important; }
@@ -414,7 +427,7 @@ p {
   margin-bottom: 1em; }
 
 a {
-  color: #1fc1a4;
+  color: #31ccb0;
   text-decoration: none; }
 
 a:not([class]) {
@@ -424,7 +437,7 @@ a:not([class]) {
   background-position: 0 100%;
   background-size: 1px 1px; }
   a:not([class]):hover {
-    background-image: linear-gradient(rgba(31, 193, 164, 0.45) 0%, rgba(31, 193, 164, 0.45) 100%);
+    background-image: linear-gradient(rgba(49, 204, 176, 0.45) 0%, rgba(49, 204, 176, 0.45) 100%);
     background-size: 1px 1px; }
 
 code {
@@ -613,7 +626,7 @@ hr {
   height: 100%;
   padding: 1rem;
   align-items: center;
-  color: #1fc1a4;
+  color: #31ccb0;
   text-transform: uppercase;
   background: transparent;
   border: 0; }
@@ -728,7 +741,7 @@ body {
       display: inline-block;
       width: 100%;
       height: 100%;
-      fill: #1fc1a4;
+      fill: #31ccb0;
       visibility: hidden; }
   .page-content .anchor-heading:hover svg,
   .page-content h1:hover > .anchor-heading svg,
@@ -945,7 +958,7 @@ li .highlight {
   font-size: inherit;
   font-weight: 500;
   line-height: 1.5;
-  color: #1fc1a4;
+  color: #31ccb0;
   text-decoration: none;
   vertical-align: baseline;
   cursor: pointer;
@@ -961,7 +974,7 @@ li .highlight {
   .btn:focus:hover, .btn.selected:focus {
     box-shadow: 0 0 0 3px rgba(0, 0, 255, 0.25); }
   .btn:hover, .btn.zeroclipboard-is-hover {
-    color: #1eb89d; }
+    color: #2fc4a9; }
   .btn:hover, .btn:active, .btn.zeroclipboard-is-hover, .btn.zeroclipboard-is-active {
     text-decoration: none;
     background-color: #f4f4f4; }
@@ -979,11 +992,11 @@ li .highlight {
     box-shadow: none; }
 
 .btn-outline {
-  color: #1fc1a4;
+  color: #31ccb0;
   background: transparent;
   box-shadow: inset 0 0 0 2px #e6e1e8; }
   .btn-outline:hover, .btn-outline:active, .btn-outline.zeroclipboard-is-hover, .btn-outline.zeroclipboard-is-active {
-    color: #1caf95;
+    color: #2dbca2;
     text-decoration: none;
     background-color: transparent;
     box-shadow: inset 0 0 0 3px #e6e1e8; }
@@ -996,19 +1009,19 @@ li .highlight {
 
 .btn-primary {
   color: #fff;
-  background-color: #24b69c;
-  background-image: linear-gradient(#2ad4b5, #24b69c);
+  background-color: #2fc4a9;
+  background-image: linear-gradient(#44d2b8, #2fc4a9);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 4px 10px rgba(0, 0, 0, 0.12); }
   .btn-primary:hover, .btn-primary.zeroclipboard-is-hover {
     color: #fff;
-    background-color: #23ae94;
-    background-image: linear-gradient(#28c8aa, #23ae94); }
+    background-color: #2dbca2;
+    background-image: linear-gradient(#38cfb3, #2dbca2); }
   .btn-primary:active, .btn-primary.selected, .btn-primary.zeroclipboard-is-active {
-    background-color: #22aa91;
+    background-color: #2cb89e;
     background-image: none;
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.15); }
   .btn-primary.selected:hover {
-    background-color: #1e947f; }
+    background-color: #27a38c; }
 
 .btn-purple {
   color: #fff;
@@ -1104,7 +1117,7 @@ li .highlight {
     outline: 0;
     box-shadow: none; }
     .search-input:focus + .search-icon {
-      fill: #1fc1a4; }
+      fill: #31ccb0; }
   @media (min-width: 50rem) {
     .search-input {
       background-color: #fff;
@@ -1209,7 +1222,7 @@ li .highlight {
 
 .search-result-highlight {
   font-weight: bold;
-  color: #1fc1a4; }
+  color: #31ccb0; }
 
 .table-wrapper {
   display: block;
