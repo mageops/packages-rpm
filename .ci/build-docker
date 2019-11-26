@@ -7,3 +7,4 @@ _DOCKER_TAG="${_DOCKER_TAG:-mageops/rpm-build:centos-7}"
 set -x
 
 docker build .docker --file .docker/Dockerfile --tag "$_DOCKER_TAG"
+docker push "$_DOCKER_TAG"

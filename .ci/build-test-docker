@@ -1,0 +1,7 @@
+set -euo pipefail 
+
+_DOCKER_TAG="${_DOCKER_TAG:-mageops/rpm-build-test:centos-7}"
+
+set -x
+
+docker build .docker --file .docker/testing.Dockerfile --tag "$_DOCKER_TAG"
