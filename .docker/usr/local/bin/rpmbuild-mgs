@@ -113,7 +113,7 @@ function mgs_build_package_dir() {
 
 function mgs_build_package_dirs() {
     for _PACKAGE_DIRNAME in $MGS_PACKAGE_DIRLIST ; do
-        mgs_build_package_dir "$(dirname "$_PACKAGE_DIRNAME")"
+        mgs_build_package_dir "$(basename "$_PACKAGE_DIRNAME")"
     done
 
     log_success "All packages built succesfully"
@@ -143,19 +143,19 @@ function mgs_sign_packages() {
 }
 
 function mgs_create_repo() {
-    log_stage "Create repository in $(log_label $MGS_RPMBUILD_REPODIR)"
+    log_stage "Create repository in $(log_label $MGS_RPMBUILD_REPORELEASEDIR)"
 
-    mkdir -p "$MGS_RPMBUILD_REPODIR/SRPMS"
+    mkdir -p "$MGS_RPMBUILD_REPORELEASEDIR/SRPMS"
 
-    cp -v "$MGS_RPM_GPG_KEY_PUB" "$MGS_RPMBUILD_REPODIR/REPO-GPG-KEY"
+    cp -v "$MGS_RPM_GPG_KEY_PUB" "$MGS_RPMBUILD_REPORELEASEDIR/REPO-GPG-KEY"
 
-    log_msg "Syncing SRPMS to repo -> $(log_label $MGS_RPMBUILD_REPODIR/SRPMS/)"
-    log_cmd rsync -avz "$MGS_RPMBUILD_SRPMDIR/" "$MGS_RPMBUILD_REPODIR/SRPMS/"
+    log_msg "Syncing SRPMS to repo -> $(log_label $MGS_RPMBUILD_REPORELEASEDIR/SRPMS/)"
+    log_cmd rsync -avz "$MGS_RPMBUILD_SRPMDIR/" "$MGS_RPMBUILD_REPORELEASEDIR/SRPMS/"
 
-    log_msg "Syncing RPMS to repo -> $(log_label $MGS_RPMBUILD_REPODIR)"
-    log_cmd rsync -avz "$MGS_RPMBUILD_RPMDIR/" "$MGS_RPMBUILD_REPODIR/"
+    log_msg "Syncing RPMS to repo -> $(log_label $MGS_RPMBUILD_REPORELEASEDIR)"
+    log_cmd rsync -avz "$MGS_RPMBUILD_RPMDIR/" "$MGS_RPMBUILD_REPORELEASEDIR/"
 
-    ls -d "$MGS_RPMBUILD_REPODIR/"*/ | while read _ARCHDIR ; do
+    ls -d "$MGS_RPMBUILD_REPORELEASEDIR/"*/ | while read _ARCHDIR ; do
         log_msg "Creating repo for $(log_label `dirname $_ARCHDIR`)"
 
         pushd "$_ARCHDIR"
