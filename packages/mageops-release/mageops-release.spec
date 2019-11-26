@@ -15,6 +15,7 @@ Source1:        https://raw.githubusercontent.com/mageops/rpm/master/rpm-gpg-key
 
 BuildArch:      noarch
 Requires:       redhat-release >= %{version}
+Requires:       epel-release >= %{version}
 
 %description
 MageOps RPM repository configuration for CentOS %{version}.
