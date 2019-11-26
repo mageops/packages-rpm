@@ -8,6 +8,7 @@ _BUILD_PKGS="${_BUILD_PKGS:-\
     nginx-release \
     mariadb-release \
     elasticsearch-release \
+    rabbitmq-release \
     awscli \
     amazon-efs-utils \
     varnish-modules-extra \
