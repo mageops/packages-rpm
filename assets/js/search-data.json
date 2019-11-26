@@ -1,0 +1,64 @@
+{
+  
+  "0": {
+    "title": "Add package",
+    "content": "Create a new package .",
+    "url": "https://mageops.github.io/rpm/development/package/add",
+    "relUrl": "/development/package/add"
+  }
+  ,"1": {
+    "title": "AWS Packages",
+    "content": "",
+    "url": "https://mageops.github.io/rpm/packages/aws",
+    "relUrl": "/packages/aws"
+  }
+  ,"2": {
+    "title": "Build Automation",
+    "content": "How the build automation works . Bash scripts . See the bash scripts in the .ci subdirectory. . They are called by Travis jobs which definition can be found in .travis.yml. .",
+    "url": "https://mageops.github.io/rpm/development/build/automation",
+    "relUrl": "/development/build/automation"
+  }
+  ,"3": {
+    "title": "Build Packages",
+    "content": "Building the packages and repository . Transparency . The packages are built automatically on Travis. . The repository is hosted at GitHub Pages. . You can also find the build artifacts in GitHub Releases. . Build locally using docker . In case you want to build the packages locally (e.g. for testing updates / modifications) you can use Docker. . Build the container image locally (optional) . You can skip this step - the image is also present at MageOps Docker Hub Repo. . docker build .docker --file .docker/Dockerfile --tag mageops/rpm-build:centos-7 . Run the docker image . The entrypoint script will automatically handle building the packages residing in the defined packages/ subdirectories. . Note! Some packages may need to be built in specific order. . docker run --tty --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 {package-a-subdirectory} {package-b-subdirectory} [...] . Tip: If the above command is ran with no arguments it will build default set of packages. . You can override the entrypoint by using the following command to get a shell to poke around in case of failure. . docker run --interactive --tty --entrypoint /bin/bash -v $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 .",
+    "url": "https://mageops.github.io/rpm/development/build/packages",
+    "relUrl": "/development/build/packages"
+  }
+  ,"4": {
+    "title": "Development",
+    "content": "How to build, deploy and extend this project . Start reading with Build Packages to know how to build everything locally for debugging. .",
+    "url": "https://mageops.github.io/rpm/development/",
+    "relUrl": "/development/"
+  }
+  ,"5": {
+    "title": "Home",
+    "content": "Extra RPM packages for bleeding-edge cloud infrastructure . A MageOps RPM package collection sources, repository and build automation. . Get started now View it on GitHub . . Getting started . Compatibility . This repository works in CentOS/RHEL 7 withe EPEL installed. . Certain packages may require other repositories. . Install EPEL (required) . If you’re on CentOS it should be sufficient to install it from official release. . yum -y install epel-release yum-config-manager --enable epel . Direct RPM release package installation (recommended) . rpm -Uvh https://mageops.github.io/rpm/repo/el/7/mageops-release.noarch.rpm . Manual configuration by curl download (advanced) . Install the GPG signing key curl -s https://raw.githubusercontent.com/mageops/rpm/master/rpm-gpg-key.pub.asc &gt; /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS . | Install the YUM repository config curl -s https://raw.githubusercontent.com/mageops/rpm/master/packages/mageops-release/mageops.repo &gt; /etc/yum.repos.d/mageops.repo . | Finishing steps (optional) . Import the GPG signing key rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS . | Compute cache for the new repository yum makecache --disablerepo=&quot;*&quot; --enablerepo=&quot;mageops&quot; . | Install Varnish Official Repository (optional) . If you intend to use any varnish-related packages from MageOps repository you should have Varnish 6.0 LTS - the most convenient way to make it avaialble is to install the Official Varnish Cache Repositories we have packaged. . This will automatically enable the correct repository for the currently supported latest LTS version. . yum -y install varnish-release yum -y install varnish .",
+    "url": "https://mageops.github.io/rpm/",
+    "relUrl": "/"
+  }
+  ,"6": {
+    "title": "Modify package",
+    "content": "Modify an existing package .",
+    "url": "https://mageops.github.io/rpm/development/package/modify",
+    "relUrl": "/development/package/modify"
+  }
+  ,"7": {
+    "title": "OCAML Packages",
+    "content": "",
+    "url": "https://mageops.github.io/rpm/packages/ocaml",
+    "relUrl": "/packages/ocaml"
+  }
+  ,"8": {
+    "title": "Packages",
+    "content": "Packages available in the repository . The package descriptions are grouped together for software that is connected together. . View all of the repository files . You can browse the whole repository file structure at github gh-pages branch via its web UI. .",
+    "url": "https://mageops.github.io/rpm/packages/",
+    "relUrl": "/packages/"
+  }
+  ,"9": {
+    "title": "Varnish Packages",
+    "content": "",
+    "url": "https://mageops.github.io/rpm/packages/varnish",
+    "relUrl": "/packages/varnish"
+  }
+  
+}
