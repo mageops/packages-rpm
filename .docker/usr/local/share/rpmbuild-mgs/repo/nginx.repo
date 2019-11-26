@@ -1,0 +1,8 @@
+[nginx]
+name=nginx stable repo
+baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+repo_gpgcheck=1
+gpgcheck=0
+enabled=0
+gpgkey=https://nginx.org/keys/nginx_signing.key
+module_hotfixes=true

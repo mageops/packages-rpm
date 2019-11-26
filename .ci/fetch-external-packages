@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -euo pipefail 
+
+_BUILDTREE_DIR="${_BUILDTREE_DIR:-buildtree}"
+_NOARCH_RPM_DIR="$_BUILDTREE_DIR/RPMS/noarch"
+_AMD64_RPM_DIR="$_BUILDTREE_DIR/RPMS/x86_64"
+
+set -x 
+
+mkdir -p "$_NOARCH_RPM_DIR" "$_AMD64_RPM_DIR"
+
+echo "Download remi release"
+
+curl -Ls "https://rpms.remirepo.net/enterprise/remi-release-7.rpm" -o "$_NOARCH_RPM_DIR/remi-release-7.noarch.rpm"
+
+echo "Download Amazon CloudWatch Agent"
+
+CWAGENT_VERSION="$(curl -Ls https://s3.amazonaws.com/amazoncloudwatch-agent/info/latest/CWAGENT_VERSION)"
+CWAGENT_PACKAGE_NAME="amazon-cloudwatch-agent-$CWAGENT_VERSION.el7.x86_64.rpm"
+
+curl -Ls "https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm" -o "$_AMD64_RPM_DIR/$CWAGENT_PACKAGE_NAME"
+curl -Ls "https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm.sig" -o "$_AMD64_RPM_DIR/$CWAGENT_PACKAGE_NAME.sig"
+curl -Ls "https://s3.amazonaws.com/amazoncloudwatch-agent/assets/amazon-cloudwatch-agent.gpg" -o "$_AMD64_RPM_DIR/$CWAGENT_PACKAGE_NAME.gpg"
+
+echo "Verify Amazon CloudWatch Agent Signature"
+
+gpg --import "$_AMD64_RPM_DIR/$CWAGENT_PACKAGE_NAME.gpg"
+gpg --verify "$_AMD64_RPM_DIR/$CWAGENT_PACKAGE_NAME.sig" "$_AMD64_RPM_DIR/$CWAGENT_PACKAGE_NAME"

@@ -1,0 +1,64 @@
+[nodejs13]
+name=Node.js 13.x Packages for Enterprise Linux 7 - $basearch
+baseurl=https://rpm.nodesource.com/pub_13.x/el/$releasever/$basearch
+failovermethod=priority
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+
+[nodejs12]
+name=Node.js 12.x Packages for Enterprise Linux 7 - $basearch
+baseurl=https://rpm.nodesource.com/pub_12.x/el/$releasever/$basearch
+failovermethod=priority
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+
+[nodejs11]
+name=Node.js 11.x Packages for Enterprise Linux 7 - $basearch
+baseurl=https://rpm.nodesource.com/pub_11.x/el/$releasever/$basearch
+failovermethod=priority
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+
+[nodejs10]
+name=Node.js 10.x Packages for Enterprise Linux 7 - $basearch
+baseurl=https://rpm.nodesource.com/pub_10.x/el/$releasever/$basearch
+failovermethod=priority
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+
+
+[nodejs13-source]
+name=Node.js 13.x for Enterprise Linux 7 - $basearch - Source
+baseurl=https://rpm.nodesource.com/pub_13.x/el/$releasever/SRPMS
+failovermethod=priority
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+gpgcheck=1
+
+[nodejs12-source]
+name=Node.js 12.x for Enterprise Linux 7 - $basearch - Source
+baseurl=https://rpm.nodesource.com/pub_12.x/el/$releasever/SRPMS
+failovermethod=priority
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+gpgcheck=1
+
+[nodejs11-source]
+name=Node.js 11.x for Enterprise Linux 7 - $basearch - Source
+baseurl=https://rpm.nodesource.com/pub_11.x/el/$releasever/SRPMS
+failovermethod=priority
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+gpgcheck=1
+
+[nodejs10-source]
+name=Node.js 10.x for Enterprise Linux 7 - $basearch - Source
+baseurl=https://rpm.nodesource.com/pub_10.x/el/$releasever/SRPMS
+failovermethod=priority
+enabled=0
+gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+gpgcheck=1

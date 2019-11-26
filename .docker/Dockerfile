@@ -38,7 +38,8 @@ RUN yum -y install \
 COPY / /
 
 RUN rpmbuild-mgs-repo-preinstall --enable \
-    varnish60lts
+    varnish60lts \
+    nginx
 
 ENV MGS_OS_RELEASE="el" \
     MGS_OS_RELEASEVER="7" \
