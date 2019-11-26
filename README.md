@@ -16,16 +16,9 @@ freely reused in any environment.
 
 ### Manually 
 
-Place [this contents](https://copr.fedorainfracloud.org/coprs/pinkeen/MageOps/repo/epel-7/pinkeen-MageOps-epel-7.repo) 
-into `/etc/yum.repos.d/mageops.repo` file and then generate the cache:
-
 ```
-curl -s https://copr.fedorainfracloud.org/coprs/pinkeen/MageOps/repo/epel-7/pinkeen-MageOps-epel-7.repo > /etc/yum.repos.d/mageops.repo
-yum -q makecache -y '--disablerepo=*' "--enablerepo=copr:copr.fedorainfracloud.org:pinkeen:MageOps"
+rpm -Uvh https://mageops.github.io/rpm/repo/noarch/mageops-release-7-1.noarch.rpm
 ```
-
-https://copr-be.cloud.fedoraproject.org/results/pinkeen/MageOps/
-
 
 ## Distribution Support
 
