@@ -302,6 +302,7 @@ find $RPM_BUILD_ROOT \( -name '*.cmt' -o -name '*.cmti' \) -a -delete
 %if %{native_compiler}
 %{_libdir}/ocaml/*.cmxa
 %{_libdir}/ocaml/*.cmx
+%{_libdir}/ocaml/*.cmxs
 %{_libdir}/ocaml/*.o
 %{_libdir}/ocaml/libasmrun_shared.so
 %endif

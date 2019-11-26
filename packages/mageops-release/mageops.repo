@@ -5,3 +5,11 @@ failovermethod=priority
 enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
+
+[mageops-sources]
+name=MageOps package sources
+baseurl=https://mageops.github.io/rpm/repo/el/$releasever/sources
+failovermethod=priority
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS

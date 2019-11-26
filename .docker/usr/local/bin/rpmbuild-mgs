@@ -145,26 +145,44 @@ function mgs_sign_packages() {
 function mgs_create_repo() {
     log_stage "Create repository in $(log_label $MGS_RPMBUILD_REPORELEASEDIR)"
 
-    mkdir -p "$MGS_RPMBUILD_REPORELEASEDIR/SRPMS"
-
     cp -v "$MGS_RPM_GPG_KEY_PUB" "$MGS_RPMBUILD_REPORELEASEDIR/REPO-GPG-KEY"
 
-    log_msg "Syncing SRPMS to repo -> $(log_label $MGS_RPMBUILD_REPORELEASEDIR/SRPMS/)"
-    log_cmd rsync -avz "$MGS_RPMBUILD_SRPMDIR/" "$MGS_RPMBUILD_REPORELEASEDIR/SRPMS/"
+    local _ARCHS="$MGS_OS_ARCHS"
+    local _NOARCHPKGDIR="$MGS_RPMBUILD_RPMDIR/noarch"
 
-    log_msg "Syncing RPMS to repo -> $(log_label $MGS_RPMBUILD_REPORELEASEDIR)"
-    log_cmd rsync -avz "$MGS_RPMBUILD_RPMDIR/" "$MGS_RPMBUILD_REPORELEASEDIR/"
+    for _ARCH in $_ARCHS ; do
+        local _ARCH_SRC_DIR="$MGS_RPMBUILD_RPMDIR/$_ARCH"
+        local _ARCH_DST_DIR="$MGS_RPMBUILD_REPORELEASEDIR/$_ARCH"
 
-    ls -d "$MGS_RPMBUILD_REPORELEASEDIR/"*/ | while read _ARCHDIR ; do
-        log_msg "Creating repo for $(log_label `dirname $_ARCHDIR`)"
-
-        pushd "$_ARCHDIR"
+        log_msg "Syncing $(log_label $_ARCH) RPMS -> $(log_label $_ARCH_DST_DIR)"
+        log_cmd rsync -avz "$_ARCH_SRC_DIR/" "$_ARCH_DST_DIR/"
+        
+        if [[ -d "$_NOARCHPKGDIR" ]] ; then
+            log_msg "Syncing $(log_label noarch) RPMS -> $(log_label $_ARCH_DST_DIR)"
+            log_cmd rsync -avz "$_NOARCHPKGDIR/" "$_ARCH_DST_DIR/"
+        fi
+        
+        log_msg "Creating repo metadata for $(log_label $_ARCH)"
+        pushd "$_ARCH_DST_DIR"
 
         log_cmd createrepo .
         log_success "Created repository metadata in $(pwd)"
 
         popd 
     done
+
+    mkdir -p "$MGS_RPMBUILD_REPORELEASEDIR/sources"
+
+    log_msg "Syncing SRPMS -> $(log_label $MGS_RPMBUILD_REPORELEASEDIR/sources/)"
+    log_cmd rsync -avz "$MGS_RPMBUILD_SRPMDIR/" "$MGS_RPMBUILD_REPORELEASEDIR/sources/"
+
+    log_msg "Creating repo metadata for $(log_label sources)"
+    pushd "$MGS_RPMBUILD_REPORELEASEDIR/sources/"
+
+    log_cmd createrepo .
+    log_success "Created repository metadata in $(pwd)"
+
+    popd 
 
     log_success "Repository generated successfully"
 }
@@ -181,6 +199,7 @@ export MGS_PACKAGE_DIRLIST="${@:-$(ls -d "$MGS_PACKAGES_DIR/"*/)}"
 
 export MGS_OS_RELEASE="${MGS_OS_RELEASE:-el}"
 export MGS_OS_RELEASEVER="${MGS_OS_RELEASEVER:-7}"
+export MGS_OS_ARCHS="${MGS_OS_ARCHS:-x86_64}"
 
 export MGS_RPMBUILD_SIGN="${MGS_RPMBUILD_SIGN:-no}"
 export MGS_RPMBUILD_CREATE_REPO="${MGS_RPMBUILD_CREATE_REPO:-no}"

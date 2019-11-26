@@ -17,7 +17,7 @@ freely reused in any environment.
 ### Manually 
 
 ```
-rpm -Uvh https://mageops.github.io/rpm/repo/noarch/mageops-release-7-1.noarch.rpm
+rpm -Uvh https://mageops.github.io/rpm/repo/el/7/x86_64/mageops-release-7-1.noarch.rpm
 ```
 
 ## Distribution Support
