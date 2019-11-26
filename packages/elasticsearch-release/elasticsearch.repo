@@ -1,0 +1,23 @@
+[elasticsearch7]
+name=Elasticsearch repository for 7.x packages
+baseurl=https://artifacts.elastic.co/packages/7.x/yum
+gpgcheck=1
+gpgkey=file:///pki/rpm-gpg/RPM-GPG-KEY-ELASTICSEARCH
+enabled=1
+type=rpm-md
+
+[elasticsearch6]
+name=Elasticsearch repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=file:///pki/rpm-gpg/RPM-GPG-KEY-ELASTICSEARCH
+enabled=0
+type=rpm-md
+
+[elasticsearch5]
+name=Elasticsearch repository for 5.x packages
+baseurl=https://artifacts.elastic.co/packages/5.x/yum
+gpgcheck=1
+gpgkey=file:///pki/rpm-gpg/RPM-GPG-KEY-ELASTICSEARCH
+enabled=0
+type=rpm-md
