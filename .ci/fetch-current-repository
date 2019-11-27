@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -euo pipefail 
+
+_REPO_DIR="${_REPO_DIR:-repo}"
+_REPO_GIT="${_REPO_GIT:-https://github.com/mageops/rpm}"
+_REPO_GIT_BRANCH="${_REPO_GIT_BRANCH:-gh-pages}"
+_REPO_GIT_CLONE_DIR="${_REPO_GIT_CLONE_DIR:-.repo.git.tmp}"
+
+set -x 
+
+echo "Remove preexisting dirs"
+rm -rvf "$_REPO_DIR" "$_REPO_GIT_CLONE_DIR"
+
+echo "Shallow-clone git containing current package repository"
+git clone --depth 1 --single-branch --branch "$_REPO_GIT_BRANCH" "$_REPO_GIT" "$_REPO_GIT_CLONE_DIR"
+
+echo "Move package repository directory from clone to target path"
+mv -v "$_REPO_GIT_CLONE_DIR/$_REPO_DIR" "$_REPO_DIR"
+
+echo "Remove cloned dir"
+rm -rf "$_REPO_GIT_CLONE_DIR"
+
+

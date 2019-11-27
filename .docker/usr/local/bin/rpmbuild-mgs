@@ -2,6 +2,19 @@
 
 set -euo pipefail
 
+functio cleanup() {
+    echo 'Terminate background jobs...'
+    jobs -p | xargs kill 2>/dev/null || true
+
+    echo 'Remove temporary files...'
+    rm -rvf "$MGS_RPMBUILD_TMPDIR"
+
+    echo 'Exit gracefully with OK status...'
+    exit 0
+}
+
+trap cleanup EXIT INT HUP QUIT
+
 # --- parse basic switches ---
 
 if [ "${1:-}" == "--debug" ] ; then
@@ -31,7 +44,8 @@ function log_text() { echo -e "$(log_timestamp) $@" | tee -a "$MGS_RPMBUILD_LOGF
 function log_msg() { log_text "\e[34m*\e[0m $@"; } 
 function log_stage() { echo; log_text "\e[1;34m- \e[0m$@\e[1;34m -\e[0m" ; } 
 function log_cmd() { log_text "\e[34m$\e[0m \e[35m$@\e[0m "; command $@ 2>&1 | sed 's/^/ '$(echo -ne '\e[35m>\e[0m' )' /g' | tee -a "$MGS_RPMBUILD_LOGFILE" ; } 
-function log_success() { log_text "\e[34m!\e[0m \e[1;32m$@\e[0m"; } 
+function log_success() { log_text "\e[34m[OK]\e[0m \e[1;32m$@\e[0m"; } 
+function log_warning() { log_text "\e[35m[WARNING]\e[0m $@"; } 
 
 function gpg_key_show() { gpg --with-colons "$1" 2>&1 ; } 
 function gpg_key_user() { gpg_key_show "$1" | awk -F: '/^(sec|pub):/{ print $10 }' ; } 
@@ -101,7 +115,7 @@ function mgs_build_package_dir() {
     log_msg "Syncing sources $(log_label $_PACKAGE) -> $(log_label $_PACKAGE_SOURCESDIR)"
 
     log_cmd mkdir -p "$_PACKAGE_SOURCESDIR"
-    log_cmd rsync -avz "$_PACKAGE_DIR/" "$_PACKAGE_SOURCESDIR/"
+    log_cmd rsync "$_PACKAGE_DIR/" "$_PACKAGE_SOURCESDIR/"
 
     log_stage "Build $(log_label $_PACKAGE) in $(log_label $_PACKAGE_DIR) using $(log_label $_SPECFILE)"
 
@@ -158,11 +172,11 @@ function mgs_create_repo() {
         log_msg "Syncing $(log_label $_ARCH) RPMS -> $(log_label $_ARCH_DST_DIR)"
 
         log_cmd mkdir -p "$_ARCH_SRC_DIR" "$_ARCH_DST_DIR"
-        log_cmd rsync -avz "$_ARCH_SRC_DIR/" "$_ARCH_DST_DIR/"
+        log_cmd rsync "$MGS_RPMBUILD_RSYNC_RPMS_OPTS" "$_ARCH_SRC_DIR/" "$_ARCH_DST_DIR/"
         
         if [[ -d "$_NOARCHPKGDIR" ]] ; then
             log_msg "Syncing $(log_label noarch) RPMS -> $(log_label $_ARCH_DST_DIR)"
-            log_cmd rsync -avz "$_NOARCHPKGDIR/" "$_ARCH_DST_DIR/"
+            log_cmd rsync "$MGS_RPMBUILD_RSYNC_RPMS_OPTS" "$_NOARCHPKGDIR/" "$_ARCH_DST_DIR/"
         fi
         
         log_msg "Creating repo metadata for $(log_label $_ARCH)"
@@ -177,7 +191,7 @@ function mgs_create_repo() {
     mkdir -p "$MGS_RPMBUILD_REPORELEASEDIR/sources"
 
     log_msg "Syncing SRPMS -> $(log_label $MGS_RPMBUILD_REPORELEASEDIR/sources/)"
-    log_cmd rsync -avz "$MGS_RPMBUILD_SRPMDIR/" "$MGS_RPMBUILD_REPORELEASEDIR/sources/"
+    log_cmd rsync "$MGS_RPMBUILD_RSYNC_RPMS_OPTS" "$MGS_RPMBUILD_SRPMDIR/" "$MGS_RPMBUILD_REPORELEASEDIR/sources/"
 
     log_msg "Creating repo metadata for $(log_label sources)"
     pushd "$MGS_RPMBUILD_REPORELEASEDIR/sources/"
@@ -190,11 +204,23 @@ function mgs_create_repo() {
     pushd "$MGS_RPMBUILD_REPORELEASEDIR"
     log_msg "Copying release RPMS -> $(log_label $MGS_RPMBUILD_REPORELEASEDIR)"
 
-    find "$MGS_RPMBUILD_RPMDIR/noarch" -type f -iname '*-release-*.rpm' | while read R ; do 
-        local N="$(basename "$R" | sed -e 's/\([-_a-z]\+\)-release[-0-9]*\(.*\)\.noarch\.rpm$/\1-release\2.noarch.rpm/g')" 
-        log_msg "Copyign release $(basename "$R") -> $N"
-        log_cmd cp -v "$R" "$MGS_RPMBUILD_REPORELEASEDIR/$N"
+    # Prepare TMP dir for renames
+    _REL_RPM_TMP_DIR="$MGS_RPMBUILD_TMPDIR/rel-rpm-rename"
+
+    mkdir -p "$_REL_RPM_TMP_DIR" 
+    rm -rvf "$_REL_RPM_TMP_DIR/"* 
+
+    find "$MGS_RPMBUILD_RPMDIR/noarch" -type f -iname '*-release-*.rpm' | while read _REL_RPM_SRC_PATH; do 
+        local _REL_RPM_SRC_NAME="$(basename "$_REL_RPM_SRC_PATH")"
+        local _REL_RPM_DST_NAME="$(echo $_REL_RPM_SRC_NAME | sed -e 's/\([-_a-z]\+\)-release[-0-9]*\(.*\)\.noarch\.rpm$/\1-release\2.noarch.rpm/g')" 
+
+        log_msg "Copying release rename $_REL_RPM_SRC_NAME -> $_REL_RPM_DST_NAME to temp dir"
+        log_cmd cp -v "$_REL_RPM_SRC_PATH" "$_REL_RPM_TMP_DIR/$_REL_RPM_DST_NAME"
     done
+
+    log_msg "Syncing renamed releases -> $(log_label $MGS_RPMBUILD_REPORELEASEDIR/)"
+    log_cmd rsync "$MGS_RPMBUILD_RSYNC_RPMS_OPTS" "$_REL_RPM_TMP_DIR/" "$MGS_RPMBUILD_REPORELEASEDIR/"
+    log_cmd rm -rvf "$_REL_RPM_TMP_DIR"
 
     log_msg "Creating repo metadata for $(log_label repository releases)"
     pushd "$MGS_RPMBUILD_REPORELEASEDIR"
@@ -208,6 +234,8 @@ function mgs_create_repo() {
 
 # --- init config ---
 
+export MGS_BUILD_ID="$(date '+%Y-%m-%d-%H-%M-%S')"
+export MGS_TMPDIR="${MGS_TMPDIR:-/tmp/}"
 export MGS_WORKDIR="${MGS_WORKDIR:-$(pwd)}"
 export MGS_MAKEFILE="${MGS_MAKEFILE:-/usr/local/share/rpmbuild-mgs/Makefile.package.default}"
 export MGS_RPM_GPG_KEY_SEC="${MGS_RPM_GPG_KEY_SEC:-$MGS_WORKDIR/rpm-gpg-key.sec.asc}"
@@ -220,15 +248,28 @@ export MGS_OS_RELEASE="${MGS_OS_RELEASE:-el}"
 export MGS_OS_RELEASEVER="${MGS_OS_RELEASEVER:-7}"
 export MGS_OS_ARCHS="${MGS_OS_ARCHS:-x86_64}"
 
+export MGS_RPMBUILD_TMPDIR="${MGS_RPMBUILD_TMPDIR:-$MGS_TMPDIR/$MGS_BUILD_ID}"
 export MGS_RPMBUILD_SIGN="${MGS_RPMBUILD_SIGN:-no}"
+export MGS_RPMBUILD_OVERWRITE_EXISTING_REPO="${MGS_RPMBUILD_OVERWRITE_EXISTING_REPO:-no}"
 export MGS_RPMBUILD_CREATE_REPO="${MGS_RPMBUILD_CREATE_REPO:-no}"
 export MGS_RPMBUILD_ROOTDIR="${MGS_RPMBUILD_ROOTDIR:-$MGS_WORKDIR/buildtree}"
 export MGS_RPMBUILD_REPODIR="${MGS_RPMBUILD_REPODIR:-$MGS_WORKDIR/repo}"
 export MGS_RPMBUILD_REPORELEASEDIR="${MGS_RPMBUILD_REPORELEASEDIR:-$MGS_RPMBUILD_REPODIR/$MGS_OS_RELEASE/$MGS_OS_RELEASEVER}"
-export MGS_RPMBUILD_LOGFILE="${MGS_RPMBUILD_LOGFILE:-$MGS_WORKDIR/.logs/rpm-build-$(date '+%Y-%m-%d-%H-%M-%S').log}"
+export MGS_RPMBUILD_LOGFILE="${MGS_RPMBUILD_LOGFILE:-$MGS_WORKDIR/.logs/rpm-build-$MGS_BUILD_ID.log}"
 export MGS_RPMBUILD_RPMDIR="${MGS_RPMBUILD_RPMDIR:-$MGS_RPMBUILD_ROOTDIR/RPMS}"
 export MGS_RPMBUILD_SRPMDIR="${MGS_RPMBUILD_SRPMDIR:-$MGS_RPMBUILD_ROOTDIR/SRPMS}"
 export MGS_RPMBUILD_SOURCESDIR="${MGS_RPMBUILD_SOURCESDIR:-$MGS_RPMBUILD_ROOTDIR/SOURCES}"
+export MGS_RPMBUILD_RSYNC_RPMS_OPTS="${MGS_RPMBUILD_RSYNC_RPMS_OPTS:--av}"
+
+if [ "$MGS_RPMBUILD_OVERWRITE_EXISTING_REPO" == "no" ] ; then
+    # By default do not overwrite already built RPMs with the same name.
+    # Otherwise the RPMs signatures will change with every build wreaking havoc for 
+    # anyone using this repository and already having packages installed or metadata fetched.
+    export MGS_RPMBUILD_RSYNC_RPMS_OPTS="$MGS_RPMBUILD_RSYNC_RPMS_OPTS --ignore-existing"
+else
+    log_warning "The current RPMs will be overwritten with newly built ones!"
+    log_warning "Never do that if you're directly updating the production repository!"
+fi
 
 # --- main ---
 
@@ -263,7 +304,13 @@ if [[ -z "MGS_PACKAGE_DIRLIST" ]] ; then
     exit 1
 fi
 
-mkdir -p "$MGS_RPMBUILD_RPMDIR" "$MGS_RPMBUILD_SRPMDIR" "$MGS_RPMBUILD_SOURCESDIR" "$(dirname "$MGS_RPMBUILD_LOGFILE")"
+mkdir -p \
+    "$MGS_RPMBUILD_TMPDIR" \
+    "$MGS_RPMBUILD_RPMDIR" \
+    "$MGS_RPMBUILD_SRPMDIR" \
+    "$MGS_RPMBUILD_SOURCESDIR" \
+    "$(dirname "$MGS_RPMBUILD_LOGFILE")"
+
 touch "$MGS_RPMBUILD_LOGFILE"
 
 mgs_setup
@@ -276,4 +323,6 @@ mgs_build_package_dirs
 
 if [ "$MGS_RPMBUILD_SIGN" == "yes" ] ; then mgs_sign_packages; fi
 if [ "$MGS_RPMBUILD_CREATE_REPO" == "yes" ] ; then mgs_create_repo; fi
+
+rm -rf "$MGS_RPMBUILD_TMPDIR"
 
