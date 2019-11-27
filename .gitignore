@@ -6,3 +6,5 @@
 /public/
 /docs/repo/
 /.logs/
+.tmp.*
+*.tmp

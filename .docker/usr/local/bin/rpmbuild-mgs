@@ -38,14 +38,14 @@ export MGS_RPMBUILD_SELF="$0"
 # --- function library ---
 
 function log_label() { echo "\e[35m$@\e[0m"; }
-function log_timestamp() { echo -e "\e[33m[$(date '+%Y-%m-%d %H:%M:%S')]\e[0m" ; } 
+function log_timestamp() { echo -e "\e[34m[$(date '+%Y-%m-%d %H:%M:%S')]\e[0m" ; } 
 function log_text() { echo -e "$(log_timestamp) $@" | tee -a "$MGS_RPMBUILD_LOGFILE" ; } 
 
-function log_msg() { log_text "\e[34m*\e[0m $@"; } 
-function log_stage() { echo; log_text "\e[1;34m- \e[0m$@\e[1;34m -\e[0m" ; } 
-function log_cmd() { log_text "\e[34m$\e[0m \e[35m$@\e[0m "; command $@ 2>&1 | sed 's/^/ '$(echo -ne '\e[35m>\e[0m' )' /g' | tee -a "$MGS_RPMBUILD_LOGFILE" ; } 
-function log_success() { log_text "\e[34m[OK]\e[0m \e[1;32m$@\e[0m"; } 
-function log_warning() { log_text "\e[35m[WARNING]\e[0m $@"; } 
+function log_msg() { log_text "\e[32m*\e[0m $@"; } 
+function log_stage() { echo; log_text "\e[1;32m- \e[0m$@\e[1;34m -\e[0m" ; } 
+function log_cmd() { log_text "\e[32m$\e[0m \e[35m$@\e[0m "; command $@ 2>&1 | sed 's/^/ '$(echo -ne '\e[35m>\e[0m' )' /g' | tee -a "$MGS_RPMBUILD_LOGFILE" ; } 
+function log_success() { log_text "\e[32m[OK]\e[0m \e[1;32m$@\e[0m"; } 
+function log_warning() { log_text "\e[33m[WARNING]\e[0m $@"; } 
 
 function gpg_key_show() { gpg --with-colons "$1" 2>&1 ; } 
 function gpg_key_user() { gpg_key_show "$1" | awk -F: '/^(sec|pub):/{ print $10 }' ; } 
