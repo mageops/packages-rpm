@@ -1,5 +1,8 @@
 FROM centos:7
 
+ARG MGS_BUILD_PKGS="mageops-release"
+ENV MGS_BUILD_PKGS="$MGS_BUILD_PKGS"
+
 RUN yum -y update \
     && yum -y install \
         rpm \
@@ -40,12 +43,4 @@ RUN echo " --- Import GPG keys and make repo cache" >&2 \
     && yum -y makecache
 
 RUN echo " --- Install packages" >&2 \
-    && yum -y install \
-    varnish-modules-extra \
-    varnish-module-accept \
-    rabbitmq-server \
-    nodejs \
-    nginx \
-    php \
-    awscli \
-    MariaDB-server
+    && yum -y install $MGS_BUILD_PKGS

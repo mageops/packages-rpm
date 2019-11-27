@@ -45,6 +45,7 @@ export _BUILD_PKGS="${_BUILD_PKGS:-\
 
 export _DOCKER_RUN_EXTRA_OPTS="${_DOCKER_RUN_EXTRA_OPTS:-}"
 export _DOCKER_TAG="${_DOCKER_TAG:-mageops/rpm-build:centos-7}"
+export _DOCKER_TESTING_TAG="${_DOCKER_TESTING_TAG:-mageops/rpm-repository-test:centos-7}"
 
 if [[ ! -z "${_DEBUG:-}" ]] ; then
     echo "Warning! CI Scripts debug mode enabled!" >&2

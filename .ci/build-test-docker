@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-source "$(dirname "$0")/_config"
-
-docker build .docker --file .docker/testing.Dockerfile --tag "$_DOCKER_TAG"
