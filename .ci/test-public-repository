@@ -5,7 +5,7 @@ source "$(dirname "$0")/_config"
 docker pull "$_DOCKER_TESTING_TAG"
 
 # Test update of the previous versions
-docker run --tty --rm "$_DOCKER_TESTING_TAG" -c 'yum -y update'
+docker run --tty --rm "$_DOCKER_TESTING_TAG" yum -y update
 
 # Test fresh installation of the new ones
 docker build .docker --file .docker/testing.Dockerfile --tag "$_DOCKER_TESTING_TAG" --build-arg "MGS_BUILD_PKGS=$_BUILD_PKGS"
