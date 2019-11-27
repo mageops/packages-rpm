@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 
-set -euo pipefail 
+export _VERSION_BUMP="${1:-patch}"
 
-_CI_DIR="$(dirname $0)"
-_VERSION_BUMP="${1:-patch}"
-
-set -x
+source "$(dirname "$0")/_config"
 
 "$_CI_DIR/build-all"
 

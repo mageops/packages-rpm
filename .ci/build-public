@@ -1,17 +1,12 @@
 #!/usr/bin/env bash
 
-set -euo pipefail 
+source "$(dirname "$0")/_config"
 
-_PWD="$(pwd)"
-_PUB_DIR="${_PUB_DIR:-public}"
-_REPO_DIR="${_REPO_DIR:-repo}"
-_CI_DIR="$(dirname $0)"
+mkdir -p "$_PUBLIC_DIR/"
 
-set -x
-
-mkdir -p "$_PUB_DIR/"
-
-"$_CI_DIR/build-site"
+# "$_CI_DIR/build-site"
 
 cd "$_PWD"
-cp -vr "$_REPO_DIR" "$_PUB_DIR/"
+
+rm -rf "$_PUBLIC_DIR/$_REPO_DIRNAME"
+mv -v "$_REPO_DIRNAME" "$_PUBLIC_DIR/"

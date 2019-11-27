@@ -1,17 +1,8 @@
 #!/usr/bin/env bash
 
-set -euo pipefail 
+set -euo pipefail source "$(dirname "$0")/_config"
 
-_PWD="$(pwd)"
-_PUB_DIR="${_PUB_DIR:-public}"
-_REPO_DIR="${_REPO_DIR:-repo}"
-_DOCS_DIR="${_DOCS_DIR:-docs}"
-
-echo $_DOCS_DIR
-set -x
-
-mkdir -p "$_PUB_DIR/" "$_DOCS_DIR/"
-#cp -vr "$_REPO_DIR" "$_DOCS_DIR/"
+mkdir -p "$_PUBLIC_DIR/" "$_DOCS_DIR/"
 
 pushd ".jekyll"
 
@@ -25,6 +16,7 @@ bundle
 # bundle exec just-the-docs rake search:init
 bundle exec jekyll build --config config.yml
 
+# Serve cmd
 # bundle exec jekyll serve --config config.yml
 
 popd

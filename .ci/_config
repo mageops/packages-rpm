@@ -1,0 +1,60 @@
+
+#!/usr/bin/env bash
+
+set +x
+
+shopt -s globstar
+set -euo pipefail 
+
+export _PWD="$(pwd)"
+export _CI_DIR="$(dirname $0)"
+
+export _DOCS_DIR="${_DOCS_DIR:-docs}"
+export _RELEASE_DIR="${_RELEASE_DIR:-release}"
+
+export _ARCH_DIRNAME="x86_64"
+export _NOARCH_DIRNAME="noarch"
+
+export _BUILDTREE_DIR="${_BUILDTREE_DIR:-buildtree}"
+export _BUILDTREE_RPMS_DIR="${_BUILDTREE_RPMS_DIR:-$_BUILDTREE_DIR/RPMS}"
+
+export _EXTERNAL_RPMS_DIR="${_EXTERNAL_RPMS_DIR:-.ext-rpm.tmp}"
+
+export _REPO_DIRNAME="${_REPO_DIRNAME:-repo}"
+export _REPO_GIT="${_REPO_GIT:-https://github.com/mageops/rpm}"
+export _REPO_GIT_BRANCH="${_REPO_GIT_BRANCH:-gh-pages}"
+export _REPO_GIT_CLONE_DIR="${_REPO_GIT_CLONE_DIR:-.repo.git.tmp}"
+
+export _PUBLIC_DIR="${_PUBLIC_DIR:-public}"
+export _PUBLIC_REPO_DIR="${_PUBLIC_REPO_DIR:-$_PUBLIC_DIR/$_REPO_DIRNAME}"
+
+export _BUILD_PKGS="${_BUILD_PKGS:-\
+    mageops-release \
+    varnish-release \
+    nginx-release \
+    mariadb-release \
+    elasticsearch-release \
+    rabbitmq-release \
+    nodejs-release \
+    awscli \
+    aws-excfwd \
+    amazon-efs-utils \
+    varnish-modules-extra \
+    varnish-module-accept
+}"
+
+export _DOCKER_RUN_EXTRA_OPTS="${_DOCKER_RUN_EXTRA_OPTS:-}"
+export _DOCKER_TAG="${_DOCKER_TAG:-mageops/rpm-build:centos-7}"
+
+if [[ ! -z "${_DEBUG:-}" ]] ; then
+    echo "Warning! CI Scripts debug mode enabled!" >&2
+    export _DOCKER_RUN_EXTRA_OPTS="--volume $(pwd)/.docker/usr/local/bin/rpmbuild-mgs:/usr/local/bin/rpmbuild-mgs --interactive"
+fi
+
+echo -e "\n------ Effective CI scripts config ------\n"
+
+env | grep -e '^_[A-Z]\+' | sort
+
+echo -e "\n-----------------------------------------\n"
+
+set -x
