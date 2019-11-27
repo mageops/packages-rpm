@@ -9,4 +9,4 @@ docker run --tty --rm "$_DOCKER_TESTING_TAG" -c 'yum -y update'
 
 # Test fresh installation of the new ones
 docker build .docker --file .docker/testing.Dockerfile --tag "$_DOCKER_TESTING_TAG" --build-arg "MGS_BUILD_PKGS=$_BUILD_PKGS"
-docker --tag "$_DOCKER_TESTING_TAG"
+docker push "$_DOCKER_TESTING_TAG"
