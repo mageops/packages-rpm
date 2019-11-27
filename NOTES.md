@@ -30,3 +30,6 @@ git tag | grep -v legacy | xargs -I{} git push origin :{}
 git tag | grep -v legacy | xargs -I{} git tag -d {}
 github-remove-all-releases mageops rpm -t $GITHUB_TOKEN
 ```
+
+
+--- dummy ---
