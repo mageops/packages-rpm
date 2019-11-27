@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-functio cleanup() {
+function cleanup() {
     echo 'Terminate background jobs...'
     jobs -p | xargs kill 2>/dev/null || true
 
@@ -235,7 +235,7 @@ function mgs_create_repo() {
 # --- init config ---
 
 export MGS_BUILD_ID="$(date '+%Y-%m-%d-%H-%M-%S')"
-export MGS_TMPDIR="${MGS_TMPDIR:-/tmp/}"
+export MGS_TMPDIR="${MGS_TMPDIR:-/tmp}"
 export MGS_WORKDIR="${MGS_WORKDIR:-$(pwd)}"
 export MGS_MAKEFILE="${MGS_MAKEFILE:-/usr/local/share/rpmbuild-mgs/Makefile.package.default}"
 export MGS_RPM_GPG_KEY_SEC="${MGS_RPM_GPG_KEY_SEC:-$MGS_WORKDIR/rpm-gpg-key.sec.asc}"
@@ -260,16 +260,6 @@ export MGS_RPMBUILD_RPMDIR="${MGS_RPMBUILD_RPMDIR:-$MGS_RPMBUILD_ROOTDIR/RPMS}"
 export MGS_RPMBUILD_SRPMDIR="${MGS_RPMBUILD_SRPMDIR:-$MGS_RPMBUILD_ROOTDIR/SRPMS}"
 export MGS_RPMBUILD_SOURCESDIR="${MGS_RPMBUILD_SOURCESDIR:-$MGS_RPMBUILD_ROOTDIR/SOURCES}"
 export MGS_RPMBUILD_RSYNC_RPMS_OPTS="${MGS_RPMBUILD_RSYNC_RPMS_OPTS:--av}"
-
-if [ "$MGS_RPMBUILD_OVERWRITE_EXISTING_REPO" == "no" ] ; then
-    # By default do not overwrite already built RPMs with the same name.
-    # Otherwise the RPMs signatures will change with every build wreaking havoc for 
-    # anyone using this repository and already having packages installed or metadata fetched.
-    export MGS_RPMBUILD_RSYNC_RPMS_OPTS="$MGS_RPMBUILD_RSYNC_RPMS_OPTS --ignore-existing"
-else
-    log_warning "The current RPMs will be overwritten with newly built ones!"
-    log_warning "Never do that if you're directly updating the production repository!"
-fi
 
 # --- main ---
 
@@ -302,6 +292,16 @@ if [[ -z "MGS_PACKAGE_DIRLIST" ]] ; then
     echo "No packages to build" >&2
     mgs_usage
     exit 1
+fi
+
+if [ "$MGS_RPMBUILD_OVERWRITE_EXISTING_REPO" == "yes" ] ; then
+    log_warning "The current RPMs will be overwritten with newly built ones!"
+    log_warning "Never do that if you're directly updating the production repository!"
+else
+    # By default do not overwrite already built RPMs with the same name.
+    # Otherwise the RPMs signatures will change with every build wreaking havoc for 
+    # anyone using this repository and already having packages installed or metadata fetched.
+    export MGS_RPMBUILD_RSYNC_RPMS_OPTS="$MGS_RPMBUILD_RSYNC_RPMS_OPTS --ignore-existing"
 fi
 
 mkdir -p \

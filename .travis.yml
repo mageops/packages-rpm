@@ -11,11 +11,11 @@ before_install:
 
 script:
   - set -e
+  - .ci/fetch-current-repository
   - .ci/fetch-external-packages
   - .ci/build-packages
   - .ci/build-release
   - .ci/build-public
-  - .
   
 deploy:
   - provider: releases

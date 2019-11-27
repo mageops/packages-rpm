@@ -3,27 +3,36 @@
 set -euo pipefail 
 
 _BUILDTREE_DIR="${_BUILDTREE_DIR:-buildtree}"
-_NOARCH_RPM_DIR="$_BUILDTREE_DIR/RPMS/noarch"
-_AMD64_RPM_DIR="$_BUILDTREE_DIR/RPMS/x86_64"
+_BUILDTREE_RPMS_DIR="${_BUILDTREE_RPMS_DIR:-$_BUILDTREE_DIR/RPMS}"
+_EXTERNAL_RPMS_DIR="${_EXTERNAL_RPMS_DIR:-.ext-rpm.tmp}"
+_NOARCH_DIRNAME="noarch"
+_ARCH_DIRNAME="x86_64"
 
 set -x 
 
-mkdir -p "$_NOARCH_RPM_DIR" "$_AMD64_RPM_DIR"
-
+rm -rf "_EXTERNAL_RPMS_DIR/"
+mkdir -p \
+    "$_BUILDTREE_RPMS_DIR" \
+    "$_EXTERNAL_RPMS_DIR/$_ARCH_DIRNAME" \
+    "$_EXTERNAL_RPMS_DIR/$_NOARCH_DIRNAME" 
+    
 echo "Download remi release"
-
-curl -Ls "https://rpms.remirepo.net/enterprise/remi-release-7.rpm" -o "$_NOARCH_RPM_DIR/remi-release-7.noarch.rpm"
+curl -Ls "https://rpms.remirepo.net/enterprise/remi-release-7.rpm" -o "$_EXTERNAL_RPMS_DIR/$_NOARCH_DIRNAME/remi-release-7.noarch.rpm"
 
 echo "Download Amazon CloudWatch Agent"
-
 CWAGENT_VERSION="$(curl -Ls https://s3.amazonaws.com/amazoncloudwatch-agent/info/latest/CWAGENT_VERSION)"
 CWAGENT_PACKAGE_NAME="amazon-cloudwatch-agent-$CWAGENT_VERSION.el7.x86_64.rpm"
 
-curl -Ls "https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm" -o "$_AMD64_RPM_DIR/$CWAGENT_PACKAGE_NAME"
-curl -Ls "https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm.sig" -o "$_AMD64_RPM_DIR/$CWAGENT_PACKAGE_NAME.sig"
-curl -Ls "https://s3.amazonaws.com/amazoncloudwatch-agent/assets/amazon-cloudwatch-agent.gpg" -o "$_AMD64_RPM_DIR/$CWAGENT_PACKAGE_NAME.gpg"
+curl -Ls "https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm" -o "$_EXTERNAL_RPMS_DIR/$_ARCH_DIRNAME/$CWAGENT_PACKAGE_NAME"
+curl -Ls "https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm.sig" -o "$_EXTERNAL_RPMS_DIR/$_ARCH_DIRNAME/$CWAGENT_PACKAGE_NAME.sig"
+curl -Ls "https://s3.amazonaws.com/amazoncloudwatch-agent/assets/amazon-cloudwatch-agent.gpg" -o "$_EXTERNAL_RPMS_DIR/$_ARCH_DIRNAME/$CWAGENT_PACKAGE_NAME.gpg"
 
 echo "Verify Amazon CloudWatch Agent Signature"
+gpg --import "$_EXTERNAL_RPMS_DIR/$_ARCH_DIRNAME/$CWAGENT_PACKAGE_NAME.gpg"
+gpg --verify "$_EXTERNAL_RPMS_DIR/$_ARCH_DIRNAME/$CWAGENT_PACKAGE_NAME.sig" "$_EXTERNAL_RPMS_DIR/$_ARCH_DIRNAME/$CWAGENT_PACKAGE_NAME"
 
-gpg --import "$_AMD64_RPM_DIR/$CWAGENT_PACKAGE_NAME.gpg"
-gpg --verify "$_AMD64_RPM_DIR/$CWAGENT_PACKAGE_NAME.sig" "$_AMD64_RPM_DIR/$CWAGENT_PACKAGE_NAME"
+
+rsync -av "$_EXTERNAL_RPMS_DIR/" "$_BUILDTREE_RPMS_DIR/"
+
+
+rm -rvf "$_EXTERNAL_RPMS_DIR"
