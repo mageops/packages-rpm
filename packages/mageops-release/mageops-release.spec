@@ -1,6 +1,6 @@
 Name:           mageops-release
 Version:        7
-Release:        3
+Release:        4
 Summary:        MageOps RPM repository configuration
 
 Group:          System Environment/Base
@@ -45,6 +45,8 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
 
 %changelog
+* Wed Nov 27 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-4
+- Test bump again
 * Wed Nov 27 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-3
 - Bump release for testing CI fixes ;)
 * Mon Nov 25 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-1
