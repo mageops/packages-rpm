@@ -115,7 +115,7 @@ function mgs_build_package_dir() {
     log_msg "Syncing sources $(log_label $_PACKAGE) -> $(log_label $_PACKAGE_SOURCESDIR)"
 
     log_cmd mkdir -p "$_PACKAGE_SOURCESDIR"
-    log_cmd rsync "$_PACKAGE_DIR/" "$_PACKAGE_SOURCESDIR/"
+    log_cmd rsync -av "$_PACKAGE_DIR/" "$_PACKAGE_SOURCESDIR/"
 
     log_stage "Build $(log_label $_PACKAGE) in $(log_label $_PACKAGE_DIR) using $(log_label $_SPECFILE)"
 
