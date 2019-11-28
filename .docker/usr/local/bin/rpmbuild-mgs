@@ -219,7 +219,7 @@ function mgs_create_repo() {
     done
 
     log_msg "Syncing renamed releases -> $(log_label $MGS_RPMBUILD_REPORELEASEDIR/)"
-    log_cmd rsync "$MGS_BUILD_REPO_RSYNC_OPTS" "$_REL_RPM_TMP_DIR/" "$MGS_RPMBUILD_REPORELEASEDIR/"
+    log_cmd rsync "$MGS_RSYNC_OPTS" "$_REL_RPM_TMP_DIR/" "$MGS_RPMBUILD_REPORELEASEDIR/"
     log_cmd rm -rvf "$_REL_RPM_TMP_DIR"
 
     log_msg "Creating repo metadata for $(log_label repository releases)"
