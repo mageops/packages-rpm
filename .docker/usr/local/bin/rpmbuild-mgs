@@ -210,7 +210,7 @@ function mgs_create_repo() {
     mkdir -p "$_REL_RPM_TMP_DIR" 
     rm -rvf "$_REL_RPM_TMP_DIR/"* 
 
-    find "$MGS_RPMBUILD_RPMDIR/noarch" -type f -iname '*-release-*.rpm' | while read _REL_RPM_SRC_PATH; do 
+    find "$MGS_RPMBUILD_RPMDIR/noarch" -type f -iname '*-release-*.rpm' | sort | while read _REL_RPM_SRC_PATH; do 
         local _REL_RPM_SRC_NAME="$(basename "$_REL_RPM_SRC_PATH")"
         local _REL_RPM_DST_NAME="$(echo $_REL_RPM_SRC_NAME | sed -e 's/\([-_a-z]\+\)-release[-0-9]*\(.*\)\.noarch\.rpm$/\1-release\2.noarch.rpm/g')" 
 
