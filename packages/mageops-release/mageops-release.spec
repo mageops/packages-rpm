@@ -3,7 +3,7 @@ Version:        7
 Release:        5
 Summary:        MageOps RPM repository configuration
 
-Group:          System Environment/Base
+Group:          MageOps/Repositories
 License:        MIT
 
 Vendor:         creativestyle GmbH <https://creativestyle.de>
@@ -30,11 +30,8 @@ install -pm 644 %{SOURCE1} .
 rm -rf $RPM_BUILD_ROOT
 
 install -Dpm 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
-
-# yum
 install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
-install -pm 644 %{SOURCE0}  \
-    $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
+install -pm 644 %{SOURCE0} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -45,11 +42,13 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
 
 %changelog
-* Wed Dec 4 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-5
-- Update repository name and URL
+* Thu Nov 28 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-5
+- Change group to MageOps/Repositories to see what happens
 * Wed Nov 27 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-4
 - Test bump again
 * Wed Nov 27 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-3
 - Bump release for testing CI fixes ;)
+* Wed Nov 27 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-2
+- Who knows?
 * Mon Nov 25 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-1
-- Initial version 
+- Initial version
