@@ -1,4 +1,4 @@
-Name:             aws-excdwd
+Name:             aws-excfwd
 Version:          1.0.1
 Release:          1%{?dist}
 
