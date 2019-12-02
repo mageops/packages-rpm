@@ -9,7 +9,7 @@
 
 Name:           %{pkg}
 Version:        1.16.284
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 Group:          System Environment/Libraries
 Summary:        Universal Command Line Environment for AWS
@@ -23,6 +23,9 @@ BuildArch:      noarch
 BuildRequires:  python%{python3_pkgversion}
 BuildRequires:  python%{python3_pkgversion}-devel
 BuildRequires:  python%{python3_pkgversion}-virtualenv
+
+Requires(post):   %{_sbindir}/alternatives
+Requires(postun): %{_sbindir}/alternatives
 
 Requires:       python%{python3_pkgversion} >= 3.6
 Requires:       groff
@@ -53,18 +56,29 @@ cp -r %{venv_path} %{buildroot}%{_libdir}/%{pkg}
 %py_byte_compile %{__python3} %{buildroot}%{_datadir}/%{pkg}
 
 %posttrans
-alternatives --install %{_bindir}/%{binary} %{binary} %{_libdir}/%{pkg}/bin/%{binary} 1
+%{_sbindir}/alternatives --install %{_bindir}/%{binary} %{binary} %{_libdir}/%{pkg}/bin/%{binary} 1
 ln -s %{_bindir}/python %{_libdir}/%{pkg}/bin/python
 ln -s %{_bindir}/python3 %{_libdir}/%{pkg}/bin/python3
 
+%postun
+if [ $1 -eq 0 ] ; then
+  %{_sbindir}/alternatives --remove %{binary} %{_bindir}/%{binary}
+fi
+
 %files
 %ghost %{_bindir}/%{binary}
-%ghost %{_libdir}/%{pkg}/bin/python
-%ghost %{_libdir}/%{pkg}/bin/python3
+%{_bindir}/%{binary}
+%{_libdir}/%{pkg}/bin/python
+%{_libdir}/%{pkg}/bin/python3
 %{_libdir}/%{pkg}/
 
 %changelog
-* Tue Nov 19 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 1.16.284
+* Mon Dec 2 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 1.16.284-2
+- Fix target binary - file should be present and and the same "ghosted"
+- Add alternatives uninstallation
+- Remove ghost from python symlinks
+
+* Tue Nov 19 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 1.16.284-1
 - Bump version
 - Cleanup and simply the specfile
 - Switch %_datadir to %_libdir installation
