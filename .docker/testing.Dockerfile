@@ -14,7 +14,7 @@ RUN yum -y update \
         gnupg \
         yum-utils \
         epel-release \
-    && rpm -Uvh https://mageops.github.io/rpm/repo/el/7/mageops-release.noarch.rpm \
+    && rpm -Uvh https://mageops.github.io/packages-rpm/repo/el/7/mageops-release.noarch.rpm \
     && rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS \
     && yum -t makecache --disablerepo="*" --enablerepo="mageops" \
     && yum -y install \

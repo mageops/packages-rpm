@@ -1,6 +1,6 @@
 Name:           mageops-release
 Version:        7
-Release:        4
+Release:        5
 Summary:        MageOps RPM repository configuration
 
 Group:          System Environment/Base
@@ -8,10 +8,10 @@ License:        MIT
 
 Vendor:         creativestyle GmbH <https://creativestyle.de>
 Packager:       creativestyle GmbH <https://creativestyle.de>
-URL:            https://github.com/mageops/rpm
+URL:            https://github.com/mageops/packages-rpm
 
 Source0:        mageops.repo
-Source1:        https://raw.githubusercontent.com/mageops/rpm/master/rpm-gpg-key.pub.asc
+Source1:        https://raw.githubusercontent.com/mageops/packages-rpm/master/rpm-gpg-key.pub.asc
 
 BuildArch:      noarch
 Requires:       redhat-release >= %{version}
@@ -45,6 +45,8 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
 
 %changelog
+* Wed Dec 4 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-5
+- Update repository name and URL
 * Wed Nov 27 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-4
 - Test bump again
 * Wed Nov 27 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-3

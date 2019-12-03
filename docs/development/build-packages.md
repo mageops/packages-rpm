@@ -12,9 +12,9 @@ nav_order: 1
 
 The packages are built automatically on [Travis](https://travis-ci.com/mageops/rpm).
 
-The repository is hosted at [GitHub Pages](https://github.com/mageops/rpm/tree/gh-pages/repo/).
+The repository is hosted at [GitHub Pages](https://github.com/mageops/packages-rpm/tree/gh-pages/repo/).
 
-You can also find the build artifacts in [GitHub Releases](https://github.com/mageops/rpm/releases).
+You can also find the build artifacts in [GitHub Releases](https://github.com/mageops/packages-rpm/releases).
 
 ## Build locally using docker
 

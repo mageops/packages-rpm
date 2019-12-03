@@ -19,7 +19,7 @@ you should have Varnish 6.0 LTS.
 
 The most convenient way to make it avaialble
 is to install the [Official Varnish Cache Repositories](https://packagecloud.io/varnishcache) 
-we have [packaged](https://mageops.github.io/rpm/repo/el/7/varnish-release.noarch.rpm).
+we have [packaged](https://mageops.github.io/packages-rpm/repo/el/7/varnish-release.noarch.rpm).
 
 This will automatically enable the correct repository for the currently supported latest LTS version.
 

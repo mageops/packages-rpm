@@ -16,4 +16,4 @@ can easily find anything that you're interested in.
 
 Some packages are not documented so it might be useful
 to discover new ones by browsing the whole repository file structure at 
-[GitHub Pages branch](https://github.com/mageops/rpm/tree/gh-pages/repo/el/7).
+[GitHub Pages branch](https://github.com/mageops/packages-rpm/tree/gh-pages/repo/el/7).

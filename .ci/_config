@@ -21,7 +21,7 @@ export _BUILDTREE_RPMS_DIR="${_BUILDTREE_RPMS_DIR:-$_BUILDTREE_DIR/RPMS}"
 export _EXTERNAL_RPMS_DIR="${_EXTERNAL_RPMS_DIR:-.ext-rpm.tmp}"
 
 export _REPO_DIRNAME="${_REPO_DIRNAME:-repo}"
-export _REPO_GIT="${_REPO_GIT:-https://github.com/mageops/rpm}"
+export _REPO_GIT="${_REPO_GIT:-https://github.com/mageops/packages-rpm}"
 export _REPO_GIT_BRANCH="${_REPO_GIT_BRANCH:-gh-pages}"
 export _REPO_GIT_CLONE_DIR="${_REPO_GIT_CLONE_DIR:-.repo.git.tmp}"
 

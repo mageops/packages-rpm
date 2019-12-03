@@ -13,7 +13,7 @@ and build automation.
 
 {: .fs-6 .fw-300 }
 
-[Use it now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View project on GitHub](https://github.com/mageops/rpm){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Use it now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [View project on GitHub](https://github.com/mageops/packages-rpm){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 ---
 
@@ -40,19 +40,19 @@ yum-config-manager --enable epel
 ### Direct RPM release package installation (recommended)
 
 ```shell
-rpm -Uvh https://mageops.github.io/rpm/repo/el/7/mageops-release.noarch.rpm
+rpm -Uvh https://mageops.github.io/packages-rpm/repo/el/7/mageops-release.noarch.rpm
 ```
 
 ### Manual configuration by curl download (advanced)
 
 1. Install the GPG signing key
 ```bash
-curl -s https://raw.githubusercontent.com/mageops/rpm/master/rpm-gpg-key.pub.asc > /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
+curl -s https://raw.githubusercontent.com/mageops/packages-rpm/master/rpm-gpg-key.pub.asc > /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
 ```
 
 2. Install the YUM repository config
 ```bash
-curl -s https://raw.githubusercontent.com/mageops/rpm/master/packages/mageops-release/mageops.repo > /etc/yum.repos.d/mageops.repo
+curl -s https://raw.githubusercontent.com/mageops/packages-rpm/master/packages/mageops-release/mageops.repo > /etc/yum.repos.d/mageops.repo
 ```
 
 ### Finishing steps (optional)

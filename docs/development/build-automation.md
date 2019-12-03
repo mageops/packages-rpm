@@ -10,6 +10,6 @@ nav_order: 2
 
 ## Bash scripts
 
-See the bash scripts in the [.ci](https://github.com/mageops/rpm/tree/master/.ci) subdirectory.
+See the bash scripts in the [.ci](https://github.com/mageops/packages-rpm/tree/master/.ci) subdirectory.
 
-They are called by [Travis](https://travis-ci.com/mageops/rpm) jobs which definition can be found in [.travis.yml](https://github.com/mageops/rpm/tree/master/.travis.yml).
+They are called by [Travis](https://travis-ci.com/mageops/rpm) jobs which definition can be found in [.travis.yml](https://github.com/mageops/packages-rpm/tree/master/.travis.yml).
