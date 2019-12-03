@@ -1,7 +1,7 @@
 title: MageOps Packages
 description: MageOps RPM Package Repository
 
-baseurl: "/rpm/"
+baseurl: "/packages-rpm/"
 url: "https://mageops.github.io"
 
 permalink: pretty
