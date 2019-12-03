@@ -3,67 +3,67 @@
   "0": {
     "title": "Add package",
     "content": "Create a new package .",
-    "url": "https://mageops.github.io/rpm/development/package/add",
+    "url": "https://mageops.github.io/packages-rpm/development/package/add",
     "relUrl": "/development/package/add"
   }
   ,"1": {
     "title": "AWS Tools",
     "content": "Various tools for Amazon AWS .",
-    "url": "https://mageops.github.io/rpm/packages/aws",
+    "url": "https://mageops.github.io/packages-rpm/packages/aws",
     "relUrl": "/packages/aws"
   }
   ,"2": {
     "title": "Build Automation",
     "content": "How the build automation works . Bash scripts . See the bash scripts in the .ci subdirectory. . They are called by Travis jobs which definition can be found in .travis.yml. .",
-    "url": "https://mageops.github.io/rpm/development/build/automation",
+    "url": "https://mageops.github.io/packages-rpm/development/build/automation",
     "relUrl": "/development/build/automation"
   }
   ,"3": {
     "title": "Build Packages",
     "content": "Building the packages and repository . Transparency . The packages are built automatically on Travis. . The repository is hosted at GitHub Pages. . You can also find the build artifacts in GitHub Releases. . Build locally using docker . In case you want to build the packages locally (e.g. for testing updates / modifications) you can use Docker. . Build the container image locally (optional) . You can skip this step - the image is also present at MageOps Docker Hub Repo. . docker build .docker --file .docker/Dockerfile --tag mageops/rpm-build:centos-7 . Run the docker image . The entrypoint script will automatically handle building the packages residing in the defined packages/ subdirectories. . Note! Some packages may need to be built in specific order. . docker run --tty --volume $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 {package-a-subdirectory} {package-b-subdirectory} [...] . Tip: If the above command is ran with no arguments it will build default set of packages. . You can override the entrypoint by using the following command to get a shell to poke around in case of failure. . docker run --interactive --tty --entrypoint /bin/bash -v $(pwd):/root/rpmbuild mageops/rpm-build:centos-7 .",
-    "url": "https://mageops.github.io/rpm/development/build/packages",
+    "url": "https://mageops.github.io/packages-rpm/development/build/packages",
     "relUrl": "/development/build/packages"
   }
   ,"4": {
     "title": "Development",
     "content": "How to build, deploy and extend this project . Start reading with Build Packages to know how to build everything locally for debugging. .",
-    "url": "https://mageops.github.io/rpm/development/",
+    "url": "https://mageops.github.io/packages-rpm/development/",
     "relUrl": "/development/"
   }
   ,"5": {
     "title": "Home",
     "content": "Extra RPM packages for bleeding-edge cloud infrastructure . A MageOps RPM package collection sources, repository and build automation. . Use it now View project on GitHub . . Getting started . Compatibility . This repository works in CentOS/RHEL 7 and requires EPEL to be installed and enabled. . Certain packages may require other repositories, the extra dependecies will be listed in their description on this site. . Install EPEL (required) . If you’re on CentOS it should be sufficient to install it from official release. . yum -y install epel-release yum-config-manager --enable epel . Direct RPM release package installation (recommended) . rpm -Uvh https://mageops.github.io/rpm/repo/el/7/mageops-release.noarch.rpm . Manual configuration by curl download (advanced) . Install the GPG signing key curl -s https://raw.githubusercontent.com/mageops/rpm/master/rpm-gpg-key.pub.asc &gt; /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS . | Install the YUM repository config curl -s https://raw.githubusercontent.com/mageops/rpm/master/packages/mageops-release/mageops.repo &gt; /etc/yum.repos.d/mageops.repo . | Finishing steps (optional) . Import the GPG signing key rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS . | Compute cache for the new repository yum makecache --disablerepo=&quot;*&quot; --enablerepo=&quot;mageops&quot; . |",
-    "url": "https://mageops.github.io/rpm/",
+    "url": "https://mageops.github.io/packages-rpm/",
     "relUrl": "/"
   }
   ,"6": {
     "title": "Modify package",
     "content": "Modify an existing package .",
-    "url": "https://mageops.github.io/rpm/development/package/modify",
+    "url": "https://mageops.github.io/packages-rpm/development/package/modify",
     "relUrl": "/development/package/modify"
   }
   ,"7": {
     "title": "Packages",
     "content": "Available packages grouped by theme . The package descriptions are grouped together so you can easily find anything that you’re interested in. . Browse the raw repository (alternatively) . Some packages are not documented so it might be useful to discover new ones by browsing the whole repository file structure at GitHub Pages branch. .",
-    "url": "https://mageops.github.io/rpm/packages/",
+    "url": "https://mageops.github.io/packages-rpm/packages/",
     "relUrl": "/packages/"
   }
   ,"8": {
     "title": "Yum Repositories",
     "content": "Various official Yum repositories conveniently packaged . Instead of worrying about importing GPG keys and creating repo configuration files manually all you have to do is to install a single package. . Install all repositories at once . yum -y install mariadb-release nginx-release nodejs-release rabbitmq-release varnish-release elasticsearch-release remi-release rpm --import /etc/pki/rpm-gpg/* yum -y makecache fast . Available repository release packages . mageops-release - this repository | mariadb-release - official MariaDB Repository | nginx-release - official nginx Repository | nodejs-release - official nodesource repositories | rabbitmq-release - official RabbitMQ Repository | varnish-release - official Varnish Cache Repository | elasticsearch-release - official Varnish Cache Repository | remi-release - unmodified RPM from Remi’s site | .",
-    "url": "https://mageops.github.io/rpm/packages/repositories",
+    "url": "https://mageops.github.io/packages-rpm/packages/repositories",
     "relUrl": "/packages/repositories"
   }
   ,"9": {
     "title": "Unison File Sync",
     "content": "Package collection for stable and fast two-way file synchronization . These packages have been crafted for providing two-way file synchronization between host OS and virtualized (local or remote) development environment. . Why . Unison is special in the way that it needs to be (preferably) the exact same version both on the host and guest. . Not only that but also it’s best if has been compiled by the same version of OCaml due to BC breaks in serialization format across versions. . In order to achieve good stability we need to to maintain a compatible set of unison binaries across all OSes - hence - we need to compile unison using specfic version of OCaml. . Compatible binaries for other Operating Systems . MacOS . The latest version from brew is the one that we wanted to stay compatible with. . brew install unison . Windows . Sorry, we don’t support Windows yet. Stay tuned! 🤟 .",
-    "url": "https://mageops.github.io/rpm/packages/unison",
+    "url": "https://mageops.github.io/packages-rpm/packages/unison",
     "relUrl": "/packages/unison"
   }
   ,"10": {
     "title": "Varnish Extras",
     "content": "Extras for Varnish Cache Server . These packages are meant to be used with latest LTS Varnish version that has been installed from the official repositories. . Install Varnish Official Repository . If you intend to use anu of this packages it’s best that you have you should have Varnish 6.0 LTS. . The most convenient way to make it avaialble is to install the Official Varnish Cache Repositories we have packaged. . This will automatically enable the correct repository for the currently supported latest LTS version. . yum -y install varnish-release .",
-    "url": "https://mageops.github.io/rpm/packages/varnish",
+    "url": "https://mageops.github.io/packages-rpm/packages/varnish",
     "relUrl": "/packages/varnish"
   }
   
