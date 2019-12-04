@@ -67,9 +67,8 @@ fi
 
 %files
 %ghost %{_bindir}/%{binary}
-%{_bindir}/%{binary}
-%{_libdir}/%{pkg}/bin/python
-%{_libdir}/%{pkg}/bin/python3
+%ghost %{_libdir}/%{pkg}/bin/python
+%ghost %{_libdir}/%{pkg}/bin/python3
 %{_libdir}/%{pkg}/
 
 %changelog
