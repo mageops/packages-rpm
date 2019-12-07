@@ -1,7 +1,7 @@
 Name:           nodejs-release
 Version:        7
-Release:        1
-Summary:        Official NodeJS RPM repository configuration
+Release:        2
+Summary:        Nodesource and Yarnpkg RPM Repos coveniently bundled
 
 Group:          System Environment/Base
 License:        MIT
@@ -12,6 +12,7 @@ URL:            https://nodejs.org/
 
 Source0:        nodejs.repo
 Source1:        https://rpm.nodesource.com/pub/el/NODESOURCE-GPG-SIGNING-KEY-EL
+Source2:        https://dl.yarnpkg.com/rpm/pubkey.gpg
 
 BuildArch:      noarch
 Requires:       redhat-release >= %{version}
@@ -29,7 +30,8 @@ install -pm 644 %{SOURCE1} .
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -Dpm 644 "%{SOURCE1}" $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+install -Dpm 644 "%{SOURCE1}" $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/NODE-GPG-SIGNING-KEY-EL
+install -Dpm 644 "%{SOURCE2}" $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/YARNPKG-GPG-SIGNING-KEY-EL
 
 # yum
 install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
@@ -45,5 +47,7 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
 
 %changelog
+* Sat Dev 07 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-2
+- Add yarn repo
 * Tue Nov 26 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-1
-- Initial version 
+- Initial version

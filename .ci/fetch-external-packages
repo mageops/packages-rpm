@@ -7,11 +7,17 @@ rm -rf "_EXTERNAL_RPMS_DIR/"
 mkdir -p \
     "$_BUILDTREE_RPMS_DIR" \
     "$_EXTERNAL_RPMS_DIR/$_ARCH_DIRNAME" \
-    "$_EXTERNAL_RPMS_DIR/$_NOARCH_DIRNAME" 
-    
+    "$_EXTERNAL_RPMS_DIR/$_NOARCH_DIRNAME"
+
+
 # --- Remi's repo ---
 
 curl -Ls "https://rpms.remirepo.net/enterprise/remi-release-7.rpm" -o "$_EXTERNAL_RPMS_DIR/$_NOARCH_DIRNAME/remi-release-7.noarch.rpm"
+
+# --- MySQL Community Repo ---
+
+curl -Ls "http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm" -o "$_EXTERNAL_RPMS_DIR/$_NOARCH_DIRNAME/mysql-community-release-el7-5.noarch.rpm"
+curl -Ls "http://repo.mysql.com/mysql57-community-release-el7-9.noarch.rpm" -o "$_EXTERNAL_RPMS_DIR/$_NOARCH_DIRNAME/mysql57-community-release-7-9.noarch.rpm"
 
 # --- Amazon CloudWatch Agent ---
 
