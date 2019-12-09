@@ -1,6 +1,6 @@
 Name:           elasticsearch-release
 Version:        7
-Release:        1
+Release:        2
 Summary:        Official Elasticsearch RPM repository configuration
 
 Group:          System Environment/Base
