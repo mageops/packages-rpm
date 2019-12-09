@@ -1,6 +1,4 @@
-[![Build Status](https://img.shields.io/travis/mageops/packages-rpm?label=Travis+Build)](https://travis-ci.com/mageops/packages-rpm) 
-
-[![Docker Hub Build Status](https://img.shields.io/docker/cloud/build/mageops/rpm-build?label=Docker+Image+Build)](https://hub.docker.com/r/mageops/rpm-build/builds)
+[![Build Status](https://img.shields.io/travis/mageops/packages-rpm?label=Travis+Build)](https://travis-ci.com/mageops/packages-rpm) [![Docker Hub Build Status](https://img.shields.io/docker/cloud/build/mageops/rpm-build?label=Docker+Image+Build)](https://hub.docker.com/r/mageops/rpm-build/builds)
 
 <p align="center">
   <img align="center" alt="MageSuite" width="211" src="https://avatars2.githubusercontent.com/u/56443641?s=350&v=4">
