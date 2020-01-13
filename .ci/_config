@@ -39,6 +39,7 @@ export _BUILD_PKGS="${_BUILD_PKGS:-\
     awscli \
     aws-excfwd \
     amazon-efs-utils \
+    goofys \
     varnish-modules-extra \
     varnish-module-accept
 }"
