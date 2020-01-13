@@ -12,7 +12,6 @@ pwd
 
 export JEKYLL_ENV=production
 
-bundle config set deployment 'true'
 bundle install
 
 # Not working on my mac right now /FS
