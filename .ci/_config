@@ -40,9 +40,12 @@ export _BUILD_PKGS="${_BUILD_PKGS:-\
     aws-excfwd \
     amazon-efs-utils \
     goofys \
+    earlyoom \
     varnish-modules-extra \
     varnish-module-accept
 }"
+
+export _BUILD_PKGS="${_BUILD_PKGS:"earlyoom goofys"}"
 
 export _DOCKER_RUN_EXTRA_OPTS="${_DOCKER_RUN_EXTRA_OPTS:-}"
 export _DOCKER_TAG="${_DOCKER_TAG:-mageops/rpm-build:centos-7}"
