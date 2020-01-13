@@ -112,12 +112,20 @@ function mgs_build_package_dir() {
     local _PACKAGE="$(echo $_PACKAGE_DIRNAME | sed -e 's/^[-0-9_.]\+//')"
     local _SPECFILE="$_PACKAGE.spec"
 
+    local _PACKAGE_RPMFILE_FORMAT="$(rpm --quiet --define "_srcrpmdir $MGS_RPMBUILD_RPMDIR" --define "_sourcedir $_PACKAGE_SOURCESDIR" --specfile "$_PACKAGE_DIR/$_SPECFILE" --eval '%{_srcrpmdir}/%{_rpmfilename}')"
+    local _PACKAGE_RPMFILE="$(rpm --define "_srcrpmdir $MGS_RPMBUILD_RPMDIR" --define "_sourcedir $_PACKAGE_SOURCESDIR" --specfile "$_PACKAGE_DIR/$_SPECFILE" --queryformat "$_PACKAGE_RPMFILE_FORMAT")"
+
     log_msg "Syncing sources $(log_label $_PACKAGE) -> $(log_label $_PACKAGE_SOURCESDIR)"
 
     log_cmd mkdir -p "$_PACKAGE_SOURCESDIR"
     log_cmd rsync $MGS_RSYNC_OPTS "$_PACKAGE_DIR/" "$_PACKAGE_SOURCESDIR/"
 
-    log_stage "Build $(log_label $_PACKAGE) in $(log_label $_PACKAGE_DIR) using $(log_label $_SPECFILE)"
+    log_stage "Build $(log_label $_PACKAGE) in $(log_label $_PACKAGE_DIR) using $(log_label $_SPECFILE) into $(log_label $_PACKAGE_RPMFILE)"
+
+    if [ -f "$_PACKAGE_RPMFILE" ] ; then 
+        log_msg "Build $(log_label $_PACKAGE) skipped - target file $(log_label $_PACKAGE_RPMFILE) exists"
+        return 0
+    fi
 
     log_cmd make --debug --directory "$_PACKAGE_DIR" --makefile "$MGS_MAKEFILE" "spec=$_SPECFILE" "outdir=$MGS_RPMBUILD_SRPMDIR" "sourcesdir=$_PACKAGE_SOURCESDIR" srpm
     log_cmd make --debug --directory "$_PACKAGE_DIR" --makefile "$MGS_MAKEFILE" "spec=$_SPECFILE" "outdir=$MGS_RPMBUILD_RPMDIR" "sourcesdir=$_PACKAGE_SOURCESDIR" rpm
