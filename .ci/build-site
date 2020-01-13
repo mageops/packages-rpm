@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-set -euo pipefail source "$(dirname "$0")/_config"
+set -euo pipefail
+
+source "$(dirname "$0")/_config"
 
 mkdir -p "$_PUBLIC_DIR/" "$_DOCS_DIR/"
 
