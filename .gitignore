@@ -6,5 +6,8 @@
 /public/
 /docs/repo/
 /.logs/
+/.jekyll/vendor/
+/.jekyll/.sass-cache/
+/.jekyll/.bundle/
 .tmp.*
 *.tmp
