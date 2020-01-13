@@ -8,6 +8,7 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_a0f7fc7ded7a_key -iv $encrypted_a0f7fc7ded7a_iv -in rpm-gpg-key.sec.asc.enc -out rpm-gpg-key.sec.asc -d
   - echo -e "machine github.com\n  login $GITHUB_OAUTH_TOKEN" > ~/.netrc
   - .ci/pull-docker
+  - gem install bundler
 
 script:
   - set -e
