@@ -1,26 +1,4 @@
-basicdeps = \
-	dnf-plugins-core \
-	rpm \
-	rpm-libs \
-	rpm-python \
-	rpm-build \
-	rpm-sign \
-	createrepo \
-	rpmdevtools \
-	gcc \
-	gcc-c++ \
-	git \
-	m4 \
-	cmake \
-	make \
-	automake \
-	autoconf \
-	curl \
-	sed \
-	nano \
-	which \
-	file
-
+basicdeps = dnf-plugins-core
 sourcesdir ?= $(CURDIR)
 
 basicdeps:
