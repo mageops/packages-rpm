@@ -1,6 +1,6 @@
 Name:             varnish-modules-extra
 Version:          0.15.0
-Release:          1%{?dist}
+Release:          1.6.0.6%{?dist}
 
 Group:            System Environment/Libraries
 Summary:          Varnish Official Module Collection
@@ -13,10 +13,10 @@ URL:              https://github.com/varnish/varnish-modules
 Source0:          https://github.com/varnish/varnish-modules/archive/0.15.0.tar.gz
 
 Conflicts:        varnish-modules
-Requires:         varnish >= 6.0
+Requires:         varnish = 6.0.6
 
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{release}-root
-BuildRequires:    varnish-devel >= 6.0
+BuildRequires:    varnish-devel = 6.0.6
 BuildRequires:    libtool
 BuildRequires:    python-docutils
 
@@ -48,5 +48,8 @@ Official collection of varnish modules
 %_datarootdir/doc/v*
 
 %changelog
+* Wed Feb 05 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.15.0-1.6.0.6
+- Stick to specific version of varnish to prevent abi incompatibility
+
 * Tue Nov 19 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 6.0
 - Bump version
