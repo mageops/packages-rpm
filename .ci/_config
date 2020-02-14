@@ -43,7 +43,8 @@ export _BUILD_PKGS="${_BUILD_PKGS:-\
     goofys \
     earlyoom \
     varnish-modules-extra \
-    varnish-module-accept
+    varnish-module-accept \
+    vmtouch
 }"
 
 export _DOCKER_RUN_EXTRA_OPTS="${_DOCKER_RUN_EXTRA_OPTS:-}"
