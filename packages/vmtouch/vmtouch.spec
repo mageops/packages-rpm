@@ -1,6 +1,6 @@
 Name:           vmtouch
 Version:        1.3.0
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Portable file system cache diagnostics and control
 
 License:        BSD
@@ -23,7 +23,7 @@ Unix and Unix-like systems.
 
 
 %build
-make CFLAGS='%{optflags}'
+make CFLAGS='-std=gnu99 %{optflags}'
 
 
 %install
@@ -37,6 +37,9 @@ make install PREFIX=%{buildroot}%{_prefix} MANDIR=%{buildroot}%{_mandir}/man8
 
 
 %changelog
+* Fri Feb 14 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.3.0-9
+- Add -std=gnu99 needed for compatibility
+
 * Sat Jul 27 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.3.0-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
