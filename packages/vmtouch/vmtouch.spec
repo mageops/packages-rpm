@@ -4,6 +4,7 @@ Release:        8%{?dist}
 Summary:        Portable file system cache diagnostics and control
 
 License:        BSD
+Packager:       creativestyle GmbH <https://creativestyle.de>
 URL:            http://hoytech.com/vmtouch/
 Source0:        https://github.com/hoytech/%{name}/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 
