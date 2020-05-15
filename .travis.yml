@@ -10,10 +10,6 @@ cache:
   bundler: true
   directories:
      - cache
-     - repo
-     - builtree/RPMS
-     - builtree/SRPMS
-     - builtree/SOURCES
 
 env:
   global:
