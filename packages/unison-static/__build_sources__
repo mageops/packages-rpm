@@ -2,14 +2,14 @@
 
 set -e -x
 
-PWD="$(dirname $0)"
+_CWD="$(dirname $0)"
 
-docker build "$(PWD)/docker-build/" -t unison-linux-static-build
+docker build "${_CWD}/docker-build/" -t unison-linux-static-build
 
 CID=$(docker create unison-linux-static-build unison-linux-static-build)
 
-rm -f "$(PWD)/unison" "$(PWD)/unison-fsmonitor"
+rm -f "${_CWD}/unison" "${_CWD}/unison-fsmonitor"
 
-docker cp "$CID:/build/output/unison"           "$(PWD)/unison"
-docker cp "$CID:/build/output/unison-fsmonitor" "$(PWD)/unison-fsmonitor"
+docker cp "$CID:/build/output/unison"           "${_CWD}/unison"
+docker cp "$CID:/build/output/unison-fsmonitor" "${_CWD}/unison-fsmonitor"
 docker rm "$CID"
