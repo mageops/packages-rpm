@@ -9,11 +9,11 @@ services:
 cache:
   bundler: true
   directories:
-     - /home/travis/cache
-     - /home/travis/repo
-     - /home/travis/builtree/RPMS
-     - /home/travis/builtree/SRPMS
-     - /home/travis/builtree/SOURCES
+     - cache
+     - repo
+     - builtree/RPMS
+     - builtree/SRPMS
+     - builtree/SOURCES
 
 env:
   global:
