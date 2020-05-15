@@ -14,6 +14,8 @@ URL:              https://www.cis.upenn.edu/~bcpierce/unison
 Source0:          unison
 Source1:          unison-fsmonitor
 
+Conflicts:        unison
+
 %description
 Unison is a file-synchronization tool for OSX, Unix, and Windows.
 
