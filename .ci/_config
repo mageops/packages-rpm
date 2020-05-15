@@ -11,6 +11,7 @@ export _CI_DIR="$(dirname $0)"
 
 export _DOCS_DIR="${_DOCS_DIR:-docs}"
 export _RELEASE_DIR="${_RELEASE_DIR:-release}"
+export _CACHE_DIR="${_CACHE_DIR:-cache}"
 
 export _ARCH_DIRNAME="x86_64"
 export _NOARCH_DIRNAME="noarch"
@@ -23,12 +24,13 @@ export _EXTERNAL_RPMS_DIR="${_EXTERNAL_RPMS_DIR:-.ext-rpm.tmp}"
 export _REPO_DIRNAME="${_REPO_DIRNAME:-repo}"
 export _REPO_GIT="${_REPO_GIT:-https://github.com/mageops/packages-rpm}"
 export _REPO_GIT_BRANCH="${_REPO_GIT_BRANCH:-gh-pages}"
-export _REPO_GIT_CLONE_DIR="${_REPO_GIT_CLONE_DIR:-.repo.git.tmp}"
+export _REPO_GIT_CLONE_DIR="${_REPO_GIT_CLONE_DIR:-${_CACHE_DIR}/repo-git-clone}"
 
 export _PUBLIC_DIR="${_PUBLIC_DIR:-public}"
 export _PUBLIC_REPO_DIR="${_PUBLIC_REPO_DIR:-$_PUBLIC_DIR/$_REPO_DIRNAME}"
 
 export _BUILD_PKGS="${_BUILD_PKGS:-\
+    unison \
     mageops-release \
     varnish-release \
     nginx-release \

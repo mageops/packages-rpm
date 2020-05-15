@@ -5,6 +5,7 @@
 /release/
 /public/
 /docs/repo/
+/cache/
 /.logs/
 /.jekyll/vendor/
 /.jekyll/.sass-cache/

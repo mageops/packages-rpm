@@ -2,11 +2,17 @@
 
 source "$(dirname "$0")/_config"
 
-rm -rvf "$_REPO_DIRNAME" "$_REPO_GIT_CLONE_DIR"
-git clone --depth 1 --single-branch --branch "$_REPO_GIT_BRANCH" "$_REPO_GIT" "$_REPO_GIT_CLONE_DIR"
+rm -rvf "$_REPO_DIRNAME/"
 
-mv -v "$_REPO_GIT_CLONE_DIR/$_REPO_DIRNAME" "$_REPO_DIRNAME"
+if [ -d "$_REPO_GIT_CLONE_DIR/.git" ] ; then
+    git --git-dir="$_REPO_GIT_CLONE_DIR/.git" fetch
+    git --git-dir="$_REPO_GIT_CLONE_DIR/.git" reset --hard "origin/$_REPO_GIT_BRANCH"
+    git --git-dir="$_REPO_GIT_CLONE_DIR/.git" reset --hard
+else
+    rm -rvf "$_REPO_GIT_CLONE_DIR/"
+    git clone --depth 1 --single-branch --branch "$_REPO_GIT_BRANCH" "$_REPO_GIT" "$_REPO_GIT_CLONE_DIR"
+fi
 
-rm -rf "$_REPO_GIT_CLONE_DIR"
+cp -r "$_REPO_GIT_CLONE_DIR/$_REPO_DIRNAME" "$_REPO_DIRNAME"
 
 
