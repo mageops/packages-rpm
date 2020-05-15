@@ -30,6 +30,7 @@ script:
   - set -e
   - .ci/fetch-current-repository
   - .ci/fetch-external-packages
+  - .ci/build-sources
   - .ci/build-packages
   - .ci/build-public
   - .ci/build-release

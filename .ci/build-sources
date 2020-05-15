@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+source "$(dirname "$0")/_config"
+
+find packages -name '__build_sources__' -type f | while read BUILD_SCRIPT ; do
+    if [ -x "$BUILD_SCRIPT" ] ; then
+        echo "Executing custom source build script: $BUILD_SCRIPT"
+        pushd "$(dirname "$BUILD_SCRIPT")"
+            "./$(basename "$BUILD_SCRIPT")"
+        popd
+    fi
+done

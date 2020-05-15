@@ -4,6 +4,7 @@ source "$(dirname "$0")/_config"
 
 "$_CI_DIR/build-docker"
 "$_CI_DIR/fetch-external-packages"
+"$_CI_DIR/build-sources"
 "$_CI_DIR/build-packages"
 "$_CI_DIR/build-release"
 "$_CI_DIR/build-public"
