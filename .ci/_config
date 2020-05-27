@@ -31,6 +31,7 @@ export _PUBLIC_REPO_DIR="${_PUBLIC_REPO_DIR:-$_PUBLIC_DIR/$_REPO_DIRNAME}"
 
 export _BUILD_PKGS="${_BUILD_PKGS:-\
     unison \
+    unison-static \
     mageops-release \
     varnish-release \
     nginx-release \
