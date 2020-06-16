@@ -1,0 +1,85 @@
+From 358b40e72a8b5ea02fec84483ec76ee727315fca Mon Sep 17 00:00:00 2001
+From: Michal Domonkos <mdomonko@redhat.com>
+Date: Thu, 3 Jan 2019 15:58:06 +0100
+Subject: [PATCH 1/2] reposync: fix-up path traversal prevention
+
+Previously, pkg_download_path() would still pass if the target path was
+a "sibling" of the destination directory.
+
+Example:
+
+  repo_target = '/tmp/myrepo'
+  pkg_download_path = '../myrepo2/evil_file'
+  ...
+  # final path that passes the check:
+  pkg_download_path = '/tmp/myrepo2/evil_file'
+                      # ^ this is a superstring of repo_target!
+
+This commit prevents that by making sure repo_target ends with a path
+separator before it is passed to startswith().  We achieve that by
+simply using join() with an empty string (see python docs).
+
+In addition, normpath() is replaced by realpath() to account for
+symlinks that could also carry us outside repo_target.
+
+Resolves RHEL-8 bug:
+https://bugzilla.redhat.com/show_bug.cgi?id=1600722
+---
+ plugins/reposync.py | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+
+diff --git a/plugins/reposync.py b/plugins/reposync.py
+index 29b911ed..0d72f559 100644
+--- a/plugins/reposync.py
++++ b/plugins/reposync.py
+@@ -32,7 +32,7 @@
+ 
+ def _pkgdir(intermediate, target):
+     cwd = dnf.i18n.ucd(os.getcwd())
+-    return os.path.normpath(os.path.join(cwd, intermediate, target))
++    return os.path.realpath(os.path.join(cwd, intermediate, target))
+ 
+ 
+ class RPMPayloadLocation(dnf.repo.RPMPayload):
+@@ -118,9 +118,12 @@ def metadata_target(self, repo):
+ 
+     def pkg_download_path(self, pkg):
+         repo_target = self.repo_target(pkg.repo)
+-        pkg_download_path = os.path.normpath(
++        pkg_download_path = os.path.realpath(
+             os.path.join(repo_target, pkg.location))
+-        if not pkg_download_path.startswith(repo_target):
++        # join() ensures repo_target ends with a path separator (otherwise the
++        # check would pass if pkg_download_path was a "sibling" path component
++        # of repo_target that has the same prefix).
++        if not pkg_download_path.startswith(os.path.join(repo_target, '')):
+             raise dnf.exceptions.Error(
+                 _("Download target '{}' is outside of download path '{}'.").format(
+                     pkg_download_path, repo_target))
+
+From 6e3cf05fc9a4e7559efcf37bebe5ff2998fc11b3 Mon Sep 17 00:00:00 2001
+From: Michal Domonkos <mdomonko@redhat.com>
+Date: Thu, 3 Jan 2019 16:08:37 +0100
+Subject: [PATCH 2/2] reposync: cosmetic: PEP8 whitespace fixes
+
+---
+ plugins/reposync.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plugins/reposync.py b/plugins/reposync.py
+index 0d72f559..503e19a3 100644
+--- a/plugins/reposync.py
++++ b/plugins/reposync.py
+@@ -46,6 +46,7 @@ def _target_params(self):
+         tp['dest'] = self.package_dir
+         return tp
+ 
++
+ @dnf.plugin.register_command
+ class RepoSyncCommand(dnf.cli.Command):
+     aliases = ('reposync',)
+@@ -190,4 +191,3 @@ def download_packages(self, repo):
+                 shutil.copy(pkg_path, target_dir)
+         if self.opts.delete:
+             self.delete_old_local_packages(pkglist)
+-

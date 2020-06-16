@@ -1,0 +1,74 @@
+From 0c9d84a0bebb645e8cd230e3bd2764844a3da94c Mon Sep 17 00:00:00 2001
+From: Adam Miller <admiller@redhat.com>
+Date: Wed, 9 Jan 2019 14:56:25 -0600
+Subject: [PATCH 1/3] don't assume cli for sack operation in versionlock to
+ honor api load
+
+Signed-off-by: Adam Miller <admiller@redhat.com>
+---
+ plugins/versionlock.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/plugins/versionlock.py b/plugins/versionlock.py
+index e3142baa..56e0a3cc 100644
+--- a/plugins/versionlock.py
++++ b/plugins/versionlock.py
+@@ -61,6 +61,8 @@ def config(self):
+                        and cp.get('main', 'locklist'))
+ 
+     def sack(self):
++        if self.cli == None:
++            pass # loaded via the api, not called by cli
+         if not self.cli.demands.resolving:
+             logger.debug(NO_VERSIONLOCK)
+             return
+
+From 01f1e60420b19c7432f8d52ee7f82ba661f92a7e Mon Sep 17 00:00:00 2001
+From: Adam Miller <admiller@redhat.com>
+Date: Fri, 11 Jan 2019 17:07:49 -0600
+Subject: [PATCH 2/3] make flake8 happy
+
+Signed-off-by: Adam Miller <admiller@redhat.com>
+---
+ plugins/versionlock.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/plugins/versionlock.py b/plugins/versionlock.py
+index 56e0a3cc..44f5d0f9 100644
+--- a/plugins/versionlock.py
++++ b/plugins/versionlock.py
+@@ -61,8 +61,8 @@ def config(self):
+                        and cp.get('main', 'locklist'))
+ 
+     def sack(self):
+-        if self.cli == None:
+-            pass # loaded via the api, not called by cli
++        if self.cli is None:
++            pass  # loaded via the api, not called by cli
+         if not self.cli.demands.resolving:
+             logger.debug(NO_VERSIONLOCK)
+             return
+
+From 5396e6090dcf5d7db733574a1336823ec78be3e3 Mon Sep 17 00:00:00 2001
+From: Adam Miller <admiller@redhat.com>
+Date: Wed, 16 Jan 2019 11:01:38 -0600
+Subject: [PATCH 3/3] actually add the elif to the conditional
+
+Signed-off-by: Adam Miller <admiller@redhat.com>
+---
+ plugins/versionlock.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plugins/versionlock.py b/plugins/versionlock.py
+index 44f5d0f9..26929e92 100644
+--- a/plugins/versionlock.py
++++ b/plugins/versionlock.py
+@@ -63,7 +63,7 @@ def config(self):
+     def sack(self):
+         if self.cli is None:
+             pass  # loaded via the api, not called by cli
+-        if not self.cli.demands.resolving:
++        elif not self.cli.demands.resolving:
+             logger.debug(NO_VERSIONLOCK)
+             return
+ 
