@@ -1,7 +1,7 @@
 %define nginx_version 1.18.0
 Name:           nginx-module-geoip2
 Version:        3.3
-Release:        %{nginx_version}.1%{?dist}
+Release:        %{nginx_version}.2%{?dist}
 Summary:        Nginx GeoIP2 module
 Packager:       creativestyle GmbH <https://creativestyle.pl>
 
@@ -13,7 +13,7 @@ Source1:        http://nginx.org/download/nginx-%{nginx_version}.tar.gz
 BuildRequires:  make
 BuildRequires:  gcc
 BuildRequires:  libmaxminddb-devel
-Requires:       nginx = 1:1.18.0
+Requires:       nginx = 1:%{nginx_version}
 Requires:       libmaxminddb
 
 %description
@@ -56,5 +56,8 @@ cp objs/ngx_http_geoip2_module.so %{buildroot}%{_libdir}/nginx/modules/
 
 
 %changelog
+* Fri Jun 26 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 3.3-1.18.0.2
+- fix nginx version
+
 * Thu Jun 25 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
--
+- Initial build
