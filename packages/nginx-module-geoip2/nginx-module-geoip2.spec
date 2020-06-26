@@ -13,7 +13,7 @@ Source1:        http://nginx.org/download/nginx-%{nginx_version}.tar.gz
 BuildRequires:  make
 BuildRequires:  gcc
 BuildRequires:  libmaxminddb-devel
-Requires:       nginx = 1.18.0
+Requires:       nginx = 1:1.18.0
 Requires:       libmaxminddb
 
 %description
