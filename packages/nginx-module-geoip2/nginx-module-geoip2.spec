@@ -1,7 +1,7 @@
 %define nginx_version 1.18.0
 Name:           nginx-module-geoip2
 Version:        3.3
-Release:        %{nginx_version}.2%{?dist}
+Release:        %{nginx_version}.3%{?dist}
 Summary:        Nginx GeoIP2 module
 Packager:       creativestyle GmbH <https://creativestyle.pl>
 
@@ -38,6 +38,7 @@ nginx_ldopts="$RPM_LD_FLAGS -Wl,-E"
     --modules-path=%{_libdir}/nginx/modules \
     --conf-path=%{_sysconfdir}/nginx/nginx.conf \
     --with-debug \
+    --with-compat \
     --without-http_rewrite_module \
     --without-http_gzip_module \
     --with-cc-opt="%{optflags}" \
@@ -56,6 +57,9 @@ cp objs/ngx_http_geoip2_module.so %{buildroot}%{_libdir}/nginx/modules/
 
 
 %changelog
+* Fri Jun 26 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 3.3-1.18.0.2.1
+- Add compat flag to configure
+
 * Fri Jun 26 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 3.3-1.18.0.2
 - fix nginx version
 
