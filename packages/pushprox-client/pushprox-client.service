@@ -1,0 +1,14 @@
+[Unit]
+Description=Proxy to allow Prometheus to scrape through NAT etc.
+Documentation=https://github.com/prometheus-community/PushProx
+After=network.target
+
+[Service]
+User=monitoring
+EnvironmentFile=-/etc/default/pushprox-client
+ExecStart=/usr/bin/pushprox-client $PUSHPROX_CLIENT_OPTS
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

@@ -12,3 +12,5 @@
 /.jekyll/.bundle/
 .tmp.*
 *.tmp
+/test-build
+/test-build.sh
