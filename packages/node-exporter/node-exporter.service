@@ -1,0 +1,14 @@
+[Unit]
+Description=Exporter for machine metrics
+Documentation=https://github.com/prometheus/node_exporter
+After=network.target
+
+[Service]
+User=monitoring
+EnvironmentFile=-/etc/default/node_exporter
+ExecStart=/usr/bin/node_exporter $NODE_EXPORTER_OPTS
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
