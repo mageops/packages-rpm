@@ -36,6 +36,8 @@ Prometheus exporter for hardware and OS metrics exposed by *NIX kernels, written
 %setup -q -n node_exporter-%{version}.linux-386
 %endif
 
+%build
+true
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -68,4 +70,4 @@ exit 0
 
 %changelog
 * Tue Oct 27 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
--
+- Created package
