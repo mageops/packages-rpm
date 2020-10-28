@@ -38,6 +38,9 @@ PushProx is a client and proxy that allows transversing of NAT and other similar
 %setup -q -n PushProx-%{version}.linux-386
 %endif
 
+%build
+true
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -D -m 755 pushprox-client %{buildroot}%{_bindir}/pushprox-client
@@ -68,4 +71,4 @@ exit 0
 
 %changelog
 * Tue Oct 27 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
--
+- Created package
