@@ -2,7 +2,7 @@
 
 Name:           varnish-exporter
 Version:        1.5.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Varnish exporter for Prometheus
 
 License:        MIT License
@@ -15,8 +15,8 @@ Source0:        https://github.com/jonnenauha/prometheus_varnish_exporter/releas
 %endif
 Source1:        %{name}.service
 Source2:        %{name}.default
-
-Requires(pre): shadow-utils
+Requires:       varnish
+Requires(pre):  shadow-utils
 %{?systemd_requires}
 
 %description
@@ -63,5 +63,8 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
+* Thu Oct 29 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.5.2-2
+- Add dependency to varnish, also service need to be executed with varnish group
+
 * Wed Oct 28 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
 - Created package
