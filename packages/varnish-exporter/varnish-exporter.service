@@ -5,6 +5,7 @@ After=network.target
 
 [Service]
 User=monitoring
+Group=varnish
 EnvironmentFile=-/etc/default/varnish-exporter
 ExecStart=/usr/bin/prometheus_varnish_exporter $VARNISH_EXPORTER_OPTS
 Restart=on-failure
