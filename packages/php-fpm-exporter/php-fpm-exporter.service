@@ -1,0 +1,14 @@
+[Unit]
+Description=Prometheus exporter for php-fpm status.
+Documentation=https://github.com/bakins/php-fpm-exporter
+After=network.target
+
+[Service]
+User=monitoring
+EnvironmentFile=-/etc/default/php-fpm-exporter
+ExecStart=/usr/bin/php-fpm-exporter --addr="$PHP_FPM_EXPORTER_ADDR"  $PHP_FPM_EXPORTER_OPTS
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

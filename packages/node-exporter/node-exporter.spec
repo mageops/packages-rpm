@@ -69,7 +69,7 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
-* Thu Oct 29 11:08:58 CET 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.0.1-2
+* Thu Oct 29 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.0.1-2
 - Fix environment file path
 
 * Tue Oct 27 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl>

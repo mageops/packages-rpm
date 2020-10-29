@@ -63,7 +63,7 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
-* Thu Oct 29 14:59:40 CET 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.5.2-2
+* Thu Oct 29 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.5.2-2
 - Add dependency to varnish, also service need to be executed with varnish group
 
 * Wed Oct 28 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
