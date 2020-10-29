@@ -1,14 +1,14 @@
 %define debug_package %{nil}
 
 Name:           php-fpm-exporter
-Version:        0.6.1
+Version:        1.1.1
 Release:        1%{?dist}
-Summary:        Prometheus exporter for php-fpm status.
+Summary:        A prometheus exporter for PHP-FPM.
 
 License:        MIT
-URL:            https://github.com/bakins/php-fpm-exporter
+URL:            https://github.com/hipages/php-fpm_exporter
 %ifarch x86_64
-Source0:        https://github.com/bakins/php-fpm-exporter/releases/download/v%{version}/php-fpm-exporter.linux.amd64
+Source0:        https://github.com/hipages/php-fpm_exporter/releases/download/v%{version}/php-fpm_exporter_%{version}_linux_amd64
 %endif
 Source1:        %{name}.service
 Source2:        %{name}.default
@@ -17,7 +17,7 @@ Requires(pre): shadow-utils
 %{?systemd_requires}
 
 %description
-Export php-fpm metrics in Prometheus format.
+A prometheus exporter for PHP-FPM. The exporter connects directly to PHP-FPM and exports the metrics via HTTP.
 
 %prep
 true
