@@ -26,14 +26,22 @@ Requires(pre): shadow-utils
 Prometheus exporter for various metrics about ElasticSearch, written in Go.
 
 %prep
-true
+%ifarch x86_64
+%setup -q -n elasticsearch_exporter-%{version}.linux-amd64
+%endif
+%ifarch aarch64
+%setup -q -n elasticsearch_exporter-%{version}.linux-arm64
+%endif
+%ifarch i386
+%setup -q -n elasticsearch_exporter-%{version}.linux-386
+%endif
 
 %build
 true
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -D -m 755 %{SOURCE0} %{buildroot}%{_bindir}/elasticsearch_exporter
+install -D -m 755 elasticsearch_exporter %{buildroot}%{_bindir}/elasticsearch_exporter
 install -D -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 install -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/default/%{name}
 
