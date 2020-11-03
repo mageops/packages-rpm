@@ -1,0 +1,14 @@
+[Unit]
+Description=Prometheus Exporter for Redis Metrics. Supports Redis 2.x, 3.x, 4.x, 5.x and 6.x
+Documentation=https://github.com/oliver006/redis_exporter
+After=network.target
+
+[Service]
+User=monitoring
+EnvironmentFile=-/etc/default/redis-exporter
+ExecStart=/usr/bin/redis_exporter $REDIS_EXPORTER_OPTS
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

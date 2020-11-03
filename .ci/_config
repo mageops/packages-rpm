@@ -55,6 +55,7 @@ export _BUILD_PKGS="${_BUILD_PKGS:-\
     varnish-exporter \
     php-fpm-exporter \
     elasticsearch-exporter \
+    redis-exporter \
 }"
 
 export _DOCKER_RUN_EXTRA_OPTS="${_DOCKER_RUN_EXTRA_OPTS:-}"
