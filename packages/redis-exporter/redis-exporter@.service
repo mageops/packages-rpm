@@ -5,7 +5,7 @@ After=network.target
 
 [Service]
 User=monitoring
-EnvironmentFile=-/etc/default/redis-exporter
+EnvironmentFile=-/etc/default/redis-exporter.%i
 ExecStart=/usr/bin/redis_exporter $REDIS_EXPORTER_OPTS
 Restart=on-failure
 RestartSec=5s
