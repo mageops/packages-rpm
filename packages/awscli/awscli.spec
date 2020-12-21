@@ -8,8 +8,8 @@
 %undefine __brp_python_bytecompile
 
 Name:           %{pkg}
-Version:        1.16.284
-Release:        2%{?dist}
+Version:        1.18.200
+Release:        1%{?dist}
 
 Group:          System Environment/Libraries
 Summary:        Universal Command Line Environment for AWS
@@ -72,6 +72,9 @@ fi
 %{_libdir}/%{pkg}/
 
 %changelog
+* Mon Dec 21 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.18.200-1
+- Update to 1.18.200
+
 * Mon Dec 2 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 1.16.284-2
 - Fix target binary - file should be present and and the same "ghosted"
 - Add alternatives uninstallation
