@@ -9,7 +9,7 @@
 
 Name:           %{pkg}
 Version:        1.18.200
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 Group:          System Environment/Libraries
 Summary:        Universal Command Line Environment for AWS
@@ -57,6 +57,7 @@ cp -r %{venv_path} %{buildroot}%{_libdir}/%{pkg}
 
 %posttrans
 %{_sbindir}/alternatives --install %{_bindir}/%{binary} %{binary} %{_libdir}/%{pkg}/bin/%{binary} 1
+rm -f %{_libdir}/%{pkg}/bin/python %{_libdir}/%{pkg}/bin/python3
 ln -s %{_bindir}/python %{_libdir}/%{pkg}/bin/python
 ln -s %{_bindir}/python3 %{_libdir}/%{pkg}/bin/python3
 
@@ -72,6 +73,9 @@ fi
 %{_libdir}/%{pkg}/
 
 %changelog
+* Mon Dec 21 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.18.200-2
+- Recreate python symlinks to avoid errors on reinstall
+
 * Mon Dec 21 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.18.200-1
 - Update to 1.18.200
 
