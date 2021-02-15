@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:           varnish-exporter
-Version:        1.5.2
-Release:        2%{?dist}
+Version:        1.6
+Release:        1%{?dist}
 Summary:        Varnish exporter for Prometheus
 
 License:        MIT License
@@ -63,6 +63,9 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
+* Mon Feb 15 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.6-1
+- new version
+
 * Thu Oct 29 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.5.2-2
 - Add dependency to varnish, also service need to be executed with varnish group
 
