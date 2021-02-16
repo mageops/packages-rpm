@@ -1,8 +1,8 @@
 %define debug_package %{nil}
 
 Name:           redis-exporter
-Version:        1.13.1
-Release:        2%{?dist}
+Version:        1.17.0
+Release:        1%{?dist}
 Summary:        Prometheus Exporter for Redis Metrics. Supports Redis 2.x, 3.x, 4.x, 5.x and 6.x
 
 License:        MIT
@@ -71,6 +71,9 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}.default
 
 %changelog
+* Mon Feb 15 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.17.0-1
+- new version
+
 * Tue Nov 10 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.13.1-2
 - Use systemd template service
 

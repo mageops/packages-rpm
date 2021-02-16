@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           php-fpm-exporter
-Version:        1.1.1
+Version:        2.0.1
 Release:        1%{?dist}
 Summary:        A prometheus exporter for PHP-FPM.
 
@@ -53,5 +53,8 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
+* Mon Feb 15 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 2.0.1-1
+- new version
+
 * Thu Oct 29 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
 - Created package
