@@ -1,37 +1,34 @@
 %define debug_package %{nil}
+%define commit_sha 86fc1b025dd41eaf43a583a262daec6cad69b561
 
 Name:           varnish-exporter
-Version:        1.6
+Version:        1.6.1
 Release:        1%{?dist}
 Summary:        Varnish exporter for Prometheus
 
 License:        MIT License
 URL:            https://github.com/jonnenauha/prometheus_varnish_exporter
-%ifarch x86_64
-Source0:        https://github.com/jonnenauha/prometheus_varnish_exporter/releases/download/%{version}/prometheus_varnish_exporter-%{version}.linux-amd64.tar.gz
-%endif
-%ifarch i386
-Source0:        https://github.com/jonnenauha/prometheus_varnish_exporter/releases/download/%{version}/prometheus_varnish_exporter-%{version}.linux-386.tar.gz
-%endif
+Source0:        https://github.com/jonnenauha/prometheus_varnish_exporter/archive/%{commit_sha}.tar.gz
 Source1:        %{name}.service
 Source2:        %{name}.default
 Requires:       varnish
 Requires(pre):  shadow-utils
+BuildRequires:  golang
 %{?systemd_requires}
 
 %description
 Varnish exporter for Prometheus
 
 %prep
-%ifarch x86_64
-%setup -q -n prometheus_varnish_exporter-%{version}.linux-amd64
-%endif
-%ifarch i386
-%setup -q -n prometheus_varnish_exporter-%{version}.linux-386
-%endif
+%setup -q -n prometheus_varnish_exporter-%{commit_sha}
 
 %build
-true
+export GOPROXY="https://proxy.golang.org"
+export GO111MODULE=on
+export VERSION="%{version}"
+export VERSION_HASH="%{commit_sha}"
+export VERSION_DATE="$(date -u '+%%d.%%m.%%Y %%H:%%M:%%S')"
+go build -o prometheus_varnish_exporter  -ldflags "-X 'main.Version=$VERSION' -X 'main.VersionHash=$VERSION_HASH' -X 'main.VersionDate=$VERSION_DATE'"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -63,6 +60,9 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
+* Fri May 14 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.6.1-1
+- New version build from master
+
 * Mon Feb 15 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.6-1
 - new version
 
