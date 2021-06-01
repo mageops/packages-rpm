@@ -22,4 +22,3 @@ RUN mkdir -p /build/output \
         src/unison \
         src/unison-fsmonitor \
             /build/output/
-
