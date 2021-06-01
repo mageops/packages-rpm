@@ -1,0 +1,7 @@
+[Path]
+PathExistsGlob=/var/lib/elasticsearch/*.hprof
+Unit=elasticsearch-crash-handler.service
+PartOf=elasticsearch.service
+
+[Install]
+WantedBy=multi-user.target
