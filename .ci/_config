@@ -1,8 +1,6 @@
 
 #!/usr/bin/env bash
 
-set +x
-
 shopt -s globstar
 set -euo pipefail
 
@@ -74,5 +72,3 @@ echo -e "\n------ Effective CI scripts config ------\n"
 env | grep -e '^_[A-Z]\+' | sort
 
 echo -e "\n-----------------------------------------\n"
-
-set -x

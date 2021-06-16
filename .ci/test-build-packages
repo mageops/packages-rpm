@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+source "$(dirname "$0")/_config"
+
+docker run \
+    --rm \
+    --name mgs-rpm-builder \
+    --tty \
+    --volume $(pwd):/root/rpmbuild \
+    --env MGS_RPMBUILD_OVERWRITE_EXISTING_REPO=${MGS_RPMBUILD_OVERWRITE_EXISTING_REPO:-no} \
+    ${_DOCKER_RUN_EXTRA_OPTS:-} \
+    "$_DOCKER_TAG" --create-repo $_BUILD_PKGS
