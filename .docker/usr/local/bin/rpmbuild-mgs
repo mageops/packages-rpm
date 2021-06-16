@@ -203,7 +203,7 @@ function mgs_create_repo() {
     mkdir -p "$MGS_RPMBUILD_REPORELEASEDIR/sources"
 
     log_msg "Syncing SRPMS -> $(log_label $MGS_RPMBUILD_REPORELEASEDIR/sources/)"
-    log_cmd rsync "$MGS_BUILD_REPO_RSYNC_OPTS" "$MGS_RPMBUILD_SRPMDIR/" "$MGS_RPMBUILD_REPORELEASEDIR/sources/"
+    log_cmd rsync $MGS_BUILD_REPO_RSYNC_OPTS "$MGS_RPMBUILD_SRPMDIR/" "$MGS_RPMBUILD_REPORELEASEDIR/sources/"
 
     log_msg "Creating repo metadata for $(log_label sources)"
     pushd "$MGS_RPMBUILD_REPORELEASEDIR/sources/"
