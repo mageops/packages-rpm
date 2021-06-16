@@ -46,6 +46,7 @@ jobs:
         run: |
           gem install bundler
           .ci/build-public
+          .ci/build-release
 
       - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
