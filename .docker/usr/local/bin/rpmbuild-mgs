@@ -172,7 +172,7 @@ function mgs_create_repo() {
     log_stage "Create repository in $(log_label $MGS_RPMBUILD_REPORELEASEDIR)"
 
     log_cmd mkdir -p "$MGS_RPMBUILD_REPORELEASEDIR"
-    log_cmd cp -v "$MGS_RPM_GPG_KEY_PUB" "$MGS_RPMBUILD_REPORELEASEDIR/REPO-GPG-KEY"
+    echo "$MGS_RPM_GPG_KEY_PUB" > "$MGS_RPMBUILD_REPORELEASEDIR/REPO-GPG-KEY"
 
     local _ARCHS="$MGS_OS_ARCHS"
     local _NOARCHPKGDIR="$MGS_RPMBUILD_RPMDIR/noarch"
