@@ -184,11 +184,11 @@ function mgs_create_repo() {
         log_msg "Syncing $(log_label $_ARCH) RPMS -> $(log_label $_ARCH_DST_DIR)"
 
         log_cmd mkdir -p "$_ARCH_SRC_DIR" "$_ARCH_DST_DIR"
-        log_cmd rsync "$MGS_BUILD_REPO_RSYNC_OPTS" "$_ARCH_SRC_DIR/" "$_ARCH_DST_DIR/"
+        log_cmd rsync $MGS_BUILD_REPO_RSYNC_OPTS "$_ARCH_SRC_DIR/" "$_ARCH_DST_DIR/"
 
         if [[ -d "$_NOARCHPKGDIR" ]] ; then
             log_msg "Syncing $(log_label noarch) RPMS -> $(log_label $_ARCH_DST_DIR)"
-            log_cmd rsync "$MGS_BUILD_REPO_RSYNC_OPTS" "$_NOARCHPKGDIR/" "$_ARCH_DST_DIR/"
+            log_cmd rsync $MGS_BUILD_REPO_RSYNC_OPTS "$_NOARCHPKGDIR/" "$_ARCH_DST_DIR/"
         fi
 
         log_msg "Creating repo metadata for $(log_label $_ARCH)"
