@@ -53,8 +53,8 @@ function gpg_key_id() { gpg_key_show "$1" | awk -F: '/^(sec|pub):/ { print $5 }'
 
 function gpg_key_type() {
     (
-        echo "$1" | gpg_key_show - 2>/dev/null| grep -q '^sec:' && echo "secret"
-        echo "$1" | gpg_key_show - 2>/dev/null | grep -q '^pub:' && echo "public"
+        gpg_key_show "$1" 2>/dev/null | grep -q '^sec:' && echo "secret"
+        gpg_key_show "$1" 2>/dev/null | grep -q '^pub:' && echo "public"
     )
 }
 
@@ -66,15 +66,19 @@ function gpg_key_import() {
     local _TYP="$(gpg_key_type "$_KEY")"
     local _UID="$(gpg_key_user "$_KEY")"
     local _KID="$(gpg_key_id "$_KEY")"
+    local rpmkey_tmp;
 
-    echo "$_KEY" | log_cmd gpg --import -
+    echo "$_KEY" | log_cmd gpg --import
 
     if [[ "$_TYP" == 'secret' ]] ; then
         echo "%_gpg_name $_KID" >> $HOME/.rpmmacros
     fi
 
     if [[ "$_TYP" == 'public' ]] ; then
-        echo "$_KEY" | log_cmd rpm --import -
+        rpmkey_tmp="$(mktemp)"
+        echo "$_KEY" > "$rpmkey_tmp"
+        log_cmd rpm --import "$rpmkey_tmp"
+        rm "$rpmkey_tmp"
     fi
 }
 
