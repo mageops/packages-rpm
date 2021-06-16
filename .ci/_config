@@ -1,8 +1,6 @@
 
 #!/usr/bin/env bash
 
-set +x
-
 shopt -s globstar
 set -euo pipefail
 
@@ -57,6 +55,7 @@ export _BUILD_PKGS="${_BUILD_PKGS:-\
     elasticsearch-exporter \
     redis-exporter \
     varnish-module-blobdigest \
+    elasticsearch-hprof \
 }"
 
 export _DOCKER_RUN_EXTRA_OPTS="${_DOCKER_RUN_EXTRA_OPTS:-}"
@@ -73,5 +72,3 @@ echo -e "\n------ Effective CI scripts config ------\n"
 env | grep -e '^_[A-Z]\+' | sort
 
 echo -e "\n-----------------------------------------\n"
-
-set -x

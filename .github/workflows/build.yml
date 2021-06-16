@@ -1,0 +1,54 @@
+name: CI
+on:
+  push:
+  pull_request:
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'push' || github.ref != 'refs/heads/master' }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test build
+        run: |
+          set -e
+          .ci/pull-docker
+          .ci/fetch-current-repository
+          .ci/fetch-external-packages
+          .ci/build-sources
+          .ci/test-build-packages
+  deploy:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+    environment: github-pages
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          set -e
+          .ci/pull-docker
+          .ci/fetch-current-repository
+          .ci/fetch-external-packages
+          .ci/build-sources
+          .ci/build-packages
+        env:
+          MGS_RPM_GPG_KEY_PASSPHRASE: ${{ secrets.MGS_RPM_GPG_KEY_PASSPHRASE }}
+          MGS_RPM_GPG_KEY_PUB: ${{ secrets.MGS_RPM_GPG_KEY_PUB }}
+          MGS_RPM_GPG_KEY_SEC: ${{ secrets.MGS_RPM_GPG_KEY_SEC }}
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+
+      - name: Build pages
+        run: |
+          gem install bundler
+          .ci/build-public
+
+      - name: Publish to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: public
+          token: ${{ secrets.GITHUB_TOKEN }}

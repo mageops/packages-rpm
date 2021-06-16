@@ -14,3 +14,6 @@
 *.tmp
 /test-build
 /test-build.sh
+/rpm
+/build-rpm.sh
+/test-ci.sh
