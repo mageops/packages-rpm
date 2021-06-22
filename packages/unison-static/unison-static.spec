@@ -8,13 +8,16 @@ Group:            Applications/File
 License:          GPLv3+
 
 Vendor:           Benjamin Pierce
-Packager:         creativestyle GmbH <https://creativestyle.de>
 URL:              https://www.cis.upenn.edu/~bcpierce/unison
 
-Source0:          unison
-Source1:          unison-fsmonitor
+Source0:          https://github.com/bcpierce00/unison/archive/v%{version}.tar.gz
 
 Conflicts:        unison
+BuildRequires:    make
+BuildRequires:    ctags-etags
+BuildRequires:    which
+BuildRequires:    glibc-static
+BuildRequires:    ocaml
 
 %description
 Unison is a file-synchronization tool for OSX, Unix, and Windows.
@@ -27,15 +30,16 @@ to the other.
 / Original author's description via %{URL}
 
 %prep
-
+%setup -q -n unison-%{version}
 
 %build
-
+# Do not use parallel build (-j flag) as it won't produce binaries without error
+%{__make} UISTYLE=text NATIVE=true STATIC=true DEBUGGING=false
 
 %install
 mkdir -p %{buildroot}%{_bindir}
-install -p -m 755 %{SOURCE0} %{buildroot}%{_bindir}/unison
-install -p -m 755 %{SOURCE1} %{buildroot}%{_bindir}/unison-fsmonitor
+install -p -m 755 src/unison %{buildroot}%{_bindir}/unison
+install -p -m 755 src/unison-fsmonitor %{buildroot}%{_bindir}/unison-fsmonitor
 
 %files
 %defattr(-,root,root,-)

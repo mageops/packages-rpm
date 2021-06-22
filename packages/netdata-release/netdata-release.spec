@@ -6,7 +6,6 @@ Summary:        Netdata Packagecloud RPM repo config
 License:        MIT
 
 Vendor:         Netdata <https://netdata.cloud/>
-Packager:       creativestyle GmbH <https://creativestyle.pl>
 URL:            https://www.netdata.cloud/
 
 

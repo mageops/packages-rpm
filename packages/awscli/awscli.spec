@@ -8,20 +8,19 @@
 %undefine __brp_python_bytecompile
 
 Name:           %{pkg}
-Version:        1.18.200
-Release:        2%{?dist}
+Version:        1.19.96
+Release:        1%{?dist}
 
 Group:          System Environment/Libraries
 Summary:        Universal Command Line Environment for AWS
 License:        Apache License 2.0
 
 Vendor:         Amazon.com
-Packager:       creativestyle GmbH <https://creativestyle.de>
 URL:            http://aws.amazon.com/cli/
 
-BuildArch:      noarch
 BuildRequires:  python%{python3_pkgversion}
 BuildRequires:  python%{python3_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-pip
 BuildRequires:  python%{python3_pkgversion}-virtualenv
 
 Requires(post):   %{_sbindir}/alternatives
@@ -41,7 +40,8 @@ mkdir -p %{venv_path}
 %{__python3} -m venv --copies %{venv_path}
 cp empty_env/bin/activate_this.py %{venv_path}/bin/
 source %{venv_path}/bin/activate
-pip install %{pkg}==%{version}
+pip --version
+pip install --index-url https://pypi.org/simple %{pkg}==%{version}
 pip uninstall -y pip setuptools
 %{__python3} -m virtualenv --relocatable %{venv_path}
 deactivate
@@ -73,6 +73,9 @@ fi
 %{_libdir}/%{pkg}/
 
 %changelog
+* Thu Jun 17 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.19.96-1
+- Update to 1.19.96
+
 * Mon Dec 21 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.18.200-2
 - Recreate python symlinks to avoid errors on reinstall
 

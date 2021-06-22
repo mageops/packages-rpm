@@ -4,4 +4,4 @@ Description=Process Elasticsearch OOM heap dump
 [Service]
 Type=oneshot
 WorkingDirectory=/var/lib/elasticsearch
-ExecStart=/bin/bash -c 'for dump in /var/lib/elasticsearch/*.hprof;do /usr/bin/elasticsearch-hprof inflight_queries --save $dump; rm $dump;done'
+ExecStart=/bin/bash -c 'for dump in timeout 15m /var/lib/elasticsearch/*.hprof;do /usr/bin/elasticsearch-hprof inflight_queries --save $dump; rm $dump;done'

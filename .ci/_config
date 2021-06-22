@@ -27,48 +27,6 @@ export _REPO_GIT_CLONE_DIR="${_REPO_GIT_CLONE_DIR:-${_CACHE_DIR}/repo-git-clone}
 export _PUBLIC_DIR="${_PUBLIC_DIR:-public}"
 export _PUBLIC_REPO_DIR="${_PUBLIC_REPO_DIR:-$_PUBLIC_DIR/$_REPO_DIRNAME}"
 
-export _BUILD_PKGS="${_BUILD_PKGS:-\
-    unison \
-    unison-static \
-    mageops-release \
-    varnish-release \
-    nginx-release \
-    mariadb-release \
-    elasticsearch-release \
-    rabbitmq-release \
-    nodejs-release \
-    netdata-release \
-    awscli \
-    aws-excfwd \
-    amazon-efs-utils \
-    goofys \
-    earlyoom \
-    varnish-modules-extra \
-    varnish-module-accept \
-    vmtouch \
-    dnf-plugins-core \
-    nginx-module-geoip2 \
-    pushprox-client \
-    node-exporter \
-    varnish-exporter \
-    php-fpm-exporter \
-    elasticsearch-exporter \
-    redis-exporter \
-    varnish-module-blobdigest \
-    elasticsearch-hprof \
-}"
-
 export _DOCKER_RUN_EXTRA_OPTS="${_DOCKER_RUN_EXTRA_OPTS:-}"
 export _DOCKER_TAG="${_DOCKER_TAG:-mageops/rpm-build:centos-7}"
 export _DOCKER_TESTING_TAG="${_DOCKER_TESTING_TAG:-mageops/rpm-repository-test:centos-7}"
-
-if [[ ! -z "${_DEBUG:-}" ]] ; then
-    echo "Warning! CI Scripts debug mode enabled!" >&2
-    export _DOCKER_RUN_EXTRA_OPTS="--volume $(pwd)/.docker/usr/local/bin/rpmbuild-mgs:/usr/local/bin/rpmbuild-mgs --interactive"
-fi
-
-echo -e "\n------ Effective CI scripts config ------\n"
-
-env | grep -e '^_[A-Z]\+' | sort
-
-echo -e "\n-----------------------------------------\n"

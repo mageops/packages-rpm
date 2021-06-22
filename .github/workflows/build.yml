@@ -12,11 +12,11 @@ jobs:
       - name: Test build
         run: |
           set -e
-          .ci/pull-docker
+          sudo apt update && sudo apt install -y qemu-user-static
           .ci/fetch-current-repository
-          .ci/fetch-external-packages
-          .ci/build-sources
-          .ci/test-build-packages
+          sudo chown 1000 -R .
+          .ci/build-test
+          sudo chown $UID -R .
   deploy:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
@@ -26,11 +26,11 @@ jobs:
       - name: Build
         run: |
           set -e
-          .ci/pull-docker
+          sudo apt update && sudo apt install -y qemu-user-static
           .ci/fetch-current-repository
-          .ci/fetch-external-packages
-          .ci/build-sources
-          .ci/build-packages
+          sudo chown 1000 -R .
+          .ci/build-prod
+          sudo chown $UID -R .
         env:
           MGS_RPM_GPG_KEY_PASSPHRASE: ${{ secrets.MGS_RPM_GPG_KEY_PASSPHRASE }}
           MGS_RPM_GPG_KEY_PUB: ${{ secrets.MGS_RPM_GPG_KEY_PUB }}
@@ -46,7 +46,6 @@ jobs:
         run: |
           gem install bundler
           .ci/build-public
-          .ci/build-release
 
       - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

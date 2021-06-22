@@ -1,13 +1,12 @@
 Name:           mageops-release
 Version:        7
-Release:        5
+Release:        6
 Summary:        MageOps RPM repository configuration
 
 Group:          MageOps/Repositories
 License:        MIT
 
 Vendor:         creativestyle GmbH <https://creativestyle.de>
-Packager:       creativestyle GmbH <https://creativestyle.de>
 URL:            https://github.com/mageops/packages-rpm
 
 Source0:        mageops.repo

@@ -1,8 +1,0 @@
-#!/usr/bin/env bash
-
-set -euo pipefail
-
-if ! which dnf 2>&1 >/dev/null ; then
-    echo "Warning! No dnf found - installing yum shim." >&2
-    ln -s /usr/local/bin/rpmbuild-mgs-dnf-shim /usr/bin/dnf
-fi

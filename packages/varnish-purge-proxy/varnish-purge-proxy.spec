@@ -8,12 +8,9 @@ Summary:          Proxies purge requests to autodiscovered Varnish nodes
 License:          GPLv3
 
 Vendor:           David Watson <david@planetwatson.co.uk>
-Packager:         creativestyle Polska <https://creativestyle.pl>
 URL:              https://github.com/BashtonLtd/varnish-purge-proxy
 
-Source0:          https://github.com/BashtonLtd/varnish-purge-proxy/releases/download/varnish-purge-proxy
-
-BuildArch:        noarch
+Source0:          https://github.com/BashtonLtd/varnish-purge-proxy/releases/download/3.0.1/varnish-purge-proxy
 
 
 %description
@@ -36,7 +33,3 @@ install -p -m 755 %{SOURCE0} %{buildroot}%{_bindir}/varnish-purge-proxy
 %changelog
 * Thu Nov 28 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 3.0.1-1
 - Initial version
-
-
-
-

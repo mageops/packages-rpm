@@ -8,7 +8,6 @@ Group:            Applications/File
 License:          GPLv3+
 
 Vendor:           Benjamin Pierce
-Packager:         creativestyle GmbH <https://creativestyle.de>
 URL:              https://www.cis.upenn.edu/~bcpierce/unison
 
 Source0:          https://github.com/bcpierce00/unison/archive/v%{version}.tar.gz

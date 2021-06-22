@@ -13,7 +13,7 @@ Source1:        elasticsearch-crash-handler.service
 Source2:        elasticsearch-crash-handler.path
 
 BuildRequires:   cargo
-BuildRequires:   rust
+BuildRequires:   rust >= 1.52
 
 ExclusiveArch:  x86_64 i386 i486 i586 i686 pentium3 pentium4 athlon geode armv7hl aarch64 ppc64 ppc64le riscv64 s390x
 

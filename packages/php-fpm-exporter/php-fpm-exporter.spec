@@ -7,11 +7,10 @@ Summary:        A prometheus exporter for PHP-FPM.
 
 License:        MIT
 URL:            https://github.com/hipages/php-fpm_exporter
-%ifarch x86_64
 Source0:        https://github.com/hipages/php-fpm_exporter/releases/download/v%{version}/php-fpm_exporter_%{version}_linux_amd64
-%endif
-Source1:        %{name}.service
-Source2:        %{name}.default
+Source1:        https://github.com/hipages/php-fpm_exporter/releases/download/v%{version}/php-fpm_exporter_%{version}_linux_arm64
+Source2:        %{name}.service
+Source3:        %{name}.default
 
 Requires(pre): shadow-utils
 %{?systemd_requires}
@@ -27,9 +26,14 @@ true
 
 %install
 rm -rf $RPM_BUILD_ROOT
+%ifarch x86_64
 install -D -m 755 %{SOURCE0} %{buildroot}%{_bindir}/php-fpm-exporter
-install -D -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
-install -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/default/%{name}
+%endif
+%ifarch aarch64
+install -D -m 755 %{SOURCE1} %{buildroot}%{_bindir}/php-fpm-exporter
+%endif
+install -D -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{name}.service
+install -D -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/default/%{name}
 
 %pre
 getent group monitoring >/dev/null || groupadd -r monitoring

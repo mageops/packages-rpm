@@ -7,17 +7,11 @@ Summary:        Exporter for machine metrics
 
 License:        Apache-2.0
 URL:            https://github.com/prometheus/node_exporter
-%ifarch x86_64
 Source0:        https://github.com/prometheus/node_exporter/releases/download/v%{version}/node_exporter-%{version}.linux-amd64.tar.gz
-%endif
-%ifarch aarch64
-Source0:        https://github.com/prometheus/node_exporter/releases/download/v%{version}/node_exporter-%{version}.linux-arm64.tar.gz
-%endif
-%ifarch i386
-Source0:        https://github.com/prometheus/node_exporter/releases/download/v%{version}/node_exporter-%{version}.linux-386.tar.gz
-%endif
-Source1:        %{name}.service
-Source2:        %{name}.default
+Source1:        https://github.com/prometheus/node_exporter/releases/download/v%{version}/node_exporter-%{version}.linux-arm64.tar.gz
+Source2:        https://github.com/prometheus/node_exporter/releases/download/v%{version}/node_exporter-%{version}.linux-386.tar.gz
+Source3:        %{name}.service
+Source4:        %{name}.default
 
 Requires(pre): shadow-utils
 %{?systemd_requires}
@@ -27,13 +21,13 @@ Prometheus exporter for hardware and OS metrics exposed by *NIX kernels, written
 
 %prep
 %ifarch x86_64
-%setup -q -n node_exporter-%{version}.linux-amd64
+%setup -q -b 0 -n node_exporter-%{version}.linux-amd64
 %endif
 %ifarch aarch64
-%setup -q -n node_exporter-%{version}.linux-arm64
+%setup -q -b 1 -n node_exporter-%{version}.linux-arm64
 %endif
 %ifarch i386
-%setup -q -n node_exporter-%{version}.linux-386
+%setup -q -b 2 -n node_exporter-%{version}.linux-386
 %endif
 
 %build
@@ -42,8 +36,8 @@ true
 %install
 rm -rf $RPM_BUILD_ROOT
 install -D -m 755 node_exporter %{buildroot}%{_bindir}/node_exporter
-install -D -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
-install -D -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/default/%{name}
+install -D -m 644 %{SOURCE3} %{buildroot}%{_unitdir}/%{name}.service
+install -D -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/default/%{name}
 
 %pre
 getent group monitoring >/dev/null || groupadd -r monitoring
