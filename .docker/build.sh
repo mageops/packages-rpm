@@ -35,24 +35,27 @@ prepare_srpm() {
     echo "Build SRPM fpr $pkg"
 
     # Cleanup
-    rm -rf ~/rpmbuild/SRPMS/* ~/rpmbuild/SOURCES/*
+    rm -rf ~/rpmbuild/SRPMS/* ~/rpmbuild/SOURCES/* ~/rpms/*
 
     cp -R "$(dirname "$pkg")"/* ~/rpmbuild/SOURCES/
     spectool -g -R "$pkg"
     rpmbuild -bs "$pkg"
 }
 
+
+# everything that can fail need to return 1
 build_pkg() {
     local cfg=$1
     print_header "$cfg"
     rm -rf ~/rpmbuild/BUILD/*
-    /usr/bin/mock -v -r "$cfg" --resultdir=~/rpms --rpmbuild_timeout=$((60 * 60)) ~/rpmbuild/SRPMS/*.rpm "${EXTRA_MOCK_OPTS[@]}"
+    /usr/bin/mock -v -r "$cfg" --resultdir=~/rpms --rpmbuild_timeout=$((60 * 60)) ~/rpmbuild/SRPMS/*.rpm "${EXTRA_MOCK_OPTS[@]}" || return 1
 
     echo ""
     echo ""
 }
 
 # If we build rpm that already exists, this means that we
+# everything that can fail need to return 1
 safe_move() {
     local src=$1
     local dest_dir=$2
@@ -63,9 +66,10 @@ safe_move() {
         echo "$dest already exists! Did you forgot to bump package version?"
         return 1
     fi
-    mv -n "$src" "$dest"
+    mv -n "$src" "$dest" || return 1
 }
 
+# everything that can fail need to return 1
 export_packages() {
     local dest
     local pkg
@@ -73,28 +77,28 @@ export_packages() {
     for arch in x86_64 aarch64;do
         # Move debuginfo packages
         for pkg in ./rpms/*-debuginfo-*."$arch".rpm;do
-            safe_move "$pkg" ~/repo/"$arch"-debug/Packages
+            safe_move "$pkg" ~/repo/"$arch"-debug/Packages || return 1
         done
 
         # Move debugsource packages
         for pkg in ./rpms/*-debugsource-*."$arch".rpm;do
-            safe_move "$pkg" ~/repo/"$arch"-debug/Packages
+            safe_move "$pkg" ~/repo/"$arch"-debug/Packages || return 1
         done
 
         # Move all other packages
         for pkg in ./rpms/*."$arch".rpm;do
-            safe_move "$pkg" ~/repo/"$arch"/Packages
+            safe_move "$pkg" ~/repo/"$arch"/Packages || return 1
         done
     done
 
     # Move noarch packages
     for pkg in ./rpms/*.noarch.rpm;do
-        safe_move "$pkg" ~/repo/noarch/Packages
+        safe_move "$pkg" ~/repo/noarch/Packages || return 1
     done
 
     # Move sources packages
     for pkg in ./rpms/*.src.rpm;do
-        safe_move "$pkg" ~/repo/sources/Packages
+        safe_move "$pkg" ~/repo/sources/Packages || return 1
     done
 }
 
@@ -153,19 +157,13 @@ print_header() {
     echo "    -=- $* -=-"
 }
 
-failed_pkg() {
-    local pkg=$1
-    print_banner "BUILD FAILED: $pkg build failed"
-    PACKAGES_FAILED+=( "$pkg" )
-}
-
-
+# everything that can fail need to return 1
 try_build_pkg() {
     local pkg=$1
 
     build_pkg epel-7-x86_64 || return 1
     build_pkg epel-7-aarch64 || return 1
-    export_packages
+    export_packages || return 1
     PACKAGES_LEFT=("${PACKAGES_LEFT[@]/"$pkg"}")
     PACKAGES_BUILD_IN_PASS=$(( PACKAGES_BUILD_IN_PASS + 1))
     refresh_local_repo
@@ -202,9 +200,15 @@ while true;do
         else
             print_banner "Building $pkg"
             prepare_srpm "$pkg"
+
+            # XXX: || causes try_build_pkg to ignore set -e flag
+            # therefore used inside try_build_pkg that can fail need to use || return 1
             try_build_pkg "$pkg" || print_banner "Failed to build $pkg"
         fi
     done
+
+    # shellcheck disable=SC2206 # Needed to remove empty entries
+    PACKAGES_LEFT=(${PACKAGES_LEFT[*]})
 
     if [ "${#PACKAGES_LEFT[@]}" = 0 ];then
         print_banner "Finished building after in ${PASS} pass"
@@ -219,8 +223,7 @@ while true;do
         exit 1
     fi
 
-    # shellcheck disable=SC2206 # Needed to remove empty entries
-    PACKAGES_LEFT=(${PACKAGES_LEFT[*]})
+
     PASS=$(( PASS +1 ))
     PACKAGES_BUILD_IN_PASS=0
 done
