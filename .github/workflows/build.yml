@@ -30,6 +30,9 @@ jobs:
           .ci/fetch-current-repository
           sudo chown 1000 -R .
           .ci/build-prod
+          # link newest release for compatibility reasons
+          rm -f repo/el/7/mageops-release.noarch.rpm
+          ln -r -s repo/el/7/noarch/Packages/mageops-release-7-6.noarch.rpm repo/el/7/mageops-release.noarch.rpm
           sudo chown $UID -R .
         env:
           MGS_RPM_GPG_KEY_PASSPHRASE: ${{ secrets.MGS_RPM_GPG_KEY_PASSPHRASE }}
