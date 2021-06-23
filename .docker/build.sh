@@ -108,9 +108,17 @@ update_repo() {
     shift
     local extra_dirs=("$@")
 
+    local dep
+    local name
+    for dep in "${extra_dirs[@]}";do
+        name="$(basename "$dep")"
+        rm -f "$repo_dir/$name"
+        ln -r -s $dep "$repo_dir/$name"
+    done
+
     echo "Updating repository $repo_dir..."
     # Deltarpm up to 64M
-    createrepo --split --update --deltas --max-delta-rpm-size=67108864 --zck "$repo_dir" "${extra_dirs[@]}"
+    createrepo --update --deltas --max-delta-rpm-size=67108864 --zck "$repo_dir"
 
     if [ -n "${MGS_RPM_GPG_KEY_SEC:-}" ];then
         # Sign repository
