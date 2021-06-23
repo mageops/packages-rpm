@@ -5,9 +5,9 @@ set -euo pipefail
 DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")/..")"
 
 docker build -t mockbuild:latest "$DIR/.docker"
-mkdir -p "$DIR/public/repo/el/7"
+mkdir -p "$DIR/repo/el/7"
 docker run --privileged \
-    -v "$DIR/public/repo/el/7":/home/builder/repo:z \
+    -v "$DIR/repo/el/7":/home/builder/repo:z \
     -v "$DIR/packages":/home/builder/packages:ro \
     --rm \
     --env MGS_RPM_GPG_KEY_PASSPHRASE="${MGS_RPM_GPG_KEY_PASSPHRASE}" \
