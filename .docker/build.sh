@@ -112,7 +112,7 @@ update_repo() {
     local name
     for dep in "${extra_dirs[@]}";do
         name="$(basename "$dep")"
-        rm -f "$repo_dir/$name"
+        rm -rf "${repo_dir:?}/$name"
         ln -r -s $dep "$repo_dir/$name"
     done
 
