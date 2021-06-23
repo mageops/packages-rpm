@@ -58,7 +58,7 @@ safe_move() {
     local dest
 
     dest="${dest_dir}/$(basename $src)"
-    if [ -e "$dest" ] && false;then # Disable it temporarely for first build
+    if [ -e "$dest" ];then
         echo "$dest already exists! Did you forgot to bump package version?"
         return 1
     fi
