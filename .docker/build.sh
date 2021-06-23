@@ -184,7 +184,7 @@ echo "Updating spec cache..."
 sha256sum $(find packages/ -name '*.spec' -type f) > ~/repo/spec-cache.sum
 
 
-if [ ${FAILED_AARCH64[#]} -gt 0 ];then
+if [ ${#FAILED_AARCH64[@]} -gt 0 ];then
     print_banner "Soma packages failed to build on aarch64:"
     for pkg in "${FAILED_AARCH64[@]}";do
         echo "   - $pkg"
