@@ -8,7 +8,7 @@
 Summary: High-performance HTTP accelerator
 Name:    varnish
 Version: 6.0.7
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: BSD
 Group:   System Environment/Daemons
 URL:     https://www.varnish-cache.org/
@@ -180,5 +180,8 @@ exit 0
 %systemd_postun_with_restart varnish varnishncsa
 
 %changelog
+* Wed Jun 23 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 6.0.7-3
+- rebuilt
+
 * Wed Jun 23 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 6.0.7-2
 - rebuilt

@@ -17,3 +17,4 @@
 /rpm
 /build-rpm.sh
 /test-ci.sh
+/mock-test-build.sh
