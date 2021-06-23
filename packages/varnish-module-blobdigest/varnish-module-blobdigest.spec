@@ -1,6 +1,6 @@
 Name:             varnish-module-blobdigest
 Version:          1.1
-Release:          6.0.7.1%{?dist}
+Release:          7.0.7.1%{?dist}
 
 Group:            System Environment/Libraries
 Summary:          Varnish module (VMOD) for digests and hmacs with the VCL data type BLOB
@@ -48,5 +48,8 @@ Varnish module (VMOD) for digests and hmacs with the VCL data type BLOB
 
 
 %changelog
+* Wed Jun 23 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.1-7.0.7.1
+- rebuilt
+
 * Mon Mar 29 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.1-6.0.7.1
 - Initial release

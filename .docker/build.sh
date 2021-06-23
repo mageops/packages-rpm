@@ -4,8 +4,8 @@ set -euo pipefail
 # Important! this allows us to use not globs for not existing files in for loops
 shopt -s nullglob
 EXTRA_MOCK_OPTS=()
-FAILED_AARCH64=()
 
+# We need to do some stuff as root beofore we drop our privilyges
 if [ "${UID}" = "0" ];then
     # Load rpm key for signing and drop privlidges
     if [ -n "${MGS_RPM_GPG_KEY_PUB:-}" ];then
@@ -52,6 +52,7 @@ build_pkg() {
     echo ""
 }
 
+# If we build rpm that already exists, this means that we
 safe_move() {
     local src=$1
     local dest_dir=$2
@@ -152,10 +153,26 @@ print_header() {
     echo "    -=- $* -=-"
 }
 
-failed_aarch64_pkg() {
+failed_pkg() {
     local pkg=$1
-    print_banner "BUILD FAILED: $pkg aarch64 build failed, ignoring"
-    FAILED_AARCH64+=( "$pkg" )
+    print_banner "BUILD FAILED: $pkg build failed"
+    PACKAGES_FAILED+=( "$pkg" )
+}
+
+
+try_build_pkg() {
+    local pkg=$1
+
+    build_pkg epel-7-x86_64 || return 1
+    build_pkg epel-7-aarch64 || return 1
+    export_packages
+    PACKAGES_LEFT=("${PACKAGES_LEFT[@]/"$pkg"}")
+    PACKAGES_BUILD_IN_PASS=$(( PACKAGES_BUILD_IN_PASS + 1))
+    refresh_local_repo
+}
+
+refresh_local_repo() {
+    createrepo ~/repo
 }
 
 if [ -n "${MGS_RPM_GPG_KEY_SEC:-}" ];then
@@ -170,31 +187,48 @@ mkdir -p ~/rpmbuild/{BUILD,BUILDROOT,RPMS,SPECS,SRPMS,SOURCES}
 mkdir -p ~/rpms
 mkdir -p ~/repo/{sources,noarch,aarch64,aarch64-debug,x86_64,x86_64-debug}/Packages
 
-# Build updated spec files
-for pkg in packages/*/*.spec;do
-    if is_spec_unchanged "$pkg";then
-        echo "Skipping build of $pkg, as it's unchanged"
-    else
-        print_banner "Building $pkg"
-        prepare_srpm "$pkg"
+refresh_local_repo
+PASS=0
+PACKAGES_LEFT=(packages/*/*.spec)
+while true;do
+    print_banner "Starting build pass ${PASS}"
+    echo "${#PACKAGES_LEFT[@]}: ${PACKAGES_LEFT[*]}"
+    PACKAGES_BUILD_IN_PASS=0
+    # Build updated spec files
+    for pkg in "${PACKAGES_LEFT[@]}" ;do
+        if is_spec_unchanged "$pkg";then
+            echo "Skipping build of $pkg, as it's unchanged"
+            PACKAGES_LEFT=( "${PACKAGES_LEFT[@]/"$pkg"}" )
+        else
+            print_banner "Building $pkg"
+            prepare_srpm "$pkg"
+            try_build_pkg "$pkg" || print_banner "Failed to build $pkg"
+        fi
+    done
 
-        build_pkg epel-7-x86_64
-        # We currently do not support aarch64 yet, therefore do not fail build on aarch64 failure
-        build_pkg epel-7-aarch64 || failed_aarch64_pkg "$pkg"
-        export_packages
+    if [ "${#PACKAGES_LEFT[@]}" = 0 ];then
+        print_banner "Finished building after in ${PASS} pass"
+        break;
     fi
-done
 
+    if [ "${PACKAGES_BUILD_IN_PASS}" = 0 ] && [ "${#PACKAGES_LEFT[@]}" != 0 ];then
+        print_banner "${#PACKAGES_LEFT[@]} left to build"
+        for p in "${PACKAGES_LEFT[@]}";do
+            echo " - $p"
+        done
+        exit 1
+    fi
+
+    # shellcheck disable=SC2206 # Needed to remove empty entries
+    PACKAGES_LEFT=(${PACKAGES_LEFT[*]})
+    PASS=$(( PASS +1 ))
+    PACKAGES_BUILD_IN_PASS=0
+done
+rm -rf ~/repo/repodata
 update_all_repos
 
 # Update spec cache
 echo "Updating spec cache..."
+
+# shellcheck disable=SC2046 # Intetnional
 sha256sum $(find packages/ -name '*.spec' -type f) > ~/repo/spec-cache.sum
-
-
-if [ ${#FAILED_AARCH64[@]} -gt 0 ];then
-    print_banner "Soma packages failed to build on aarch64:"
-    for pkg in "${FAILED_AARCH64[@]}";do
-        echo "   - $pkg"
-    done
-fi

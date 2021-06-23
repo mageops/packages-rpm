@@ -1,13 +1,12 @@
 Name:             varnish-modules-extra
 Version:          0.15.0
-Release:          1.6.0.7%{?dist}
+Release:          2.6.0.7%{?dist}
 
 Group:            System Environment/Libraries
 Summary:          Varnish Official Module Collection
 License:          BSD
 
 Vendor:           varnish
-Packager:         creativestyle GmbH <https://creativestyle.de>
 URL:              https://github.com/varnish/varnish-modules
 
 Source0:          https://github.com/varnish/varnish-modules/archive/0.15.0.tar.gz
@@ -48,6 +47,9 @@ Official collection of varnish modules
 %_datarootdir/doc/v*
 
 %changelog
+* Wed Jun 23 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.15.0-2.6.0.7
+- rebuilt
+
 * Mon Dec 07 2020 Filip Sobalski <filip.sobalski@creativestyle.pl> - 0.15.0-1.6.0.7
 - Bump release and deps to support new varnish 6.0.7
 

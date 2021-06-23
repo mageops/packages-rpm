@@ -1,13 +1,12 @@
 Name:             varnish-module-accept
 Version:          6.0
-Release:          2.6.0.7%{?dist}
+Release:          3.6.0.7%{?dist}
 
 Group:            System Environment/Libraries
 Summary:          Varnish Accept Header Module
 License:          Public Domain
 
 Vendor:           gquintard
-Packager:         creativestyle GmbH <https://creativestyle.de>
 URL:              https://github.com/gquintard/libvmod-accept
 
 Source0:          https://github.com/gquintard/libvmod-accept/archive/6.0.tar.gz
@@ -48,6 +47,9 @@ Varnish module for accept header normalization.
 %_datarootdir/doc/vmod-accept/*
 
 %changelog
+* Wed Jun 23 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 6.0-3.6.0.7
+- rebuilt
+
 * Mon Dec 07 2020 Filip Sobalski <filip.sobalski@creativestyle.pl> - 6.0-2.6.0.7
 - Bump release and deps to support new varnish 6.0.7
 
