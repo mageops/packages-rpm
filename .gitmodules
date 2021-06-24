@@ -1,0 +1,6 @@
+[submodule "packages-testing/redis"]
+	path = packages-testing/redis
+	url = https://git.remirepo.net/git/rpms/redis.git
+[submodule "packages/remi-release"]
+	path = packages/remi-release
+	url = https://git.remirepo.net/git/rpms/remi-release.git

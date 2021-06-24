@@ -190,7 +190,6 @@ PASS=0
 PACKAGES_LEFT=(packages/*/*.spec)
 while true;do
     print_banner "Starting build pass ${PASS}"
-    echo "${#PACKAGES_LEFT[@]}: ${PACKAGES_LEFT[*]}"
     PACKAGES_BUILD_IN_PASS=0
     # Build updated spec files
     for pkg in "${PACKAGES_LEFT[@]}" ;do

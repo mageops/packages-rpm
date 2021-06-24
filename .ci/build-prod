@@ -14,3 +14,13 @@ docker run --privileged \
     --env MGS_RPM_GPG_KEY_PUB="${MGS_RPM_GPG_KEY_PUB}" \
     --env MGS_RPM_GPG_KEY_SEC="${MGS_RPM_GPG_KEY_SEC}" \
     mockbuild build-rpm
+
+mkdir -p "$DIR/repo/el-testing/7"
+docker run --privileged \
+    -v "$DIR/repo/el-testing/7":/home/builder/repo:z \
+    -v "$DIR/packages-testing":/home/builder/packages:ro \
+    --rm \
+    --env MGS_RPM_GPG_KEY_PASSPHRASE="${MGS_RPM_GPG_KEY_PASSPHRASE}" \
+    --env MGS_RPM_GPG_KEY_PUB="${MGS_RPM_GPG_KEY_PUB}" \
+    --env MGS_RPM_GPG_KEY_SEC="${MGS_RPM_GPG_KEY_SEC}" \
+    mockbuild build-rpm

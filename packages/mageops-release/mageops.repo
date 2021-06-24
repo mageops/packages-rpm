@@ -21,3 +21,28 @@ failovermethod=priority
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
+
+
+[mageops-testing]
+name=MageOps packages - $basearch
+baseurl=https://mageops.github.io/packages-rpm/repo/el-testing/$releasever/$basearch
+failovermethod=priority
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
+
+[mageops-testing-sources]
+name=MageOps package sources
+baseurl=https://mageops.github.io/packages-rpm/repo/el-testing/$releasever/sources
+failovermethod=priority
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
+
+[mageops-testing-debuginfo]
+name=MageOps package sources
+baseurl=https://mageops.github.io/packages-rpm/repo/el-testing/$releasever/$basearch-debug
+failovermethod=priority
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS

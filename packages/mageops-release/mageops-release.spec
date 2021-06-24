@@ -1,6 +1,6 @@
 Name:           mageops-release
 Version:        7
-Release:        6
+Release:        7
 Summary:        MageOps RPM repository configuration
 
 Group:          MageOps/Repositories
@@ -41,6 +41,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
 
 %changelog
+* Thu Jun 24 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-7
+- Add mageops-testing repository that contains packages not ready for use in all environments
+
 * Thu Nov 28 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-5
 - Change group to MageOps/Repositories to see what happens
 * Wed Nov 27 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-4

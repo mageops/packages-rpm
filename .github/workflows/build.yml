@@ -9,6 +9,8 @@ jobs:
     if: ${{ github.event_name != 'push' || github.ref != 'refs/heads/master' }}
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       - name: Test build
         run: |
           set -e
@@ -23,6 +25,8 @@ jobs:
     environment: github-pages
     steps:
       - uses: actions/checkout@v2
+        with:
+          submodules: true
       - name: Build
         run: |
           set -e
