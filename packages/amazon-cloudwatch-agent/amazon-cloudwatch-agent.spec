@@ -2,7 +2,7 @@
 
 Name:           amazon-cloudwatch-agent
 Version:        1.247348.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Amazon CloudWatch Agent
 
 License:        MIT
@@ -143,5 +143,8 @@ fi
 /var/run/amazon/cwagent-otel-collector
 
 %changelog
+* Thu Jun 24 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.247348.0-2
+- rebuilt
+
 * Fri Jun 18 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
 - Initial release
