@@ -5,7 +5,10 @@ set -euo pipefail
 DIR="$(realpath "$(dirname "${BASH_SOURCE[0]}")/..")"
 
 docker build -t mockbuild:latest "$DIR/.docker"
-mkdir -p "$DIR/repo/el/7"
+
+mkdir -p "$DIR/repo/el/7" "$DIR/repo/el-testing/7"
+sudo chown 1000 -R $DIR
+
 docker run --privileged \
     -v "$DIR/repo/el/7":/home/builder/repo:z \
     -v "$DIR/packages":/home/builder/packages:ro \
@@ -15,7 +18,6 @@ docker run --privileged \
     --env MGS_RPM_GPG_KEY_SEC="${MGS_RPM_GPG_KEY_SEC}" \
     mockbuild build-rpm
 
-mkdir -p "$DIR/repo/el-testing/7"
 docker run --privileged \
     -v "$DIR/repo/el-testing/7":/home/builder/repo:z \
     -v "$DIR/packages-testing":/home/builder/packages:ro \
@@ -24,3 +26,5 @@ docker run --privileged \
     --env MGS_RPM_GPG_KEY_PUB="${MGS_RPM_GPG_KEY_PUB}" \
     --env MGS_RPM_GPG_KEY_SEC="${MGS_RPM_GPG_KEY_SEC}" \
     mockbuild build-rpm
+
+sudo chown $UID -R $DIR

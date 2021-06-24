@@ -16,9 +16,8 @@ jobs:
           set -e
           sudo apt update && sudo apt install -y qemu-user-static
           .ci/fetch-current-repository
-          sudo chown 1000 -R .
           .ci/build-test
-          sudo chown $UID -R .
+
   deploy:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
@@ -32,9 +31,7 @@ jobs:
           set -e
           sudo apt update && sudo apt install -y qemu-user-static
           .ci/fetch-current-repository
-          sudo chown 1000 -R .
           .ci/build-prod
-          sudo chown $UID -R .
           # link newest release for compatibility reasons
           rm -f repo/el/7/mageops-release.noarch.rpm
           ln -r -s repo/el/7/noarch/Packages/mageops-release-7-6.noarch.rpm repo/el/7/mageops-release.noarch.rpm
