@@ -8,7 +8,7 @@
 Summary: High-performance HTTP accelerator
 Name:    varnish
 Version: 6.0.7
-Release: 5%{?dist}
+Release: 6%{?dist}
 License: BSD
 Group:   System Environment/Daemons
 URL:     https://www.varnish-cache.org/
@@ -86,6 +86,9 @@ cp build/redhat/find-provides .
 %ifarch aarch64
   --with-jemalloc=no \
 %endif
+%ifarch x86_64 %arm
+   --disable-pcre-jit \
+%endif
   --localstatedir=/var/lib
 
 %make_build V=1
@@ -96,7 +99,7 @@ cp build/redhat/find-provides .
 sed -i 's/48/128/g;' bin/varnishtest/tests/c00057.vtc
 %endif
 %if 0%{?nocheck} == 0
-%make_build check VERBOSE=1
+make %{?_smp_mflags} check LD_LIBRARY_PATH="%{buildroot}%{_libdir}:%{buildroot}%{_libdir}/%{name}" TESTS_PARALLELISM=5 VERBOSE=1
 %endif
 
 
@@ -190,6 +193,9 @@ exit 0
 %systemd_postun_with_restart varnish varnishncsa
 
 %changelog
+* Fri Jun 25 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 6.0.7-6
+- rebuilt
+
 * Fri Jun 25 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 6.0.7-5
 - rebuilt
 

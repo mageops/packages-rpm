@@ -48,7 +48,7 @@ build_pkg() {
     local cfg=$1
     print_header "$cfg"
     rm -rf ~/rpmbuild/BUILD/*
-    /usr/bin/mock -v -r "$cfg" --resultdir=~/rpms --rpmbuild_timeout=$((60 * 60)) ~/rpmbuild/SRPMS/*.rpm "${EXTRA_MOCK_OPTS[@]}" || return 1
+    /usr/bin/mock -v -r "$cfg" --resultdir=~/rpms --rpmbuild_timeout=$((${TIMEOUT_HOURS:-1} * 60 * 60)) ~/rpmbuild/SRPMS/*.rpm "${EXTRA_MOCK_OPTS[@]}" || return 1
 
     echo ""
     echo ""
@@ -62,7 +62,8 @@ safe_move() {
     local dest
 
     dest="${dest_dir}/$(basename $src)"
-    if [ -e "$dest" ];then
+    # UNSAFE_MOVE is nice to have to local testing
+    if [ -e "$dest" ] && [ "${UNSAFE_MOVE:-0}" != "1" ];then
         echo "$dest already exists! Did you forgot to bump package version?"
         return 1
     fi
