@@ -8,7 +8,7 @@
 Summary: High-performance HTTP accelerator
 Name:    varnish
 Version: 6.0.7
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: BSD
 Group:   System Environment/Daemons
 URL:     https://www.varnish-cache.org/
@@ -17,7 +17,9 @@ Source1:  https://github.com/varnishcache/pkg-varnish-cache/archive/6890e35e3fd9
 
 BuildRequires: diffutils
 BuildRequires: gcc
+%ifnarch aarch64
 BuildRequires: jemalloc-devel >= 5
+%endif
 BuildRequires: libedit-devel
 BuildRequires: make
 BuildRequires: ncurses-devel
@@ -80,11 +82,19 @@ tar -xf %{SOURCE1} -C build --strip-components=1
 cp build/redhat/find-provides .
 
 %build
-%configure --localstatedir=/var/lib
+%configure \
+%ifarch aarch64
+  --with-jemalloc=no \
+%endif
+  --localstatedir=/var/lib
+
 %make_build V=1
 
 
 %check
+%ifarch ppc64 ppc64le aarch64
+sed -i 's/48/128/g;' bin/varnishtest/tests/c00057.vtc
+%endif
 %if 0%{?nocheck} == 0
 %make_build check VERBOSE=1
 %endif
@@ -180,6 +190,9 @@ exit 0
 %systemd_postun_with_restart varnish varnishncsa
 
 %changelog
+* Fri Jun 25 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 6.0.7-5
+- rebuilt
+
 * Fri Jun 25 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 6.0.7-4
 - Require jemalloc >= 5
 
