@@ -44,7 +44,7 @@
 
 Name:              redis
 Version:           %{upstream_ver}%{?upstream_pre:~%{upstream_pre}}
-Release:           2%{?dist}
+Release:           3%{?dist}
 Summary:           A persistent key-value database
 Group:             Applications/Databases
 License:           BSD
@@ -186,7 +186,7 @@ mv ../%{name}-doc-%{doc_commit} doc
 %patch0001 -p1
 %ifarch aarch64
 %patch0002 -p1
-%enfif
+%endif
 
 %if %{with jemalloc}
 rm -frv deps/jemalloc
@@ -412,6 +412,9 @@ fi
 
 
 %changelog
+* Fri Jun 25 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
+- Patch bundled jemalloc
+
 * Thu Jun 24 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 6.2.4-2
 - Disable jemalloc for aarch64
 
