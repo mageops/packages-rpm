@@ -71,6 +71,10 @@ Source10:          https://github.com/%{gh_owner}/%{gh_project}-doc/archive/%{do
 # https://github.com/redis/redis/pull/3491 - man pages
 Patch0001:         0001-1st-man-pageis-for-redis-cli-redis-benchmark-redis-c.patch
 
+# This patch is required only for aarch64 to adjust page size
+# https://salsa.debian.org/debian/jemalloc/-/blob/c0a88c37a551be7d12e4863435365c9a6a51525f/debian/rules#L8-23
+Patch0002:         aarch64-jemalloc-lg-page-size.patch
+
 
 BuildRequires:     gcc
 %if 0%{?rhel} == 7
@@ -180,6 +184,9 @@ and removal, status checks, resharding, rebalancing, and other operations.
 %endif
 mv ../%{name}-doc-%{doc_commit} doc
 %patch0001 -p1
+%ifarch aarch64
+%patch0002 -p1
+%enfif
 
 %if %{with jemalloc}
 rm -frv deps/jemalloc
