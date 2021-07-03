@@ -2,7 +2,7 @@
 %global git_sha 9e79d6d924a18d7de28f9eb881806dfc267f5459
 Name:           rust-%{crate}
 Version:        0.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Elasticsearch hprof memory dump reader
 
 # Upstream license specification: MIT
@@ -55,5 +55,8 @@ install -D -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/elasticsearch-crash-handler
 
 
 %changelog
+* Sat Jul 03 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.1.0-2
+- Fix typo in systemd service
+
 * Tue Jun 01 2021 Piotr Rogowski <piotrekrogowski@gmail.com> - 0.1.0-1
 - Initial package
