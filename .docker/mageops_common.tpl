@@ -27,6 +27,16 @@ gpgcheck=0
 enabled=1
 # needed for mock bootstrap, because bind isn't done there
 skip_if_unavailable=1
+
+[varnish60lts]
+name=varnish60lts
+baseurl=https://packagecloud.io/varnishcache/varnish60lts/el/$releasever/$basearch
+repo_gpgcheck=0
+gpgcheck=0
+enabled=1
+gpgkey=https://packagecloud.io/varnishcache/varnish60lts/gpgkey
+sslverify=1
+sslcacert=/etc/pki/tls/certs/ca-bundle.crt
 """
 
 

@@ -1,6 +1,6 @@
 Name:             varnish-modules-extra
 Version:          0.15.0
-Release:          3.6.0.7%{?dist}
+Release:          3.6.0.8%{?dist}
 
 Group:            System Environment/Libraries
 Summary:          Varnish Official Module Collection
@@ -12,10 +12,10 @@ URL:              https://github.com/varnish/varnish-modules
 Source0:          https://github.com/varnish/varnish-modules/archive/0.15.0.tar.gz
 
 Conflicts:        varnish-modules
-Requires:         varnish = 6.0.7
+Requires:         varnish = 6.0.8
 
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{release}-root
-BuildRequires:    varnish-devel = 6.0.7
+BuildRequires:    varnish-devel = 6.0.8
 BuildRequires:    libtool
 BuildRequires:    python-docutils
 
@@ -47,6 +47,9 @@ Official collection of varnish modules
 %_datarootdir/doc/v*
 
 %changelog
+* Tue Jul 20 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.15.0-4.6.0.8
+- Bump varnish dependency
+
 * Wed Jun 23 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.15.0-3.6.0.7
 - rebuilt
 
