@@ -3,16 +3,16 @@
 %global vmod    dynamic
 %global vmoddir %{_libdir}/varnish/vmods
 %global varnish_lock 6.0.8
+%global commit b72c723acff5b2ef46c9de8cef036cee3a380a64
 
 Name:           varnish-module-%{vmod}
 Version:        0.4
-Release:        1.%{varnish_lock}%{?dist}
+Release:        2.%{varnish_lock}%{?dist}
 Group:          System Environment/Libraries
 Summary:        DNS director for Varnish Cache
 URL:            https://github.com/nigoroll/libvmod-dynamic
 License:        BSD
-
-Source0:         https://github.com/nigoroll/libvmod-dynamic/archive/refs/tags/v%{version}.tar.gz
+Source0:         https://github.com/nigoroll/libvmod-dynamic/archive/%{commit}.tar.gz
 
 BuildRequires:  varnish-devel = %{varnish_lock}
 BuildRequires:  pkgconfig
@@ -66,5 +66,8 @@ rm %{buildroot}%{vmoddir}/libvmod_%{vmod}.la
 
 
 %changelog
+* Tue Aug 03 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.4-2.6.0.8
+- Update to never revision
+
 * Mon Jul 19 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.4-1
 - Initial release
