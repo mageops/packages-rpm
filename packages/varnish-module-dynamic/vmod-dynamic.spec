@@ -32,7 +32,7 @@ create backends.
 
 
 %prep
-%setup -qn libvmod-dynamic-%{version}
+%setup -qn libvmod-dynamic-%{commit}
 
 
 %build
