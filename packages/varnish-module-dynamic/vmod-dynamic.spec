@@ -20,8 +20,10 @@ BuildRequires:  make
 BuildRequires:  gcc
 BuildRequires:  automake
 BuildRequires:  libtool
+BuildRequires:  getdns-devel
 BuildRequires:  python-docutils >= 0.6
 
+Requires:       getdns
 Requires:       varnish = %{varnish_lock}
 
 Provides: %{name}, %{name}-debuginfo
@@ -38,8 +40,8 @@ create backends.
 %build
 ./autogen.sh
 %configure
-make %{?_smp_mflags}
-
+# It do not build in parralel
+make -j1
 
 %install
 %make_install
