@@ -1,15 +1,15 @@
 %define debug_package %{nil}
 
 Name:           elasticsearch-exporter
-Version:        1.1.0
+Version:        1.2.1
 Release:        1%{?dist}
 Summary:        Elasticsearch stats exporter for Prometheus
 
 License:        MIT
-URL:            https://github.com/justwatchcom/elasticsearch_exporter
-Source0:        https://github.com/justwatchcom/elasticsearch_exporter/releases/download/v%{version}/elasticsearch_exporter-%{version}.linux-amd64.tar.gz
-Source1:        https://github.com/justwatchcom/elasticsearch_exporter/releases/download/v%{version}/elasticsearch_exporter-%{version}.linux-arm64.tar.gz
-Source2:        https://github.com/justwatchcom/elasticsearch_exporter/releases/download/v%{version}/elasticsearch_exporter-%{version}.linux-386.tar.gz
+URL:            https://github.com/prometheus-community/elasticsearch_exporter
+Source0:        https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v%{version}/elasticsearch_exporter-%{version}.linux-amd64.tar.gz
+Source1:        https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v%{version}/elasticsearch_exporter-%{version}.linux-arm64.tar.gz
+Source2:        https://github.com/prometheus-community/elasticsearch_exporter/releases/download/v%{version}/elasticsearch_exporter-%{version}.linux-386.tar.gz
 Source3:        %{name}.service
 Source4:        %{name}.default
 
@@ -63,5 +63,8 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
+* Wed Aug 04 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.2.1-1
+- Update version
+
 * Mon Nov  2 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
 - Created package
