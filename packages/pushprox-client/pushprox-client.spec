@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
 Name:           pushprox-client
-Version:        0.2.1
+Version:        0.2.2
 Release:        1%{?dist}
 Summary:        Proxy to allow Prometheus to scrape through NAT etc.
 
@@ -63,6 +63,9 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
+* Wed Aug 04 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.2.2-1
+- Update version
+
 * Wed Aug 04 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.2.1-1
 - Update to new version from fork
 
