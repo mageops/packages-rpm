@@ -1,15 +1,15 @@
 %define debug_package %{nil}
 
 Name:           pushprox-client
-Version:        0.1.0
+Version:        0.2.1
 Release:        1%{?dist}
 Summary:        Proxy to allow Prometheus to scrape through NAT etc.
 
 License:        Apache-2.0
-URL:            https://github.com/prometheus-community/PushProx
-Source0:        https://github.com/prometheus-community/PushProx/releases/download/v%{version}/PushProx-%{version}.linux-amd64.tar.gz
-Source1:        https://github.com/prometheus-community/PushProx/releases/download/v%{version}/PushProx-%{version}.linux-arm64.tar.gz
-Source2:        https://github.com/prometheus-community/PushProx/releases/download/v%{version}/PushProx-%{version}.linux-386.tar.gz
+URL:            https://github.com/Szpadel/PushProx
+Source0:        https://github.com/Szpadel/PushProx/releases/download/v%{version}/PushProx-%{version}.linux-amd64.tar.gz
+Source1:        https://github.com/Szpadel/PushProx/releases/download/v%{version}/PushProx-%{version}.linux-arm64.tar.gz
+Source2:        https://github.com/Szpadel/PushProx/releases/download/v%{version}/PushProx-%{version}.linux-386.tar.gz
 Source3:        %{name}.service
 Source4:        %{name}.default
 
@@ -63,5 +63,8 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
+* Wed Aug 04 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.2.1-1
+- Update to new version from fork
+
 * Tue Oct 27 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
 - Created package
