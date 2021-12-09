@@ -1,4 +1,4 @@
-%define nginx_version 1.20.1
+%define nginx_version 1.20.2
 %define nginx_user nginx
 %define nginx_group nginx
 
@@ -66,6 +66,9 @@ cp objs/ngx_http_geoip2_module.so objs/ngx_stream_geoip2_module.so %{buildroot}%
 
 
 %changelog
+* Thu Dec 09 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 3.3-1.20.2.4
+- Update nginx version
+
 * Thu Sep 02 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 3.3-1.20.1.4
 - Update nginx version
 
