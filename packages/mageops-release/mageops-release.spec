@@ -1,6 +1,6 @@
 Name:           mageops-release
 Version:        7
-Release:        7
+Release:        8
 Summary:        MageOps RPM repository configuration
 
 Group:          MageOps/Repositories
@@ -10,7 +10,8 @@ Vendor:         creativestyle GmbH <https://creativestyle.de>
 URL:            https://github.com/mageops/packages-rpm
 
 Source0:        mageops.repo
-Source1:        https://raw.githubusercontent.com/mageops/packages-rpm/master/rpm-gpg-key.pub.asc
+Source1:        mageops-2019.pub.asc
+Source2:        mageops-2021.pub.asc
 
 BuildArch:      noarch
 Requires:       redhat-release >= %{version}
@@ -28,7 +29,8 @@ install -pm 644 %{SOURCE1} .
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -Dpm 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
+install -Dpm 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2019
+install -Dpm 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2021
 install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
 install -pm 644 %{SOURCE0} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
 
@@ -41,6 +43,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
 
 %changelog
+* Thu Dec 09 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
+- Add 2021 key
+
 * Thu Jun 24 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-7
 - Add mageops-testing repository that contains packages not ready for use in all environments
 
