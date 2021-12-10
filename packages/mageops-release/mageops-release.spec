@@ -1,6 +1,6 @@
 Name:           mageops-release
 Version:        7
-Release:        8
+Release:        9
 Summary:        MageOps RPM repository configuration
 
 Group:          MageOps/Repositories
@@ -44,6 +44,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2021
 
 %changelog
+* Fri Dec 10 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-9
+- Update 2021 key
+
 * Thu Dec 09 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
 - Add 2021 key
 
