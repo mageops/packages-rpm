@@ -34,7 +34,7 @@ jobs:
           .ci/build-prod
           # link newest release for compatibility reasons
           rm -f repo/el/7/mageops-release.noarch.rpm
-          ln -r -s repo/el/7/noarch/Packages/mageops-release-7-6.noarch.rpm repo/el/7/mageops-release.noarch.rpm
+          ln -r -s repo/el/7/noarch/Packages/mageops-release-7-9.noarch.rpm repo/el/7/mageops-release.noarch.rpm
         env:
           MGS_RPM_GPG_KEY_PASSPHRASE: ${{ secrets.MGS_RPM_GPG_KEY_PASSPHRASE }}
           MGS_RPM_GPG_KEY_PUB: ${{ secrets.MGS_RPM_GPG_KEY_PUB }}
