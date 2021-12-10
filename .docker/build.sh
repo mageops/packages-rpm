@@ -237,4 +237,4 @@ echo "Updating spec cache..."
 sha256sum $(find packages/ -name '*.spec' -type f) > ~/repo/spec-cache.sum
 
 # Update gpg global key
-echo "$MGS_RPM_GPG_KEY_PUB" > ~/repo/RPM-GPG-KEY
+echo "$MGS_RPM_GPG_KEY_PUB" > ~/repo/REPO-GPG-KEY
