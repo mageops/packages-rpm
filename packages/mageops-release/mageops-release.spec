@@ -40,7 +40,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(-,root,root,-)
 %config(noreplace) /etc/yum.repos.d/*
-/etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
+/etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2019
+/etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2021
 
 %changelog
 * Thu Dec 09 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
