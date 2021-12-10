@@ -47,7 +47,7 @@ rpm -Uvh https://mageops.github.io/packages-rpm/repo/el/7/mageops-release.noarch
 
 1. Install the GPG signing key
 ```bash
-curl -s https://raw.githubusercontent.com/mageops/packages-rpm/master/rpm-gpg-key.pub.asc > /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
+curl -s https://raw.githubusercontent.com/mageops/packages-rpm/master/rpm-gpg-key.pub.asc > /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2021
 ```
 
 2. Install the YUM repository config
@@ -57,15 +57,12 @@ curl -s https://raw.githubusercontent.com/mageops/packages-rpm/master/packages/m
 
 ### Finishing steps (optional)
 
-1. Import the GPG signing key 
+1. Import the GPG signing key
 ```bash
-rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS
+rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2021
 ```
 
 2. Compute cache for the new repository
 ```bash
 yum makecache --disablerepo="*" --enablerepo="mageops"
 ```
-
-
-
