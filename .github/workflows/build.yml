@@ -39,6 +39,7 @@ jobs:
           MGS_RPM_GPG_KEY_PASSPHRASE: ${{ secrets.MGS_RPM_GPG_KEY_PASSPHRASE }}
           MGS_RPM_GPG_KEY_PUB: ${{ secrets.MGS_RPM_GPG_KEY_PUB }}
           MGS_RPM_GPG_KEY_SEC: ${{ secrets.MGS_RPM_GPG_KEY_SEC }}
+          UNSAFE_MOVE: 1
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
