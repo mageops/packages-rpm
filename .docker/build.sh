@@ -63,11 +63,15 @@ safe_move() {
 
     dest="${dest_dir}/$(basename $src)"
     # UNSAFE_MOVE is nice to have to local testing
-    if [ -e "$dest" ] && [ "${UNSAFE_MOVE:-0}" != "1" ];then
-        echo "$dest already exists! Did you forgot to bump package version?"
-        return 1
+    if [ "${UNSAFE_MOVE:-0}" != "1" ];then
+        if [ -e "$dest" ];then
+            echo "$dest already exists! Did you forgot to bump package version?"
+            return 1
+        fi
+        mv -n "$src" "$dest" || return 1
+    else
+        mv "$src" "$dest" || return 1
     fi
-    mv -n "$src" "$dest" || return 1
 }
 
 # everything that can fail need to return 1
