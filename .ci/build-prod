@@ -16,7 +16,6 @@ docker run --privileged \
     --env MGS_RPM_GPG_KEY_PASSPHRASE="${MGS_RPM_GPG_KEY_PASSPHRASE}" \
     --env MGS_RPM_GPG_KEY_PUB="${MGS_RPM_GPG_KEY_PUB}" \
     --env MGS_RPM_GPG_KEY_SEC="${MGS_RPM_GPG_KEY_SEC}" \
-    --env UNSAFE_MOVE=1 \
     --env TIMEOUT_HOURS=4 \
     mockbuild build-rpm
 
@@ -27,7 +26,6 @@ docker run --privileged \
     --env MGS_RPM_GPG_KEY_PASSPHRASE="${MGS_RPM_GPG_KEY_PASSPHRASE}" \
     --env MGS_RPM_GPG_KEY_PUB="${MGS_RPM_GPG_KEY_PUB}" \
     --env MGS_RPM_GPG_KEY_SEC="${MGS_RPM_GPG_KEY_SEC}" \
-    --env UNSAFE_MOVE=1 \
     --env TIMEOUT_HOURS=4 \
     mockbuild build-rpm
 
