@@ -2,7 +2,7 @@
 
 %global vmod    dynamic
 %global vmoddir %{_libdir}/varnish/vmods
-%global varnish_lock 6.0.9
+%global varnish_lock 6.0.10
 %global commit b72c723acff5b2ef46c9de8cef036cee3a380a64
 
 Name:           varnish-module-%{vmod}
@@ -68,6 +68,9 @@ rm %{buildroot}%{vmoddir}/libvmod_%{vmod}.la
 
 
 %changelog
+* Thu Jan 27 2022 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.4-2.6.0.10
+- update varnish
+
 * Thu Nov 25 2021 Piotr Rogowski <piotrekrogowski@gmail.com> - 0.4-2.6.0.9
 - update varnish
 
