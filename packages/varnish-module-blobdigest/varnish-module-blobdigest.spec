@@ -1,6 +1,6 @@
 Name:             varnish-module-blobdigest
 Version:          1.1
-Release:          8.6.0.10%{?dist}
+Release:          8.6.0.11%{?dist}
 
 Group:            System Environment/Libraries
 Summary:          Varnish module (VMOD) for digests and hmacs with the VCL data type BLOB
@@ -11,9 +11,9 @@ URL:              https://code.uplex.de/uplex-varnish/libvmod-blobdigest/tree/6.
 
 Source0:          https://code.uplex.de/uplex-varnish/libvmod-blobdigest/-/archive/6.0/libvmod-blobdigest-6.0.tar.bz2
 
-Requires:         varnish = 6.0.10
+Requires:         varnish = 6.0.11
 
-BuildRequires:    varnish-devel = 6.0.10
+BuildRequires:    varnish-devel = 6.0.11
 BuildRequires:    perl >= 5
 BuildRequires:    gcc, automake, libtool, python3, python-docutils
 
