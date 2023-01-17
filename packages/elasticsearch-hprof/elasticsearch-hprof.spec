@@ -1,10 +1,10 @@
 %global crate elasticsearch-hprof
-%global git_sha 9e79d6d924a18d7de28f9eb881806dfc267f5459
+%global git_sha 1981363b063396d24ce1f8645e4089e52e508b58
 %global debug_package %{nil}
 
 Name:           rust-%{crate}
-Version:        0.1.0
-Release:        2%{?dist}
+Version:        0.2.0
+Release:        1%{?dist}
 Summary:        Elasticsearch hprof memory dump reader
 
 # Upstream license specification: MIT
