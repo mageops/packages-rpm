@@ -1,3 +1,11 @@
+[elasticsearch8]
+name=Elasticsearch repository for 8.x packages
+baseurl=https://artifacts.elastic.co/packages/8.x/yum
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ELASTICSEARCH
+enabled=0
+type=rpm-md
+
 [elasticsearch7]
 name=Elasticsearch repository for 7.x packages
 baseurl=https://artifacts.elastic.co/packages/7.x/yum
@@ -21,3 +29,4 @@ gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ELASTICSEARCH
 enabled=0
 type=rpm-md
+
