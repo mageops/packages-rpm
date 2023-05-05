@@ -5,6 +5,30 @@ enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/YARNPKG-GPG-SIGNING-KEY-EL
 
+[nodejs19]
+name=Node.js 19.x Packages for Enterprise Linux $releasever - $basearch
+baseurl=https://rpm.nodesource.com/pub_19.x/el/$releasever/$basearch
+failovermethod=priority
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+
+[nodejs18]
+name=Node.js 18.x Packages for Enterprise Linux $releasever - $basearch
+baseurl=https://rpm.nodesource.com/pub_18.x/el/$releasever/$basearch
+failovermethod=priority
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+
+[nodejs17]
+name=Node.js 17.x Packages for Enterprise Linux $releasever - $basearch
+baseurl=https://rpm.nodesource.com/pub_17.x/el/$releasever/$basearch
+failovermethod=priority
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/NODESOURCE-GPG-SIGNING-KEY-EL
+
 [nodejs16]
 name=Node.js 16.x Packages for Enterprise Linux $releasever - $basearch
 baseurl=https://rpm.nodesource.com/pub_16.x/el/$releasever/$basearch
