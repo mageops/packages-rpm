@@ -1,16 +1,11 @@
-%define otel_collector_sha 86b404631a467e597e5953af8a510463ebf738c6
-
 Name:           amazon-cloudwatch-agent
-Version:        1.247348.0
-Release:        2%{?dist}
+Version:        1.247359.1
+Release:        1%{?dist}
 Summary:        Amazon CloudWatch Agent
 
 License:        MIT
 URL:            https://github.com/aws/amazon-cloudwatch-agent
 Source0:        https://github.com/aws/amazon-cloudwatch-agent/archive/refs/tags/v%{version}.tar.gz
-Source1:        https://github.com/aws-observability/aws-otel-collector/archive/%{otel_collector_sha}.tar.gz
-
-Patch0:         customize-build.patch
 
 BuildRequires:  golang >= 1.13
 BuildRequires:  make
@@ -24,9 +19,6 @@ This package provides daemon of Amazon CloudWatch Agent
 
 %prep
 %setup -q -n %{name}-%{version}
-tar -xf %{SOURCE1} -C aws-otel-collector --strip-components=1
-%patch0 -p1
-
 
 %build
 env
@@ -37,24 +29,17 @@ export GO111MODULE=on
 echo %{version} > CWAGENT_VERSION
 
 %ifarch x86_64
-SKIP_LINUX_ARM64=1 make build
-make package-rpm-amd64
+make build-for-docker-amd64
 %endif
 %ifarch aarch64
-SKIP_LINUX_AMD64=1 make build
-make package-rpm-arm64
+make build-for-docker-arm64
 %endif
 
 %install
+
 rm -rf $RPM_BUILD_ROOT
 mkdir $RPM_BUILD_ROOT
-%ifarch x86_64
-cp -r ./build/private/linux_amd64/rpm-build/SOURCES/{opt,etc} $RPM_BUILD_ROOT/
-%endif
-%ifarch aarch64
-cp -r ./build/private/linux_arm64/rpm-build/SOURCES/{opt,etc} $RPM_BUILD_ROOT/
-%endif
-find $RPM_BUILD_ROOT/
+cp -r %{_topdir}/BUILD/%{name}-%{version}/*  $RPM_BUILD_ROOT/
 
 ############################# create the symbolic links
 # bin
@@ -63,21 +48,19 @@ ln -f -s /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl ${RPM_
 # etc
 mkdir -p ${RPM_BUILD_ROOT}/etc/amazon
 ln -f -s /opt/aws/amazon-cloudwatch-agent/etc ${RPM_BUILD_ROOT}/etc/amazon/amazon-cloudwatch-agent
-ln -f -s /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/etc ${RPM_BUILD_ROOT}/etc/amazon/cwagent-otel-collector
 # log
 mkdir -p ${RPM_BUILD_ROOT}/var/log/amazon
 ln -f -s /opt/aws/amazon-cloudwatch-agent/logs ${RPM_BUILD_ROOT}/var/log/amazon/amazon-cloudwatch-agent
-ln -f -s /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/logs ${RPM_BUILD_ROOT}/var/log/amazon/cwagent-otel-collector
 # pid
 mkdir -p ${RPM_BUILD_ROOT}/var/run/amazon
 ln -f -s /opt/aws/amazon-cloudwatch-agent/var ${RPM_BUILD_ROOT}/var/run/amazon/amazon-cloudwatch-agent
-ln -f -s /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/var ${RPM_BUILD_ROOT}/var/run/amazon/cwagent-otel-collector
 
 
 %pre
 # Stop the agent before upgrades.
 if [ $1 -ge 2 ]; then
     if [ -x /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl ]; then
+        /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a prep-restart
         /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a stop
     fi
 fi
@@ -100,6 +83,13 @@ if [ $1 -eq 0 ] ; then
     fi
 fi
 
+%posttrans
+# restart agent after upgrade
+if [ -x /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl ]; then
+    /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a cond-restart
+fi
+
+%clean
 
 %files
 %dir /opt/aws/amazon-cloudwatch-agent
@@ -109,10 +99,6 @@ fi
 %dir /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d
 %dir /opt/aws/amazon-cloudwatch-agent/logs
 %dir /opt/aws/amazon-cloudwatch-agent/var
-%dir /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/etc
-%dir /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/etc/cwagent-otel-collector.d
-%dir %attr(-, cwagent, cwagent) /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/logs
-%dir %attr(-, cwagent, cwagent) /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/var
 /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent
 /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl
 /opt/aws/amazon-cloudwatch-agent/bin/CWAGENT_VERSION
@@ -120,10 +106,8 @@ fi
 /opt/aws/amazon-cloudwatch-agent/bin/config-downloader
 /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
 /opt/aws/amazon-cloudwatch-agent/bin/start-amazon-cloudwatch-agent
-/opt/aws/amazon-cloudwatch-agent/bin/cwagent-otel-collector
 /opt/aws/amazon-cloudwatch-agent/doc/amazon-cloudwatch-agent-schema.json
 %config(noreplace) /opt/aws/amazon-cloudwatch-agent/etc/common-config.toml
-/opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/var/.predefined-config-data
 /opt/aws/amazon-cloudwatch-agent/LICENSE
 /opt/aws/amazon-cloudwatch-agent/NOTICE
 
@@ -131,18 +115,17 @@ fi
 /opt/aws/amazon-cloudwatch-agent/RELEASE_NOTES
 /etc/init/amazon-cloudwatch-agent.conf
 /etc/systemd/system/amazon-cloudwatch-agent.service
-/etc/init/cwagent-otel-collector.conf
-/etc/systemd/system/cwagent-otel-collector.service
 
 /usr/bin/amazon-cloudwatch-agent-ctl
 /etc/amazon/amazon-cloudwatch-agent
 /var/log/amazon/amazon-cloudwatch-agent
 /var/run/amazon/amazon-cloudwatch-agent
-/etc/amazon/cwagent-otel-collector
-/var/log/amazon/cwagent-otel-collector
-/var/run/amazon/cwagent-otel-collector
+
 
 %changelog
+* Mon May 29 2023 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.247359.1-1
+- update to 1.247359.1
+
 * Thu Jun 24 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.247348.0-2
 - rebuilt
 
