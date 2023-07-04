@@ -1,4 +1,4 @@
-FROM fedora:37
+FROM fedora:36
 # IMPORTANT!
 # qemu-user-static MUST be also installed on host system outside docker!
 RUN dnf install -y mock rpmdevtools rpm-sign nosync.i686 nosync.x86_64 qemu-user-static
