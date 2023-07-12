@@ -21,8 +21,12 @@ Source3:        %{name}.tmpfiles
 BuildRequires:  make
 BuildRequires:  gcc
 BuildRequires:  asciidoc
-BuildRequires:  systemd-rpm-macros
+%if 0%{?rhel} < 8
+BuildRequires: systemd
+%else
+BuildRequires: systemd-rpm-macros
 %{?systemd_requires}
+%endif
 
 
 %description
@@ -60,16 +64,27 @@ fi
 
 
 %post
+%if 0%{?rhel} < 8
+/bin/systemctl --system daemon-reload &> /dev/null || :
+/bin/systemctl --system enable %{name}.service &> /dev/null || :
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
 %systemd_post %{name}.service
+%endif
 
 
 %preun
+%if 0%{?fedora} || 0%{?rhel} >= 8
 %systemd_preun %{name}.service
-
+%endif
 
 %postun
+%if 0%{?rhel} < 8
+/bin/systemctl --system daemon-reload &> /dev/null || :
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
 %systemd_postun_with_restart %{name}.service
-
+%endif
 
 %files
 %doc AUTHORS COPYING README NEWS docs/*.txt README.md
