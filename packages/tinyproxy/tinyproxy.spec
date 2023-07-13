@@ -7,7 +7,7 @@
 
 Name:           tinyproxy
 Version:        1.11.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A small, efficient HTTP/SSL proxy daemon
 
 License:        GPLv2+
@@ -106,6 +106,9 @@ fi
 
 
 %changelog
+* Thu Jul 13 2023 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.11.1-2
+- Fix path in service file
+
 * Tue Jul 04 2023 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.11.1-1
 - new version
 
