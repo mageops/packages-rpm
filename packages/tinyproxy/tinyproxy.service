@@ -5,7 +5,7 @@ After=network.target
 
 [Service]
 Type=forking
-ExecStart=/usr/sbin/tinyproxy
+ExecStart=/usr/bin/tinyproxy
 ExecReload=/bin/kill -HUP $MAINPID
 PIDFile=/var/run/tinyproxy/tinyproxy.pid
 
