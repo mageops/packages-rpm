@@ -11,7 +11,7 @@ Packager:       creativestyle GmbH <https://creativestyle.pl>
 URL:            https://mariadb.org/
 
 Source0:        mariadb.repo
-Source1:        https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+Source1:        RPM-GPG-KEY-MARIADB
 
 BuildArch:      noarch
 Requires:       redhat-release >= %{version}
