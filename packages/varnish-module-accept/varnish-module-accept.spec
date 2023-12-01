@@ -1,6 +1,6 @@
 Name:             varnish-module-accept
 Version:          6.0
-Release:          6.6.0.11%{?dist}
+Release:          6.6.0.12%{?dist}
 
 Group:            System Environment/Libraries
 Summary:          Varnish Accept Header Module
@@ -12,10 +12,10 @@ URL:              https://github.com/gquintard/libvmod-accept
 Source0:          https://github.com/gquintard/libvmod-accept/archive/6.0.tar.gz
 
 Conflicts:        libvmod-accept
-Requires:         varnish = 6.0.11
+Requires:         varnish = 6.0.12
 
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{release}-root
-BuildRequires:    varnish-devel = 6.0.11
+BuildRequires:    varnish-devel = 6.0.12
 BuildRequires:    libtool
 BuildRequires:    python-docutils
 
@@ -47,6 +47,9 @@ Varnish module for accept header normalization.
 %_datarootdir/doc/vmod-accept/*
 
 %changelog
+* Fri Dec 01 2023 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 6.0-6.6.0.12
+- update varnish
+
 * Thu Jan 27 2022 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 6.0-6.6.0.10
 - update varnish
 
