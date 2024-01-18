@@ -1,9 +1,9 @@
 %global crate elasticsearch-hprof
-%global git_sha 1981363b063396d24ce1f8645e4089e52e508b58
+%global git_sha 4628161ec74e072804df65833692a143d3bbc59b
 %global debug_package %{nil}
 
 Name:           rust-%{crate}
-Version:        0.2.0
+Version:        0.2.1
 Release:        1%{?dist}
 Summary:        Elasticsearch hprof memory dump reader
 
@@ -66,6 +66,9 @@ install -D -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/elasticsearch-crash-handler
 
 
 %changelog
+* Thu Jan 18 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.2.1-1
+- New release
+
 * Sat Jul 03 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.1.0-2
 - Fix typo in systemd service
 
