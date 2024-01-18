@@ -2,6 +2,14 @@
 %global git_sha 4628161ec74e072804df65833692a143d3bbc59b
 %global debug_package %{nil}
 
+# Select rust toolchain
+%ifarch aarch64
+%global rust_toolchain 1.75-aarch64-unknown-linux-gnu
+%endif
+%ifarch x86_64
+%global rust_toolchain 1.75-x86_64-unknown-linux-gnu
+%endif
+
 Name:           rust-%{crate}
 Version:        0.2.1
 Release:        1%{?dist}
@@ -14,12 +22,7 @@ Source:         https://github.com/Szpadel/elasticsearch-hprof/archive/%{git_sha
 Source1:        elasticsearch-crash-handler.service
 Source2:        elasticsearch-crash-handler.path
 
-%ifnarch aarch64
-BuildRequires:   cargo
-BuildRequires:   rust >= 1.52
-%endif
-
-ExclusiveArch:  x86_64 i386 i486 i586 i686 pentium3 pentium4 athlon geode armv7hl aarch64 ppc64 ppc64le riscv64 s390x
+ExclusiveArch:  x86_64 aarch64
 
 %global _description %{expand:
 Elasticsearch hprof memory dump reader.}
@@ -38,15 +41,11 @@ Summary:        %{summary}
 
 %prep
 %autosetup -n %{crate}-%{git_sha} -p1
-%ifarch aarch64
-# aarch64 do not have recent rust available, therefore we install it manually here
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain 1.52-aarch64-unknown-linux-gnu
-%endif
+
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal --default-toolchain %{rust_toolchain}
 
 %build
-%ifarch aarch64
 source $HOME/.cargo/env
-%endif
 cargo build --release
 
 %post
