@@ -1,6 +1,6 @@
 Name:           elasticsearch-release
 Version:        7
-Release:        3
+Release:        4
 Summary:        Official Elasticsearch RPM repository configuration
 
 Group:          System Environment/Base
@@ -43,6 +43,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-ELASTICSEARCH
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-4
+- rebuilt
+
 * Wed Mar 08 2023 Mariusz Jozwiak <mariusz.jozwiak@creativestyle.pl> - 7-3
 - Elasticsearch 8
 

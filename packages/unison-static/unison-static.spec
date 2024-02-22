@@ -1,6 +1,6 @@
 Name:             unison-static
 Version:          2.51.2
-Release:          1%{?dist}
+Release:          2%{?dist}
 
 Summary:          Multi-master File synchronization tool (static binary; text UI)
 
@@ -47,5 +47,8 @@ install -p -m 755 src/unison-fsmonitor %{buildroot}%{_bindir}/unison-fsmonitor
 %{_bindir}/unison-fsmonitor
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 2.51.2-2
+- rebuilt
+
 * Fri May 15 2020 Filip Sobalski <filip.sobalski@creativestyle.pl> - 2.51.2-1
 - Initial version

@@ -3,7 +3,7 @@
 
 Name:           varnish-exporter
 Version:        1.6.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Varnish exporter for Prometheus
 
 License:        MIT License
@@ -60,6 +60,9 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.6.1-2
+- rebuilt
+
 * Fri May 14 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.6.1-1
 - New version build from master
 

@@ -2,7 +2,7 @@
 
 Name:           php-fpm-exporter
 Version:        2.0.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        A prometheus exporter for PHP-FPM.
 
 License:        MIT
@@ -57,6 +57,9 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 2.0.1-2
+- rebuilt
+
 * Mon Feb 15 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 2.0.1-1
 - new version
 

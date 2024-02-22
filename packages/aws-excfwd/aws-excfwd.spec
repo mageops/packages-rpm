@@ -1,6 +1,6 @@
 Name:             aws-excfwd
 Version:          1.0.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 
 Group:            Amazon/Tools
 Summary:          Provides command that forwards new files to CloudWatch Logs
@@ -33,6 +33,9 @@ install -p -m 755 %{SOURCE0} %{buildroot}%{_bindir}/aws-excfwd
 %{_bindir}/aws-excfwd
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.0.1-2
+- rebuilt
+
 * Tue Nov 26 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 1.0.1
 - Initial version
 

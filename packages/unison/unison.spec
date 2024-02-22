@@ -1,6 +1,6 @@
 Name:             unison
 Version:          2.52.0
-Release:          1%{?dist}
+Release:          2%{?dist}
 
 Summary:          Multi-master File synchronization tool (text UI)
 
@@ -45,6 +45,9 @@ install -p -m 755 src/unison-fsmonitor %{buildroot}%{_bindir}/unison-fsmonitor
 %{_bindir}/unison-fsmonitor
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 2.52.0-2
+- rebuilt
+
 * Wed Mar 30 2022 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 2.52.0-1
 - new version
 

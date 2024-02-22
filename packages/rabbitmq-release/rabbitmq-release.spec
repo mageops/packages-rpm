@@ -1,6 +1,6 @@
 Name:           rabbitmq-release
 Version:        7
-Release:        1
+Release:        2
 Summary:        Official RabbitMQ RPM repository configuration
 
 Group:          System Environment/Base
@@ -50,5 +50,8 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-RABBITMQ-*
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-2
+- rebuilt
+
 * Tue Nov 26 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-1
 - Initial version 
