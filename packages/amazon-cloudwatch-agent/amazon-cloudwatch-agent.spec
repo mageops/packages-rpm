@@ -1,14 +1,11 @@
-%define otel_collector_sha 86b404631a467e597e5953af8a510463ebf738c6
-
 Name:           amazon-cloudwatch-agent
-Version:        1.247348.0
-Release:        3%{?dist}
+Version:        1.300032.3
+Release:        1%{?dist}
 Summary:        Amazon CloudWatch Agent
 
 License:        MIT
 URL:            https://github.com/aws/amazon-cloudwatch-agent
 Source0:        https://github.com/aws/amazon-cloudwatch-agent/archive/refs/tags/v%{version}.tar.gz
-Source1:        https://github.com/aws-observability/aws-otel-collector/archive/%{otel_collector_sha}.tar.gz
 
 Patch0:         customize-build.patch
 
@@ -24,7 +21,6 @@ This package provides daemon of Amazon CloudWatch Agent
 
 %prep
 %setup -q -n %{name}-%{version}
-tar -xf %{SOURCE1} -C aws-otel-collector --strip-components=1
 %patch0 -p1
 
 
@@ -37,11 +33,11 @@ export GO111MODULE=on
 echo %{version} > CWAGENT_VERSION
 
 %ifarch x86_64
-SKIP_LINUX_ARM64=1 make build
+ARCH=amd64 make amazon-cloudwatch-agent-linux
 make package-rpm-amd64
 %endif
 %ifarch aarch64
-SKIP_LINUX_AMD64=1 make build
+ARCH=arm64 make amazon-cloudwatch-agent-linux
 make package-rpm-arm64
 %endif
 
@@ -109,10 +105,6 @@ fi
 %dir /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.d
 %dir /opt/aws/amazon-cloudwatch-agent/logs
 %dir /opt/aws/amazon-cloudwatch-agent/var
-%dir /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/etc
-%dir /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/etc/cwagent-otel-collector.d
-%dir %attr(-, cwagent, cwagent) /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/logs
-%dir %attr(-, cwagent, cwagent) /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/var
 /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent
 /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl
 /opt/aws/amazon-cloudwatch-agent/bin/CWAGENT_VERSION
@@ -120,10 +112,8 @@ fi
 /opt/aws/amazon-cloudwatch-agent/bin/config-downloader
 /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
 /opt/aws/amazon-cloudwatch-agent/bin/start-amazon-cloudwatch-agent
-/opt/aws/amazon-cloudwatch-agent/bin/cwagent-otel-collector
 /opt/aws/amazon-cloudwatch-agent/doc/amazon-cloudwatch-agent-schema.json
 %config(noreplace) /opt/aws/amazon-cloudwatch-agent/etc/common-config.toml
-/opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/var/.predefined-config-data
 /opt/aws/amazon-cloudwatch-agent/LICENSE
 /opt/aws/amazon-cloudwatch-agent/NOTICE
 
@@ -131,16 +121,11 @@ fi
 /opt/aws/amazon-cloudwatch-agent/RELEASE_NOTES
 /etc/init/amazon-cloudwatch-agent.conf
 /etc/systemd/system/amazon-cloudwatch-agent.service
-/etc/init/cwagent-otel-collector.conf
-/etc/systemd/system/cwagent-otel-collector.service
 
 /usr/bin/amazon-cloudwatch-agent-ctl
 /etc/amazon/amazon-cloudwatch-agent
 /var/log/amazon/amazon-cloudwatch-agent
 /var/run/amazon/amazon-cloudwatch-agent
-/etc/amazon/cwagent-otel-collector
-/var/log/amazon/cwagent-otel-collector
-/var/run/amazon/cwagent-otel-collector
 
 %changelog
 * Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.247348.0-3
