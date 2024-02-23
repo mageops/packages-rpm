@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 494952ec..93a71fcc 100644
+index 494952ec..79a4e6eb 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -7,7 +7,7 @@ nightly-release: VERSION := $(shell echo ${VERSION}-nightly-build)
@@ -56,21 +56,24 @@ index 494952ec..93a71fcc 100644
  	# arm64 rpm
  	mkdir -p $(BUILD_SPACE)/private/linux/arm64/rpm/amazon-cloudwatch-agent-pre-pkg
  	cp $(BUILD_SPACE)/bin/linux_arm64/* $(BUILD_SPACE)/private/linux/arm64/rpm/amazon-cloudwatch-agent-pre-pkg/
-@@ -296,9 +302,12 @@ package-prepare-darwin-tar:
+@@ -296,10 +302,13 @@ package-prepare-darwin-tar:
  
  	cp -rf $(BASE_SPACE)/Tools $(BUILD_SPACE)/
  
 -.PHONY: package-rpm
 -package-rpm: package-prepare-rpm
+-	ARCH=amd64 TARGET_SUPPORTED_ARCH=x86_64 PREPKGPATH="$(BUILD_SPACE)/private/linux/amd64/rpm/amazon-cloudwatch-agent-pre-pkg" $(BUILD_SPACE)/Tools/src/create_rpm.sh
+-	ARCH=arm64 TARGET_SUPPORTED_ARCH=aarch64 PREPKGPATH="$(BUILD_SPACE)/private/linux/arm64/rpm/amazon-cloudwatch-agent-pre-pkg" $(BUILD_SPACE)/Tools/src/create_rpm.sh
 +.PHONY: package-rpm-amd64
 +package-rpm-amd64: package-prepare-rpm-amd64
- 	ARCH=amd64 TARGET_SUPPORTED_ARCH=x86_64 PREPKGPATH="$(BUILD_SPACE)/private/linux/amd64/rpm/amazon-cloudwatch-agent-pre-pkg" $(BUILD_SPACE)/Tools/src/create_rpm.sh
++	ARCH=amd64 TARGET_SUPPORTED_ARCH=x86_64 PREPKGPATH="$(BUILD_SPACE)/private/linux/amd64/rpm/amazon-cloudwatch-agent-pre-pkg" $(BASE_SPACE)/Tools/src/create_rpm.sh
 +
 +.PHONY: package-rpm-arm64
 +package-rpm-arm64: package-prepare-rpm-arm64
- 	ARCH=arm64 TARGET_SUPPORTED_ARCH=aarch64 PREPKGPATH="$(BUILD_SPACE)/private/linux/arm64/rpm/amazon-cloudwatch-agent-pre-pkg" $(BUILD_SPACE)/Tools/src/create_rpm.sh
++	ARCH=arm64 TARGET_SUPPORTED_ARCH=aarch64 PREPKGPATH="$(BUILD_SPACE)/private/linux/arm64/rpm/amazon-cloudwatch-agent-pre-pkg" $(BASE_SPACE)/Tools/src/create_rpm.sh
  
  .PHONY: package-deb
+ package-deb: package-prepare-deb
 diff --git a/Tools/src/create_rpm.sh b/Tools/src/create_rpm.sh
 index 0441eb76..e076b2bc 100755
 --- a/Tools/src/create_rpm.sh

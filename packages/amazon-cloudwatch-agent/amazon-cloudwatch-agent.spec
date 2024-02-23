@@ -28,9 +28,8 @@ This package provides daemon of Amazon CloudWatch Agent
 env
 go version
 export GOPATH=%{_tmppath}/go
-export GOPROXY="https://goproxy.io,direct"
+# export GOPROXY="https://goproxy.io,direct"
 export GO111MODULE=on
-echo %{version} > CWAGENT_VERSION
 
 %ifarch x86_64
 ARCH=amd64 make amazon-cloudwatch-agent-linux
@@ -59,15 +58,12 @@ ln -f -s /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl ${RPM_
 # etc
 mkdir -p ${RPM_BUILD_ROOT}/etc/amazon
 ln -f -s /opt/aws/amazon-cloudwatch-agent/etc ${RPM_BUILD_ROOT}/etc/amazon/amazon-cloudwatch-agent
-ln -f -s /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/etc ${RPM_BUILD_ROOT}/etc/amazon/cwagent-otel-collector
 # log
 mkdir -p ${RPM_BUILD_ROOT}/var/log/amazon
 ln -f -s /opt/aws/amazon-cloudwatch-agent/logs ${RPM_BUILD_ROOT}/var/log/amazon/amazon-cloudwatch-agent
-ln -f -s /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/logs ${RPM_BUILD_ROOT}/var/log/amazon/cwagent-otel-collector
 # pid
 mkdir -p ${RPM_BUILD_ROOT}/var/run/amazon
 ln -f -s /opt/aws/amazon-cloudwatch-agent/var ${RPM_BUILD_ROOT}/var/run/amazon/amazon-cloudwatch-agent
-ln -f -s /opt/aws/amazon-cloudwatch-agent/cwagent-otel-collector/var ${RPM_BUILD_ROOT}/var/run/amazon/cwagent-otel-collector
 
 
 %pre
@@ -76,16 +72,6 @@ if [ $1 -ge 2 ]; then
     if [ -x /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl ]; then
         /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a stop
     fi
-fi
-
-if ! grep "^cwagent:" /etc/group >/dev/null 2>&1; then
-    groupadd -r cwagent >/dev/null 2>&1
-    echo "create group cwagent, result: $?"
-fi
-
-if ! id cwagent >/dev/null 2>&1; then
-    useradd -r -M cwagent -d /home/cwagent -g cwagent -c "Cloudwatch Agent" -s $(test -x /sbin/nologin && echo /sbin/nologin || (test -x /usr/sbin/nologin && echo /usr/sbin/nologin || (test -x /bin/false && echo /bin/false || echo /bin/sh))) >/dev/null 2>&1
-    echo "create user cwagent, result: $?"
 fi
 
 %preun
