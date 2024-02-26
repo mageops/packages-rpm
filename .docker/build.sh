@@ -48,7 +48,7 @@ build_pkg() {
     local cfg=$1
     print_header "$cfg"
     rm -rf ~/rpmbuild/BUILD/*
-    /usr/bin/mock -v -r "$cfg" --resultdir=~/rpms --rpmbuild_timeout=$((${TIMEOUT_HOURS:-1} * 60 * 60)) ~/rpmbuild/SRPMS/*.rpm "${EXTRA_MOCK_OPTS[@]}" || return 1
+    /usr/bin/mock -v -r "$cfg" --resultdir=~/rpms --rpmbuild_timeout=$((${TIMEOUT_HOURS:-4} * 60 * 60)) ~/rpmbuild/SRPMS/*.rpm "${EXTRA_MOCK_OPTS[@]}" || return 1
 
     echo ""
     echo ""

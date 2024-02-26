@@ -1,6 +1,6 @@
 Name:           nginx-release
 Version:        7
-Release:        2
+Release:        3
 Summary:        Official nginx HTTP Server RPM repository configuration
 
 Group:          System Environment/Base
@@ -44,6 +44,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-NGINX
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-3
+- rebuilt
+
 * Wed Nov 27 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-2
 - Bump release for testing CI fixes ;)
 * Tue Nov 26 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-1

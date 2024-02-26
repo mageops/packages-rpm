@@ -9,7 +9,7 @@
 
 Name:           %{pkg}
 Version:        1.19.96
-Release:        1%{?dist}
+Release:        2%{?dist}
 
 Group:          System Environment/Libraries
 Summary:        Universal Command Line Environment for AWS
@@ -73,6 +73,9 @@ fi
 %{_libdir}/%{pkg}/
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.19.96-2
+- rebuilt
+
 * Thu Jun 17 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.19.96-1
 - Update to 1.19.96
 

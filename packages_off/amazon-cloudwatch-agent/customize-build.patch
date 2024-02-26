@@ -1,0 +1,96 @@
+diff --git a/Makefile b/Makefile
+index 494952ec..79a4e6eb 100644
+--- a/Makefile
++++ b/Makefile
+@@ -7,7 +7,7 @@ nightly-release: VERSION := $(shell echo ${VERSION}-nightly-build)
+ nightly-release-mac: VERSION := $(shell echo ${VERSION}-nightly-build)
+ # In case building outside of a git repo, use the version presented in the CWAGENT_VERSION file as a fallback
+ ifeq ($(VERSION),)
+-VERSION := `cat CWAGENT_VERSION`
++VERSION := ${RPM_PACKAGE_VERSION}
+ endif
+ 
+ # Determine agent build mode, default to PIE mode
+@@ -61,17 +61,20 @@ copy-version-file: create-version-file
+ 
+ amazon-cloudwatch-agent-linux: copy-version-file
+ 	@echo Building CloudWatchAgent for Linux,Debian with ARM64 and AMD64
++ifeq ($(ARCH),amd64)
+ 	$(LINUX_AMD64_BUILD)/config-downloader github.com/aws/amazon-cloudwatch-agent/cmd/config-downloader
+-	$(LINUX_ARM64_BUILD)/config-downloader github.com/aws/amazon-cloudwatch-agent/cmd/config-downloader
+ 	$(LINUX_AMD64_BUILD)/config-translator github.com/aws/amazon-cloudwatch-agent/cmd/config-translator
+-	$(LINUX_ARM64_BUILD)/config-translator github.com/aws/amazon-cloudwatch-agent/cmd/config-translator
+ 	$(LINUX_AMD64_BUILD)/amazon-cloudwatch-agent github.com/aws/amazon-cloudwatch-agent/cmd/amazon-cloudwatch-agent
+-	$(LINUX_ARM64_BUILD)/amazon-cloudwatch-agent github.com/aws/amazon-cloudwatch-agent/cmd/amazon-cloudwatch-agent
+ 	$(LINUX_AMD64_BUILD)/start-amazon-cloudwatch-agent github.com/aws/amazon-cloudwatch-agent/cmd/start-amazon-cloudwatch-agent
+-	$(LINUX_ARM64_BUILD)/start-amazon-cloudwatch-agent github.com/aws/amazon-cloudwatch-agent/cmd/start-amazon-cloudwatch-agent
+ 	$(LINUX_AMD64_BUILD)/amazon-cloudwatch-agent-config-wizard github.com/aws/amazon-cloudwatch-agent/cmd/amazon-cloudwatch-agent-config-wizard
++endif
++ifeq ($(ARCH),arm64)
++	$(LINUX_ARM64_BUILD)/config-downloader github.com/aws/amazon-cloudwatch-agent/cmd/config-downloader
++	$(LINUX_ARM64_BUILD)/config-translator github.com/aws/amazon-cloudwatch-agent/cmd/config-translator
++	$(LINUX_ARM64_BUILD)/amazon-cloudwatch-agent github.com/aws/amazon-cloudwatch-agent/cmd/amazon-cloudwatch-agent
++	$(LINUX_ARM64_BUILD)/start-amazon-cloudwatch-agent github.com/aws/amazon-cloudwatch-agent/cmd/start-amazon-cloudwatch-agent
+ 	$(LINUX_ARM64_BUILD)/amazon-cloudwatch-agent-config-wizard github.com/aws/amazon-cloudwatch-agent/cmd/amazon-cloudwatch-agent-config-wizard
+-
++endif
+ 
+ amazon-cloudwatch-agent-darwin: copy-version-file
+ ifneq ($(OS),Windows_NT)
+@@ -201,7 +204,9 @@ clean::
+ 	rm -rf release/ build/
+ 	rm -f CWAGENT_VERSION
+ 
+-package-prepare-rpm:
++package-prepare-rpm: package-prepare-rpm-amd64 package-prepare-rpm-arm64
++
++package-prepare-rpm-amd64:
+ 	# amd64 rpm
+ 	mkdir -p $(BUILD_SPACE)/private/linux/amd64/rpm/amazon-cloudwatch-agent-pre-pkg
+ 	cp $(BUILD_SPACE)/bin/linux_amd64/* $(BUILD_SPACE)/private/linux/amd64/rpm/amazon-cloudwatch-agent-pre-pkg/
+@@ -215,6 +220,7 @@ package-prepare-rpm:
+ 	cp $(BASE_SPACE)/packaging/linux/amazon-cloudwatch-agent.spec $(BUILD_SPACE)/private/linux/amd64/rpm/amazon-cloudwatch-agent-pre-pkg/
+ 	cp $(BASE_SPACE)/translator/config/schema.json $(BUILD_SPACE)/private/linux/amd64/rpm/amazon-cloudwatch-agent-pre-pkg/amazon-cloudwatch-agent-schema.json
+ 
++package-prepare-rpm-arm64:
+ 	# arm64 rpm
+ 	mkdir -p $(BUILD_SPACE)/private/linux/arm64/rpm/amazon-cloudwatch-agent-pre-pkg
+ 	cp $(BUILD_SPACE)/bin/linux_arm64/* $(BUILD_SPACE)/private/linux/arm64/rpm/amazon-cloudwatch-agent-pre-pkg/
+@@ -296,10 +302,13 @@ package-prepare-darwin-tar:
+ 
+ 	cp -rf $(BASE_SPACE)/Tools $(BUILD_SPACE)/
+ 
+-.PHONY: package-rpm
+-package-rpm: package-prepare-rpm
+-	ARCH=amd64 TARGET_SUPPORTED_ARCH=x86_64 PREPKGPATH="$(BUILD_SPACE)/private/linux/amd64/rpm/amazon-cloudwatch-agent-pre-pkg" $(BUILD_SPACE)/Tools/src/create_rpm.sh
+-	ARCH=arm64 TARGET_SUPPORTED_ARCH=aarch64 PREPKGPATH="$(BUILD_SPACE)/private/linux/arm64/rpm/amazon-cloudwatch-agent-pre-pkg" $(BUILD_SPACE)/Tools/src/create_rpm.sh
++.PHONY: package-rpm-amd64
++package-rpm-amd64: package-prepare-rpm-amd64
++	ARCH=amd64 TARGET_SUPPORTED_ARCH=x86_64 PREPKGPATH="$(BUILD_SPACE)/private/linux/amd64/rpm/amazon-cloudwatch-agent-pre-pkg" $(BASE_SPACE)/Tools/src/create_rpm.sh
++
++.PHONY: package-rpm-arm64
++package-rpm-arm64: package-prepare-rpm-arm64
++	ARCH=arm64 TARGET_SUPPORTED_ARCH=aarch64 PREPKGPATH="$(BUILD_SPACE)/private/linux/arm64/rpm/amazon-cloudwatch-agent-pre-pkg" $(BASE_SPACE)/Tools/src/create_rpm.sh
+ 
+ .PHONY: package-deb
+ package-deb: package-prepare-deb
+diff --git a/Tools/src/create_rpm.sh b/Tools/src/create_rpm.sh
+index 0441eb76..e076b2bc 100755
+--- a/Tools/src/create_rpm.sh
++++ b/Tools/src/create_rpm.sh
+@@ -43,15 +43,3 @@ cp ${PREPKGPATH}/amazon-cloudwatch-agent-schema.json ${BUILD_ROOT}/SOURCES/opt/a
+ chmod ug+rx ${BUILD_ROOT}/SOURCES/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent
+ chmod ug+rx ${BUILD_ROOT}/SOURCES/opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl
+ chmod ug+rx ${BUILD_ROOT}/SOURCES/opt/aws/amazon-cloudwatch-agent/bin/start-amazon-cloudwatch-agent
+-tar -zcvf ${BUILD_ROOT}/SOURCES/amazon-cloudwatch-agent.tar.gz -C ${BUILD_ROOT}/SOURCES opt etc
+-
+-rm -rf ${BUILD_ROOT}/SOURCES/opt ${BUILD_ROOT}/SOURCES/etc
+-
+-echo "Creating the rpm package"
+-
+-rpmbuild -bb -v --clean --define "AGENT_VERSION $AGENT_VERSION" --define "_topdir ${BUILD_ROOT}" ${SPEC_FILE} --target ${TARGET_SUPPORTED_ARCH}
+-
+-echo "Copying rpm files to bin"
+-
+-mv ${BUILD_ROOT}/RPMS/${TARGET_SUPPORTED_ARCH}/amazon-cloudwatch-agent-${AGENT_VERSION}-1.${TARGET_SUPPORTED_ARCH}.rpm ${BUILD_SPACE}/bin/linux/${ARCH}/amazon-cloudwatch-agent.rpm
+-ls -ltr ${BUILD_SPACE}/bin/linux/${ARCH}/*.rpm

@@ -1,6 +1,6 @@
 Name:           mariadb-release
 Version:        7
-Release:        2
+Release:        3
 Summary:        Official MariaDB RPM repository configuration
 
 Group:          System Environment/Base
@@ -44,5 +44,8 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MARIADB
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-3
+- rebuilt
+
 * Tue Nov 26 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-1
 - Initial version 

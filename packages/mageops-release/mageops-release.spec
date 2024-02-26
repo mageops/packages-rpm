@@ -1,6 +1,6 @@
 Name:           mageops-release
 Version:        7
-Release:        10
+Release:        11
 Summary:        MageOps RPM repository configuration
 
 Group:          MageOps/Repositories
@@ -44,6 +44,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2021
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-11
+- rebuilt
+
 * Fri Dec 10 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-10
 - Update path to gpg key
 

@@ -1,6 +1,6 @@
 Name:             amazon-efs-utils
 Version:          1.14
-Release:          1%{?dist}
+Release:          2%{?dist}
 
 Group:            Amazon/Tools
 Summary:          This package provides utilities for simplifying the use of EFS file systems
@@ -68,5 +68,8 @@ install -p -m 644 %{_builddir}/%{pkgdirname}/man/mount.efs.8 %{buildroot}%{_mand
 %clean
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.14-2
+- rebuilt
+
 * Tue Nov 19 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 1.14
 - Bump version 

@@ -1,7 +1,7 @@
 
 Name:             varnish-purge-proxy
 Version:          3.0.1
-Release:          1%{?dist}
+Release:          2%{?dist}
 
 Group:            Cloud Infrastructure/Tools
 Summary:          Proxies purge requests to autodiscovered Varnish nodes
@@ -31,5 +31,8 @@ install -p -m 755 %{SOURCE0} %{buildroot}%{_bindir}/varnish-purge-proxy
 %{_bindir}/varnish-purge-proxy
 
 %changelog
+* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 3.0.1-2
+- rebuilt
+
 * Thu Nov 28 2019 Filip Sobalski <filip.sobalski@creativestyle.pl> - 3.0.1-1
 - Initial version
