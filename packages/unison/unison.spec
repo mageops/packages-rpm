@@ -12,7 +12,7 @@ URL:              https://www.cis.upenn.edu/~bcpierce/unison
 
 Source0:          https://github.com/bcpierce00/unison/archive/v%{version}.tar.gz
 
-BuildRequires:    ocaml
+BuildRequires:    ocaml = 4.12.0
 BuildRequires:    make
 BuildRequires:    ctags-etags
 BuildRequires:    which
