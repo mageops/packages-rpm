@@ -12,7 +12,7 @@
 
 Name:           rust-%{crate}
 Version:        0.2.1
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Elasticsearch hprof memory dump reader
 
 # Upstream license specification: MIT
@@ -65,9 +65,6 @@ install -D -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/elasticsearch-crash-handler
 
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.2.1-2
-- rebuilt
-
 * Thu Jan 18 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.2.1-1
 - New release
 

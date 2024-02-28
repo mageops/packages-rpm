@@ -1,6 +1,6 @@
 Name:           netdata-release
 Version:        7
-Release:        2
+Release:        1
 Summary:        Netdata Packagecloud RPM repo config
 
 License:        MIT
@@ -45,8 +45,5 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-NETDATA
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-2
-- rebuilt
-
 * Mon Jan 20 2020 Filip Sobalski <filip.sobalski@creativestyle.pl> - 7-1
 - Initial version

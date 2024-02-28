@@ -7,7 +7,7 @@
 
 Name:           varnish-module-%{vmod}
 Version:        0.4
-Release:        3.%{varnish_lock}%{?dist}
+Release:        2.%{varnish_lock}%{?dist}
 Group:          System Environment/Libraries
 Summary:        DNS director for Varnish Cache
 URL:            https://github.com/nigoroll/libvmod-dynamic
@@ -68,9 +68,6 @@ rm %{buildroot}%{vmoddir}/libvmod_%{vmod}.la
 
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.4-3.6.0.12
-- rebuilt
-
 * Fri Dec 01 2023 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.4-2.6.0.12
 - update varnish
 

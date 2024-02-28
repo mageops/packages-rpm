@@ -2,7 +2,7 @@
 
 Name:           elasticsearch-exporter
 Version:        1.2.1
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Elasticsearch stats exporter for Prometheus
 
 License:        MIT
@@ -63,9 +63,6 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.2.1-2
-- rebuilt
-
 * Wed Aug 04 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.2.1-1
 - Update version
 

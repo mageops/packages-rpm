@@ -2,7 +2,7 @@
 
 Name:           pushprox-client
 Version:        0.2.2
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        Proxy to allow Prometheus to scrape through NAT etc.
 
 License:        Apache-2.0
@@ -63,9 +63,6 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.2.2-2
-- rebuilt
-
 * Wed Aug 04 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.2.2-1
 - Update version
 

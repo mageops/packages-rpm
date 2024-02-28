@@ -2,7 +2,7 @@
 
 Name:           node-exporter
 Version:        1.0.1
-Release:        3%{?dist}
+Release:        2%{?dist}
 Summary:        Exporter for machine metrics
 
 License:        Apache-2.0
@@ -63,9 +63,6 @@ exit 0
 %config(noreplace) %{_sysconfdir}/default/%{name}
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.0.1-3
-- rebuilt
-
 * Thu Oct 29 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.0.1-2
 - Fix environment file path
 

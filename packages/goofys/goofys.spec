@@ -1,6 +1,6 @@
 Name:             goofys
 Version:          0.23.1
-Release:          2%{?dist}
+Release:          1%{?dist}
 
 Summary:          A high-performance, POSIX-ish Amazon S3 file system written in Go
 License:          Apache
@@ -35,8 +35,5 @@ install -p -m 755 %{SOURCE0} %{buildroot}%{_bindir}/goofys
 %{_bindir}/goofys
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.23.1-2
-- rebuilt
-
 * Mon Jan 13 2020 Filip Sobalski <filip.sobalski@creativestyle.pl> - 0.23.1-1
 - Initial version

@@ -1,6 +1,6 @@
 Name:           vmtouch
 Version:        1.3.0
-Release:        10%{?dist}
+Release:        9%{?dist}
 Summary:        Portable file system cache diagnostics and control
 
 License:        BSD
@@ -37,9 +37,6 @@ make install PREFIX=%{buildroot}%{_prefix} MANDIR=%{buildroot}%{_mandir}/man8
 
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.3.0-10
-- rebuilt
-
 * Fri Feb 14 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.3.0-9
 - Add -std=gnu99 needed for compatibility
 

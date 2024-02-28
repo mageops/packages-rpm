@@ -1,6 +1,6 @@
 Name:           nodejs-release
 Version:        7
-Release:        5
+Release:        4
 Summary:        Nodesource and Yarnpkg RPM Repos coveniently bundled
 
 Group:          System Environment/Base
@@ -46,9 +46,6 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/*
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-5
-- rebuilt
-
 * Fri May 05 2023 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-4
 - Add nodejs version from 17-19, no more releases expected, as node 20.x requires el8
 

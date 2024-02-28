@@ -4,7 +4,7 @@
 
 Name:           nginx-module-geoip2
 Version:        3.3
-Release:        %{nginx_version}.5%{?dist}
+Release:        %{nginx_version}.4%{?dist}
 Summary:        Nginx GeoIP2 module
 Packager:       creativestyle GmbH <https://creativestyle.pl>
 
@@ -66,9 +66,6 @@ cp objs/ngx_http_geoip2_module.so objs/ngx_stream_geoip2_module.so %{buildroot}%
 
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 3.3-1.20.2.5
-- rebuilt
-
 * Thu Dec 09 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 3.3-1.20.2.4
 - Update nginx version
 

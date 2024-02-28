@@ -1,6 +1,6 @@
 Name:             varnish-module-accept
 Version:          6.0
-Release:          7.6.0.12%{?dist}
+Release:          6.6.0.12%{?dist}
 
 Group:            System Environment/Libraries
 Summary:          Varnish Accept Header Module
@@ -47,9 +47,6 @@ Varnish module for accept header normalization.
 %_datarootdir/doc/vmod-accept/*
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 6.0-7.6.0.12
-- rebuilt
-
 * Fri Dec 01 2023 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 6.0-6.6.0.12
 - update varnish
 

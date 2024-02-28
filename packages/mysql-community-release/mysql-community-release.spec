@@ -1,6 +1,6 @@
 Name:           mysql-community-release
 Version:        el7
-Release:        8
+Release:        7
 Summary:        mysql-community-release - MySQL repository configuration for yum
 
 Group:          System Environment/Base
@@ -38,9 +38,6 @@ install -Dpm 644 %{SOURCE4} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d/mysql-comm
 %config(noreplace) %{_sysconfdir}/yum.repos.d/*
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - el7-8
-- rebuilt
-
 * Wed Mar 22 2023 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - el7-7
 - Update packages
 

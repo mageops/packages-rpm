@@ -1,6 +1,6 @@
 Name:             varnish-modules-extra
 Version:          0.15.0
-Release:          4.6.0.12%{?dist}
+Release:          3.6.0.12%{?dist}
 
 Group:            System Environment/Libraries
 Summary:          Varnish Official Module Collection
@@ -47,9 +47,6 @@ Official collection of varnish modules
 %_datarootdir/doc/v*
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.15.0-4.6.0.12
-- rebuilt
-
 * Fri Dec 01 2023 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 0.15.0-3.6.0.12
 - update varnish
 

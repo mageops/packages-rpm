@@ -1,6 +1,6 @@
 Name: earlyoom
 Version: 1.3
-Release: 6%{?dist}
+Release: 5%{?dist}
 
 Packager: creativestyle GmbH <https://creativestyle.pl>
 
@@ -54,9 +54,6 @@ sed -e '/systemctl/d' -i Makefile
 %systemd_postun_with_restart %{name}.service
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.3-6
-- rebuilt
-
 * Mon Jan 13 2020 Filip Sobalski <filip.sobalski@creativestyle.pl> - 1.3-5
 - Repackage for EL7 using the original spec file from Fedora with small Makefile patch.
   Via: https://apps.fedoraproject.org/packages/earlyoom/sources/spec/

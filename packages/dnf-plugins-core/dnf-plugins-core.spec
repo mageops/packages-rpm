@@ -25,7 +25,7 @@
 Name:           dnf-plugins-core
 Packager:       creativestyle GmbH <https://creativestyle.pl>
 Version:        4.0.2.2
-Release:        5%{?dist}
+Release:        4%{?dist}
 Summary:        Core Plugins for DNF
 License:        GPLv2+
 URL:            https://github.com/rpm-software-management/dnf-plugins-core
@@ -688,9 +688,6 @@ PYTHONPATH=./plugins nosetests-%{python3_version} -s tests/
 %endif
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.0.2.2-5
-- rebuilt
-
 * Mon Jun 15 2020 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 4.0.2.2-4
 - Add patch for versionlock crashes
 

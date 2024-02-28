@@ -114,9 +114,6 @@ fi
 /var/run/amazon/amazon-cloudwatch-agent
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.247348.0-3
-- rebuilt
-
 * Thu Jun 24 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.247348.0-2
 - rebuilt
 

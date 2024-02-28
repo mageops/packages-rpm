@@ -1,6 +1,6 @@
 Name:           coredns
 Version:        1.8.4
-Release:        2%{?dist}
+Release:        1%{?dist}
 Summary:        CoreDNS is a DNS server that chains plugins
 
 
@@ -47,8 +47,5 @@ install -pm 755 coredns $RPM_BUILD_ROOT%{_bindir}/coredns
 
 
 %changelog
-* Thu Feb 22 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 1.8.4-2
-- rebuilt
-
 * Fri Jul 23 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl>
 - Initial release
