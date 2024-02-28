@@ -1,6 +1,6 @@
 Name:           mageops-release
 Version:        7
-Release:        10
+Release:        11
 Summary:        MageOps RPM repository configuration
 
 Group:          MageOps/Repositories
@@ -12,6 +12,7 @@ URL:            https://github.com/mageops/packages-rpm
 Source0:        mageops.repo
 Source1:        mageops-2019.pub.asc
 Source2:        mageops-2021.pub.asc
+Source3:        mageops-2024.pub.asc
 
 BuildArch:      noarch
 Requires:       redhat-release >= %{version}
@@ -31,6 +32,7 @@ rm -rf $RPM_BUILD_ROOT
 
 install -Dpm 644 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2019
 install -Dpm 644 %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2021
+install -Dpm 644 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2024
 install -dm 755 $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
 install -pm 644 %{SOURCE0} $RPM_BUILD_ROOT%{_sysconfdir}/yum.repos.d
 
@@ -44,6 +46,9 @@ rm -rf $RPM_BUILD_ROOT
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2021
 
 %changelog
+* Wed Feb 28 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-11
+- Add 2024 key
+
 * Fri Dec 10 2021 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-10
 - Update path to gpg key
 
