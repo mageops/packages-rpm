@@ -44,6 +44,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) /etc/yum.repos.d/*
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2019
 /etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2021
+/etc/pki/rpm-gpg/RPM-GPG-KEY-MAGEOPS-2024
 
 %changelog
 * Wed Feb 28 2024 Piotr Rogowski <piotr.rogowski@creativestyle.pl> - 7-11
