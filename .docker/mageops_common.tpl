@@ -1,4 +1,4 @@
-config_opts['plugin_conf']['tmpfs_enable'] = True
+config_opts['plugin_conf']['tmpfs_enable'] = False
 config_opts['plugin_conf']['tmpfs_opts'] = {}
 config_opts['plugin_conf']['tmpfs_opts']['required_ram_mb'] = 16384
 config_opts['plugin_conf']['tmpfs_opts']['max_fs_size'] = '15872m'
