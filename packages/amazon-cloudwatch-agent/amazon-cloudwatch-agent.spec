@@ -28,7 +28,7 @@ This package provides daemon of Amazon CloudWatch Agent
 env
 go version
 export GOPATH=%{_tmppath}/go
-export GOPROXY="https://goproxy.io,direct"
+export GOPROXY=https://proxy.golang.org
 export GO111MODULE=on
 
 %ifarch x86_64

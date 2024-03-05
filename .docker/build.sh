@@ -79,7 +79,8 @@ export_packages() {
     local dest
     local pkg
 
-    for arch in x86_64 aarch64;do
+    # lets pause aarch64 support for now
+    for arch in x86_64 ;do
         # Move debuginfo packages
         for pkg in ./rpms/*-debuginfo-*."$arch".rpm;do
             safe_move "$pkg" ~/repo/"$arch"-debug/Packages || return 1
