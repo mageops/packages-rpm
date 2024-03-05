@@ -79,8 +79,7 @@ export_packages() {
     local dest
     local pkg
 
-    # lets pause aarch64 support for now
-    for arch in x86_64 ;do
+    for arch in x86_64 aarch64 ;do
         # Move debuginfo packages
         for pkg in ./rpms/*-debuginfo-*."$arch".rpm;do
             safe_move "$pkg" ~/repo/"$arch"-debug/Packages || return 1
@@ -168,7 +167,8 @@ try_build_pkg() {
     local pkg=$1
 
     build_pkg epel-7-x86_64 || return 1
-    build_pkg epel-7-aarch64 || return 1
+    # lets pause aarch64 support for now
+    # build_pkg epel-7-aarch64 || return 1
     export_packages || return 1
     PACKAGES_LEFT=("${PACKAGES_LEFT[@]/"$pkg"}")
     PACKAGES_BUILD_IN_PASS=$(( PACKAGES_BUILD_IN_PASS + 1))
