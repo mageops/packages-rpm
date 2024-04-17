@@ -3,7 +3,8 @@ name=MySQL 5.7 Community Server - Source
 baseurl=http://repo.mysql.com/yum/mysql-5.7-community/el/7/SRPMS
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
        file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
 
 [mysql80-community-source]
@@ -11,15 +12,25 @@ name=MySQL 8.0 Community Server - Source
 baseurl=http://repo.mysql.com/yum/mysql-8.0-community/el/7/SRPMS
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
        file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
+
+[mysql-innovation-community-source]
+name=MySQL Innovation Release Community Server - Source
+baseurl=http://repo.mysql.com/yum/mysql-innovation-community/el/7/SRPMS
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
 
 [mysql-connectors-community-source]
 name=MySQL Connectors Community - Source
 baseurl=http://repo.mysql.com/yum/mysql-connectors-community/el/7/SRPMS
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
        file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
 
 [mysql-tools-community-source]
@@ -27,15 +38,25 @@ name=MySQL Tools Community - Source
 baseurl=http://repo.mysql.com/yum/mysql-tools-community/el/7/SRPMS
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
        file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
+
+[mysql-tools-innovation-community-source]
+name=MySQL Tools Innovation Community - Source
+baseurl=http://repo.mysql.com/yum/mysql-tools-innovation-community/el/7/SRPMS
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
 
 [mysql-tools-preview-source]
 name=MySQL Tools Preview - Source
 baseurl=http://repo.mysql.com/yum/mysql-tools-preview/el/7/SRPMS
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
        file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
 
 [mysql-cluster-7.5-community-source]
@@ -43,7 +64,8 @@ name=MySQL Cluster 7.5 Community - Source
 baseurl=http://repo.mysql.com/yum/mysql-cluster-7.5-community/el/7/SRPMS
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
        file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
 
 [mysql-cluster-7.6-community-source]
@@ -51,7 +73,8 @@ name=MySQL Cluster 7.6 Community - Source
 baseurl=http://repo.mysql.com/yum/mysql-cluster-7.6-community/el/7/SRPMS
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
        file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
 
 [mysql-cluster-8.0-community-source]
@@ -59,5 +82,14 @@ name=MySQL Cluster 8.0 Community - Source
 baseurl=http://repo.mysql.com/yum/mysql-cluster-8.0-community/el/7/SRPMS
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
        file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
+
+[mysql-cluster-innovation-community-source]
+name=MySQL Cluster Innovation Release Community - Source
+baseurl=http://repo.mysql.com/yum/mysql-cluster-innovation-community/el/7/SRPMS
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022

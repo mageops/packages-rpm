@@ -3,15 +3,25 @@ name=MySQL 8.0 Community Server - Debuginfo
 baseurl=http://repo.mysql.com/yum/mysql-8.0-community/el/7/debuginfo/$basearch
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
        file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
+
+[mysql-innovation-community-debuginfo]
+name=MySQL Innovation Release Community Server - Debuginfo
+baseurl=http://repo.mysql.com/yum/mysql-innovation-community/el/7/debuginfo/$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
 
 [mysql-connectors-community-debuginfo]
 name=MySQL Connectors Community - Debuginfo
 baseurl=http://repo.mysql.com/yum/mysql-connectors-community/el/7/debuginfo/$basearch
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
        file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
 
 [mysql-tools-community-debuginfo]
@@ -19,13 +29,31 @@ name=MySQL Tools Community - Debuginfo
 baseurl=http://repo.mysql.com/yum/mysql-tools-community/el/7/debuginfo/$basearch
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
        file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
+
+[mysql-tools-innovation-community-debuginfo]
+name=MySQL Tools Innovation Community - Debuginfo
+baseurl=http://repo.mysql.com/yum/mysql-tools-innovation-community/el/7/debuginfo/$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
 
 [mysql-cluster-8.0-community-debuginfo]
 name=MySQL Cluster 8.0 Community - Debuginfo
 baseurl=http://repo.mysql.com/yum/mysql-cluster-8.0-community/el/7/debuginfo/$basearch
 enabled=0
 gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
        file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql
+
+[mysql-cluster-innovation-community-debuginfo]
+name=MySQL Cluster Innovation Release Community - Debuginfo
+baseurl=http://repo.mysql.com/yum/mysql-cluster-innovation-community/el/7/debuginfo/$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2023
+       file:///etc/pki/rpm-gpg/RPM-GPG-KEY-mysql-2022
