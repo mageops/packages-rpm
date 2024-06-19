@@ -2,7 +2,7 @@
 
 %global vmod    dynamic
 %global vmoddir %{_libdir}/varnish/vmods
-%global varnish_lock 6.0.12
+%global varnish_lock 6.0.13
 %global commit b72c723acff5b2ef46c9de8cef036cee3a380a64
 
 Name:           varnish-module-%{vmod}

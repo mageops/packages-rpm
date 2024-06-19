@@ -1,6 +1,6 @@
 Name:             varnish-module-accept
 Version:          6.0
-Release:          6.6.0.12%{?dist}
+Release:          6.6.0.13%{?dist}
 
 Group:            System Environment/Libraries
 Summary:          Varnish Accept Header Module
@@ -12,10 +12,10 @@ URL:              https://github.com/gquintard/libvmod-accept
 Source0:          https://github.com/gquintard/libvmod-accept/archive/6.0.tar.gz
 
 Conflicts:        libvmod-accept
-Requires:         varnish = 6.0.12
+Requires:         varnish = 6.0.13
 
 BuildRoot:        %{_tmppath}/%{name}-%{version}%{release}-root
-BuildRequires:    varnish-devel = 6.0.12
+BuildRequires:    varnish-devel = 6.0.13
 BuildRequires:    libtool
 BuildRequires:    python-docutils
 
